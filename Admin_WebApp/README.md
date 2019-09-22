@@ -1,2 +1,2 @@
-Admin WebApp for Dietitian App
-Web App is devoluped in Angular
+# Admin_WebApp
+Web App is devoluped in Dietitian Administration operations.
