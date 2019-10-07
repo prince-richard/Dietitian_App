@@ -1,0 +1,27 @@
+<h4>User Manager</h4><br />
+<button (click)="createuser();" class="btn btn-primary">Create User</button><br />
+<div class="table-responsive">
+  <table class="tablemargin table">
+    <thead class="thead-dark-sna">
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone Number</th>
+        <th scope="col">Joined Date</th>
+        <th scope="col">Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let b of users">
+        <td>{{b.FirstName}}</td>
+        <td>{{b.LastName}}</td>
+        <td>{{b.Email}}</td>
+        <td>{{b.PhoneNumber}}</td>
+        <td>{{b.CreatedDate | date:'MM/dd/yyyy'}}</td>
+        <td><i placement="top" ngbTooltip="Edit" (click)="submituser(b.Id);" class="pointer iconcolor material-icons mdi-lg">edit</i></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
