@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="dietitian.sna-apps.com" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^J:\\development\\Dietitian_App\\Server\\SNAFramework\\obj\\Release\\netcoreapp2\.1\\PubTmp\\Out\\$" />
+  </parameter>
+</parameters>
