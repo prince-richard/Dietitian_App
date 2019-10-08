@@ -1,0 +1,24 @@
+<div class="wrapper">
+  <form class="form-signin" name="loginForm" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+    <img class="form-signin-heading" src="../../../assets/logo.png"/>
+    <input type="text" class="form-control" name="Email" placeholder="Email Address" required="" autofocus="" ngModel/>
+    <input type="password" class="form-control" name="Password" placeholder="Password" required="" ngModel/>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+    <br />
+    <p style="text-align:center;margin-bottom:0em!important;cursor:pointer;color:#305777;font-weight: 600" (click)="open(content)">Forgot your password?</p>
+  </form>
+</div>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Forgot Password</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #AccountRecoveryForm="ngForm" (ngSubmit)="onSubmitRecovery(AccountRecoveryForm)">
+      <input type="text" class="form-control" name="Email" placeholder="Email Address" required autofocus="" [(ngModel)]="femail" /><br />
+      <button class="btn btn-lg btn-primary btn-block" [disabled]="!AccountRecoveryForm.form.valid" type="submit">Send</button>
+    </form>
+  </div>
+</ng-template>

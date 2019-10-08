@@ -1,0 +1,57 @@
+<i (click)="back();" placement="top" ngbTooltip="Back" class="pointer material-icons mdi-2x">arrow_back</i><br /><br />
+<div class="row">
+  <div class="col-md-4">
+    <h4>User Profile</h4><br />
+    <form class="form-profile" name="profileForm" #profile_form="ngForm" (ngSubmit)="onUserProfileSubmit(profile_form)" novalidate>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="text" class="form-control" name="Email" placeholder="Email" required="" autofocus="" [(ngModel)]="user.Email" />
+      </div>
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" class="form-control" name="FirstName" placeholder="First Name" required="" autofocus="" [(ngModel)]="user.FirstName" />
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" class="form-control" name="LastName" placeholder="Last Name" required="" autofocus="" [(ngModel)]="user.LastName" />
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="text" class="form-control" name="PhoneNumber" placeholder="Phone Number" required="" autofocus="" [(ngModel)]="user.PhoneNumber" />
+      </div>
+      <button class="btn btn-primary" type="submit">Update Profile</button>
+    </form>
+  </div>
+  <div class="col-md-4">
+    <h4>User Password</h4><br />
+    <form name="userpasswordForm" #f="ngForm" (ngSubmit)="userPasswordSubmit(f)" novalidate>
+      <div class="form-group">
+        <label>New Password</label>
+        <input type="password" class="form-control" name="NewPassword" placeholder="New Password" required="" autofocus="" [(ngModel)]="newpass" />
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input type="password" class="form-control" name="ConfirmPassword" placeholder="Confirm Password" required="" autofocus="" [(ngModel)]="confpass" />
+      </div>
+      <button [disabled]="newpass!=confpass" class="btn  btn-primary" type="submit">Update Password</button>
+    </form>
+  </div>
+  <div class="col-md-4">
+    <h4>User Roles</h4><br />
+    <div class="input-group">
+      <select class="form-control" name="Role" placeholder="Role" [disabled]="norole" [(ngModel)]="roleselected">
+        <option *ngFor="let r of roles" [value]="r.Name">
+          {{ r.Name }}
+        </option>
+      </select>
+      <span class="input-group-btn">
+        <button class="btn btn-primary" (click)="adduserrole(roleselected)">Add</button>
+      </span>
+    </div>
+    <div class="chip" *ngFor="let userrole of userroles">
+      {{userrole}}
+      <span class="closebtn" (click)="removeuserrole(userrole)">&times;</span>
+    </div>
+  </div>
+</div>
+
