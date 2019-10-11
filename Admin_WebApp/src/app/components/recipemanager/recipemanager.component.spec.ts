@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GroupmanagerComponent } from './groupmanager.component';
+import { RecipemanagerComponent } from './recipemanager.component';
 
-describe('GroupmanagerComponent', () => {
-  let component: GroupmanagerComponent;
-  let fixture: ComponentFixture<GroupmanagerComponent>;
+describe('RecipemanagerComponent', () => {
+  let component: RecipemanagerComponent;
+  let fixture: ComponentFixture<RecipemanagerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GroupmanagerComponent ]
+      declarations: [ RecipemanagerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GroupmanagerComponent);
+    fixture = TestBed.createComponent(RecipemanagerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
