@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SNAFramework.Models;
+using DietitianApp.Models;
 
-namespace SNAFramework.Data
+namespace DietitianApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
@@ -29,34 +29,34 @@ namespace SNAFramework.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            //    modelBuilder.Entity<Message>(entity =>
-            //    {
-            //        entity.Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<Message>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //        entity.Property(e => e.Contents)
-            //            .IsRequired()
-            //            .IsUnicode(false);
+                entity.Property(e => e.Contents)
+                    .IsRequired()
+                    .IsUnicode(false);
 
-            //        entity.Property(e => e.Timestamp).HasColumnType("datetime");
+                entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
-            //        entity.HasOne(d => d.Group)
-            //            .WithMany(p => p.Message)
-            //            .HasForeignKey(d => d.GroupId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_Message_Group");
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.Message)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Message_Group");
 
-            //        entity.HasOne(d => d.Reciever)
-            //            .WithMany(p => p.MessageReciever)
-            //            .HasForeignKey(d => d.RecieverId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_Message_UserProfile2");
+                entity.HasOne(d => d.Reciever)
+                    .WithMany(p => p.MessageReciever)
+                    .HasForeignKey(d => d.RecieverId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Message_UserProfile2");
 
-            //        entity.HasOne(d => d.Sender)
-            //            .WithMany(p => p.MessageSender)
-            //            .HasForeignKey(d => d.SenderId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_Message_UserProfile");
-            //    });
+                entity.HasOne(d => d.Sender)
+                    .WithMany(p => p.MessageSender)
+                    .HasForeignKey(d => d.SenderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Message_UserProfile");
+            });
 
             //    modelBuilder.Entity<Recipe>(entity =>
             //    {
@@ -141,46 +141,47 @@ namespace SNAFramework.Data
             //            .HasConstraintName("FK_UserFeedback_User");
             //    });
 
-            //    modelBuilder.Entity<Group>(entity =>
-            //    {
-            //        entity.Property(e => e.Name)
-            //            .HasMaxLength(50)
-            //            .IsUnicode(false);
+            modelBuilder.Entity<Group>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-            //        entity.HasOne(d => d.Dietician)
-            //            .WithMany(p => p.Group)
-            //            .HasForeignKey(d => d.DieticianId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_Group_UserProfile");
-            //    });
+                entity.HasOne(d => d.Dietician)
+                    .WithMany(p => p.Group)
+                    .HasForeignKey(d => d.DieticianId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Group_UserProfile");
+                entity.HasMany(u => u.UserProfile);
+            });
 
-            //    modelBuilder.Entity<UserProfile>(entity =>
-            //    {
-            //        entity.ToTable("UserProfile", "dbo");
+            modelBuilder.Entity<UserProfile>(entity =>
+            {
+                entity.ToTable("UserProfile", "dbo");
 
-            //        entity.HasIndex(e => e.IdentityUserId);
+                entity.HasIndex(e => e.IdentityUserId);
 
-            //        entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
-            //        entity.Property(e => e.Email).HasMaxLength(100);
+                entity.Property(e => e.Email).HasMaxLength(100);
 
-            //        entity.Property(e => e.FirstName)
-            //            .IsRequired()
-            //            .HasMaxLength(256);
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(256);
 
-            //        entity.Property(e => e.LastModificationDate).HasColumnType("datetime");
+                entity.Property(e => e.LastModificationDate).HasColumnType("datetime");
 
-            //        entity.Property(e => e.LastName)
-            //            .IsRequired()
-            //            .HasMaxLength(256);
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(256);
 
-            //        entity.Property(e => e.PhoneNumber).HasMaxLength(15);
+                entity.Property(e => e.PhoneNumber).HasMaxLength(15);
 
-            //        entity.HasOne(d => d.GroupNavigation)
-            //            .WithMany(p => p.UserProfile)
-            //            .HasForeignKey(d => d.GroupId)
-            //            .HasConstraintName("FK_UserProfile_Group");
-            //    });
+                entity.HasOne(d => d.GroupNavigation)
+                    .WithMany(p => p.UserProfile)
+                    .HasForeignKey(d => d.GroupId)
+                    .HasConstraintName("FK_UserProfile_Group");
+            });
         }
     }
 }
