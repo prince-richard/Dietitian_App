@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SNAFramework.Models
+namespace DietitianApp.ModelTemp
 {
     public partial class Recipe
     {

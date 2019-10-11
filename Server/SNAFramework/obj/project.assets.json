@@ -15229,11 +15229,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Zach\\Desktop\\dietitianApp\\Server\\SNAFramework\\DietitianApp.csproj",
+      "projectUniqueName": "C:\\Users\\Zach\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
       "projectName": "DietitianApp",
-      "projectPath": "C:\\Users\\Zach\\Desktop\\dietitianApp\\Server\\SNAFramework\\DietitianApp.csproj",
+      "projectPath": "C:\\Users\\Zach\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
       "packagesPath": "C:\\Users\\Zach\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Zach\\Desktop\\dietitianApp\\Server\\SNAFramework\\obj\\",
+      "outputPath": "C:\\Users\\Zach\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Zach\\AppData\\Roaming\\NuGet\\NuGet.Config",

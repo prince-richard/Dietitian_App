@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-
-namespace SNAFramework.Models
+namespace DietitianApp.ModelTemp
 {
     public partial class UserProfile
     {
@@ -30,7 +28,7 @@ namespace SNAFramework.Models
         public int? StatusId { get; set; }
 
         public Group GroupNavigation { get; set; }
-        public IdentityUser IdentityUser { get; set; }
+        public AspNetUsers IdentityUser { get; set; }
         public ICollection<Group> Group { get; set; }
         public ICollection<Message> MessageReciever { get; set; }
         public ICollection<Message> MessageSender { get; set; }

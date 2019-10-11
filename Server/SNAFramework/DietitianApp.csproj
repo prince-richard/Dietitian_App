@@ -24,6 +24,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="ModelTemp\AspNetRoleClaims.cs" />
+    <Compile Include="ModelTemp\AspNetRoles.cs" />
+    <Compile Include="ModelTemp\AspNetUserClaims.cs" />
+    <Compile Include="ModelTemp\AspNetUserLogins.cs" />
+    <Compile Include="ModelTemp\AspNetUserRoles.cs" />
+    <Compile Include="ModelTemp\AspNetUsers.cs" />
+    <Compile Include="ModelTemp\AspNetUserTokens.cs" />
+    <Compile Include="ModelTemp\CapstoneObeyDBContext.cs" />
+    <Compile Include="ModelTemp\Group.cs" />
+    <Compile Include="ModelTemp\Message.cs" />
+    <Compile Include="ModelTemp\Recipe.cs" />
+    <Compile Include="ModelTemp\RecipeGroupRef.cs" />
+    <Compile Include="ModelTemp\RecipeIngredient.cs" />
+    <Compile Include="ModelTemp\RecipeStep.cs" />
+    <Compile Include="ModelTemp\UserFeedback.cs" />
+    <Compile Include="ModelTemp\UserProfile.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AWSSDK.Core" Version="3.3.24" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.6" />
     <PackageReference Include="AWSSDK.S3" Version="3.3.18.3" />
