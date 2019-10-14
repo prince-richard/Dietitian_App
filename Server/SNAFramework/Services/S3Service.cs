@@ -8,7 +8,7 @@ using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using Microsoft.Extensions.Configuration;
 
-namespace SNAFramework.Services
+namespace DietitianApp.Services
 {
     public class S3Service
     {
