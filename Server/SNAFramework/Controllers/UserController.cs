@@ -171,6 +171,7 @@ namespace DietitianApp.Controllers
                 user.LastName = userobj.LastName;
                 user.Email = userobj.Email;
                 user.PhoneNumber = userobj.PhoneNumber;
+                user.GroupId = userobj.GroupId;
                 user.LastModificationDate = DateTime.Today;
                 _context.Update(user);
 
