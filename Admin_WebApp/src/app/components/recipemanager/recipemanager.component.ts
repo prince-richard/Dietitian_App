@@ -27,13 +27,13 @@ export class RecipemanagerComponent implements OnInit {
       this.recipes = res as any;
     })
   }
-  
-  submit(){
-    alert(this.recipe['name']);
-    //send update from to server
-  }
+
   select(recipe){
-    this.recipe = recipe;
+    this.http.get("api/recipe/getrecipe?id=" + recipe.Id)
+    .subscribe(res =>{
+      this.recipe = res;
+    })
   }
+  
 
 }

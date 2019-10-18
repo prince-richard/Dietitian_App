@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpBackend } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -12,13 +14,22 @@ export class GroupmanagerComponent implements OnInit {
   group = {};
   showGroup = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient, 
+    private router: Router,
+    ) { 
+    
+  }
 
   ngOnInit() {
     this.http.get("api/group/allgroups")
       .subscribe(res =>{
         this.groups = res as any;
       })
+  }
+
+  editGroup() {
+    this.router.navigate(['dashboard/groupedit']);
   }
 
   //JSON object

@@ -10,9 +10,10 @@ Groups:
       <thead>
         <tr>
           <th>Id</th>
-          <th>Dietician Id</th>
-          <th>Name</th>
+          <th>Dietician Name</th>
+          <th>Group Name</th>
           <th>Users</th>
+          <th>Edit</th>
         </tr>
       </thead>
       <tbody>
@@ -26,8 +27,8 @@ Groups:
                 {{user.FirstName}}
               </li>
             </ul>
-
           </td>
+          <td><i placement="top" ngbTooltip="Edit" (click)="editGroup();" class="pointer iconcolor material-icons mdi-lg">edit</i></td>
         </tr>
       </tbody>
     </table>

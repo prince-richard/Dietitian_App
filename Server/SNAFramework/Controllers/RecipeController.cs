@@ -44,7 +44,7 @@ namespace DietitianApp.Controllers
             {
                 var recipes = _context.Recipe.Select(d => new
                 {
-                    //d.RecipeId,
+                    d.Id,
                     d.Name,
                     d.Calories,
                     d.PrepTime,
@@ -68,11 +68,19 @@ namespace DietitianApp.Controllers
         {
             try
             {
-                var recipeStep = _context.RecipeStep.Select(d => new
+                int Id = int.Parse(id);
+                var recipe = _context.Recipe.Select(d => new
                 {
                     d.Id,
-                }).Where(q => q.Id.ToString().Equals(id)).FirstOrDefault();
-                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(recipeStep));
+                    d.Name,
+                    d.PicFilePath,
+                    d.Calories,
+                    d.PrepTime,
+                    d.Servings,
+                    steps = d.RecipeStep.ToList(),
+                    ingredients = d.RecipeIngredient.ToList()
+                }).Where(q => q.Id == Id).FirstOrDefault();
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(recipe));
             }
             catch (Exception e)
             {

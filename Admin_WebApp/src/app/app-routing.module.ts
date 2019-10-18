@@ -9,6 +9,7 @@ import { HomeComponent } from './components/home/home.component';
 import { EditprofileComponent } from './components/editprofile/editprofile.component';
 import { UsermanagerComponent } from './components/usermanager/usermanager.component';
 import { GroupmanagerComponent } from './components/groupmanager/groupmanager.component';
+import { GroupeditComponent } from './components/groupedit/groupedit.component';
 import { UsereditComponent } from './components/useredit/useredit.component';
 import { NewuserComponent } from './components/newuser/newuser.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
@@ -30,7 +31,8 @@ const routes: Routes = [
       { path: 'groupmanager', component: GroupmanagerComponent },
       { path: 'recipemanager', component: RecipemanagerComponent},
       { path: 'newuser', component: NewuserComponent },
-      { path: 'usermodification/:id', component: UsereditComponent }
+      { path: 'usermodification/:id', component: UsereditComponent },
+      { path: 'groupedit', component: GroupeditComponent}
     ]
   }
 ];

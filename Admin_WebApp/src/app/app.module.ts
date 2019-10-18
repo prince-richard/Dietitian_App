@@ -15,6 +15,7 @@ import { UsereditComponent } from './components/useredit/useredit.component';
 import { NewuserComponent } from './components/newuser/newuser.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 import { GroupmanagerComponent } from './components/groupmanager/groupmanager.component';
+import { GroupeditComponent } from './components/groupedit/groupedit.component';
 import { RecipemanagerComponent } from './components/recipemanager/recipemanager.component';
 
 
@@ -31,6 +32,7 @@ import { UsermanagerService } from './components/usermanager/usermanager.service
 
 //directive, module
 import { snaAccess, SnaAccessService } from './directives/sna-access.directive';
+
 
 
 
@@ -55,7 +57,8 @@ export function getToken(){
     snaAlertComponent,
     ResetpasswordComponent,
     GroupmanagerComponent,
-    RecipemanagerComponent
+    RecipemanagerComponent,
+    GroupeditComponent
   ],
   entryComponents: [],
   imports: [
