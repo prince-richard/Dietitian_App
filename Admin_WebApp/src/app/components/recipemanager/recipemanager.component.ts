@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpBackend } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -11,7 +13,10 @@ export class RecipemanagerComponent implements OnInit {
   recipes = [];
   recipe = {};
   
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    ) { }
 
   ngOnInit() {
     this.http.get("api/recipe/allrecipes")
@@ -26,6 +31,10 @@ export class RecipemanagerComponent implements OnInit {
     .subscribe(res =>{
       this.recipes = res as any;
     })
+  }
+
+  editRecipe() {
+    this.router.navigate(['dashboard/recipeedit']);
   }
 
   select(recipe){

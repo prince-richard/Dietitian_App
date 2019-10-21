@@ -14,6 +14,7 @@ import { UsereditComponent } from './components/useredit/useredit.component';
 import { NewuserComponent } from './components/newuser/newuser.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 import { RecipemanagerComponent } from './components/recipemanager/recipemanager.component';
+import { RecipeeditComponent } from './components/recipeedit/recipeedit.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -30,6 +31,7 @@ const routes: Routes = [
       { path: 'usermanager', component: UsermanagerComponent },
       { path: 'groupmanager', component: GroupmanagerComponent },
       { path: 'recipemanager', component: RecipemanagerComponent},
+      { path: 'recipeedit', component: RecipeeditComponent},
       { path: 'newuser', component: NewuserComponent },
       { path: 'usermodification/:id', component: UsereditComponent },
       { path: 'groupedit', component: GroupeditComponent}

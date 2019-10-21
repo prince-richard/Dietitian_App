@@ -13,7 +13,7 @@ Recipes:
                     <th>Calories</th>
                     <th>Prep Time</th>
                     <th>PicFilePath</th>
-                    <th>View Recipe</th>
+                    <th>Edit Recipe</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,24 +22,7 @@ Recipes:
                     <td>{{recipe.Calories}}</td>
                     <td>{{recipe.PrepTime}}</td>
                     <td>{{recipe.PicFilePath}}</td>
-
-                    <td><button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
-                        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
-                        View
-                    </button>
-                    <div id="collapseExample" [ngbCollapse]="isCollapsed">
-                            <div class="card">
-                              <div class="card-body">
-                                Ingredients
-                                <ol>
-                                    <li>Test</li>
-                                    <!--<li>{{recipeStep.Id}}</li>-->
-                                </ol>
-                              </div>
-                            </div>
-                    </div>
-                </td>
-                          
+                    <td><i placement="top" ngbTooltip="Edit" (click)="editRecipe();" class="pointer iconcolor material-icons mdi-lg">edit</i></td>        
                 </tr>
             </tbody>
         </table>

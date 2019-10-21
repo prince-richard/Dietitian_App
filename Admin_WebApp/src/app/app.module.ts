@@ -17,6 +17,7 @@ import { ResetpasswordComponent } from './components/resetpassword/resetpassword
 import { GroupmanagerComponent } from './components/groupmanager/groupmanager.component';
 import { GroupeditComponent } from './components/groupedit/groupedit.component';
 import { RecipemanagerComponent } from './components/recipemanager/recipemanager.component';
+import { RecipeeditComponent }from './components/recipeedit/recipeedit.component';
 
 
 //service
@@ -58,7 +59,8 @@ export function getToken(){
     ResetpasswordComponent,
     GroupmanagerComponent,
     RecipemanagerComponent,
-    GroupeditComponent
+    GroupeditComponent,
+    RecipeeditComponent
   ],
   entryComponents: [],
   imports: [
