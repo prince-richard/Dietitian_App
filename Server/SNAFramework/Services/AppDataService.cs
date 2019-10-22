@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
-namespace DietitianApp.Services
+namespace SNAFramework.Services
 {
     public class AppDataService
     {

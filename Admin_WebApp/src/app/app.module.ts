@@ -14,9 +14,6 @@ import { UsermanagerComponent } from './components/usermanager/usermanager.compo
 import { UsereditComponent } from './components/useredit/useredit.component';
 import { NewuserComponent } from './components/newuser/newuser.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
-import { GroupmanagerComponent } from './components/groupmanager/groupmanager.component';
-import { RecipemanagerComponent } from './components/recipemanager/recipemanager.component';
-
 
 //service
 import { AccountService } from './components/login/account.service';
@@ -53,9 +50,7 @@ export function getToken(){
     UsereditComponent,
     NewuserComponent,
     snaAlertComponent,
-    ResetpasswordComponent,
-    GroupmanagerComponent,
-    RecipemanagerComponent
+    ResetpasswordComponent
   ],
   entryComponents: [],
   imports: [

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Amazon.SimpleEmail;
 using Amazon.SimpleEmail.Model;
 
-namespace DietitianApp.Services
+namespace SNAFramework.Services
 {
 
     // This class is used by the application to send Email and SMS

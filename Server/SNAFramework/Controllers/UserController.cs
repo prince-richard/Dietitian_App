@@ -14,10 +14,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using DietitianApp.Data;
-using DietitianApp.Models;
+using SNAFramework.Data;
+using SNAFramework.Models;
 
-namespace DietitianApp.Controllers
+namespace SNAFramework.Controllers
 {
     //Default security to only request with JWT Bearer Tokens
     [Authorize(AuthenticationSchemes = "Bearer", Roles = "Developer")]
@@ -51,7 +51,6 @@ namespace DietitianApp.Controllers
                     d.Email,
                     d.PhoneNumber,
                     d.Inactive
-
                 }).OrderBy(x => x.FirstName).ToList();
                 return Ok(JsonConvert.SerializeObject(users));
             }
@@ -102,7 +101,8 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-        
+
+
         [HttpPost]
         [Route("createnewuser")]
         public async Task<IActionResult> CreateNewUser([FromBody]NewUser userobj)

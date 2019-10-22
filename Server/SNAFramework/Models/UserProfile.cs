@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DietitianApp.Models
+namespace SNAFramework.Models
 {
     public partial class UserProfile
     {

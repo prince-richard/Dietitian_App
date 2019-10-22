@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DietitianApp.Models
+namespace SNAFramework.Models
 {
     public partial class Group
     {
@@ -9,6 +9,7 @@ namespace DietitianApp.Models
         {
             Message = new HashSet<Message>();
             RecipeGroupRef = new HashSet<RecipeGroupRef>();
+            UserProfile = new HashSet<UserProfile>();
         }
 
         public int Id { get; set; }

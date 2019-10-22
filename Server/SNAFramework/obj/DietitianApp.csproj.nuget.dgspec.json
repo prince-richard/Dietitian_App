@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Zach\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {}
+    "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Zach\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {
+    "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Zach\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
+        "projectUniqueName": "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
         "projectName": "DietitianApp",
-        "projectPath": "C:\\Users\\Zach\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
-        "packagesPath": "C:\\Users\\Zach\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Zach\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\obj\\",
+        "projectPath": "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
+        "packagesPath": "C:\\Users\\zquag\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Zach\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\zquag\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -59,42 +59,34 @@
               "version": "[3.3.6.8, )"
             },
             "Microsoft.AspNetCore.All": {
-              "suppressParent": "All",
               "target": "Package",
-              "version": "[2.1.1, )",
-              "autoReferenced": true
+              "version": "[2.1.0, )"
             },
             "Microsoft.AspNetCore.App": {
-              "suppressParent": "All",
               "target": "Package",
-              "version": "[2.1.1, )",
-              "autoReferenced": true
+              "version": "[2.1.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[2.1.1, )"
+              "version": "[2.1.0, )"
             },
             "Microsoft.AspNetCore.Rewrite": {
               "target": "Package",
-              "version": "[2.1.1, )"
+              "version": "[2.1.0, )"
             },
             "Microsoft.AspNetCore.StaticFiles": {
               "target": "Package",
-              "version": "[2.1.1, )"
+              "version": "[2.1.0, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "target": "Package",
-              "version": "[2.1.1, )"
+              "version": "[2.1.0, )"
             },
             "Microsoft.NETCore.App": {
               "suppressParent": "All",
               "target": "Package",
               "version": "[2.1.0, )",
               "autoReferenced": true
-            },
-            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
-              "target": "Package",
-              "version": "[2.1.9, )"
             }
           },
           "imports": [

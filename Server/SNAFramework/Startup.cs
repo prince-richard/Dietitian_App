@@ -18,10 +18,10 @@ using Amazon;
 using Amazon.S3;
 using Amazon.Runtime.CredentialManagement;
 using Amazon.SimpleEmail;
-using DietitianApp.Data;
+using SNAFramework.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace DietitianApp
+namespace SNAFramework
 {
     public class AppSetting
     {

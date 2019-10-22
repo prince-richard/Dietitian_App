@@ -1,0 +1,43 @@
+<i (click)="back();" placement="top" ngbTooltip="Back" class="pointer material-icons mdi-2x">arrow_back</i><br /><br />
+<div class="col-md-6">
+  <form class="form-profile" name="newuser" #new="ngForm" (ngSubmit)="createUser(new)" novalidate>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="text" class="form-control" name="Email" placeholder="Email" required="" autofocus="" [(ngModel)]="newuser.Email" />
+        </div>
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" class="form-control" name="FirstName" placeholder="First Name" required="" autofocus="" [(ngModel)]="newuser.FirstName" />
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" class="form-control" name="LastName" placeholder="Last Name" required="" autofocus="" [(ngModel)]="newuser.LastName" />
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="text" maxlength="10" class="form-control" name="PhoneNumber" placeholder="Phone Number" required="" autofocus="" [(ngModel)]="newuser.PhoneNumber" />
+        </div>
+        <div class="form-group">
+          <label>New Password</label>
+          <input type="password" class="form-control" name="NewPassword" placeholder="New Password" required="" autofocus="" [(ngModel)]="newpass" />
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" class="form-control" name="ConfirmPassword" placeholder="Confirm Password" required="" autofocus="" [(ngModel)]="newuser.Password" />
+        </div>
+        <label>Roles</label>
+        <div style="display: flex;margin-bottom: 18px;">
+          <div class="form-check" *ngFor="let r of roles">
+            <input type="checkbox" class="form-check-input" value="{{r.Name}}" [(ngModel)]="r.Checked" [name]="r.Name">
+            <label class="form-check-label">{{r.Name}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button [disabled]="newpass!=newuser.Password" class="btn  btn-primary" type="submit">Create User</button>
+  </form>
+</div>
+
+

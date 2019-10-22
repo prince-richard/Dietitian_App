@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using DietitianApp.Data;
-using DietitianApp.Services;
+using SNAFramework.Data;
+using SNAFramework.Services;
 using Amazon.SimpleEmail;
 
-namespace DietitianApp.Controllers
+namespace SNAFramework.Controllers
 {
     public abstract class SnaBaseController : Controller
     {
