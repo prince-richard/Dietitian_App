@@ -1,3 +1,52 @@
-<p>
-  recipeedit works!
-</p>
+<h4>Recipe</h4>
+
+<div class=row>  
+  <div class="col-md-7">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Ingredients</th>
+          <th>Steps</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Test</td>
+          <td>Test</td>
+          <td><input type="checkbox"><br></td>
+        </tr>
+      </tbody>
+    </table>
+    <input type="submit" value="Submit">
+    <br><br>
+
+    <h4>Group List</h4>
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Test Group</td>
+            <td><input type="checkbox"><br></td>
+          </tr>
+        </tbody>
+      </table>
+      <input type="submit" value="Submit">
+</div>
+
+<div class="col-md-5">
+    <h3>Add Recipe</h3>
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" class="form-control"/>
+    </div>
+    <button class="btn btn-primary" (click)="submit()">Add</button>
+  </div>
+</div>

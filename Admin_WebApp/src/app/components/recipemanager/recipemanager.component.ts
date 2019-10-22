@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpBackend } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { RecipemanagerService } from './recipemanager.service';
 
 
 
@@ -13,7 +14,7 @@ export class RecipemanagerComponent implements OnInit {
   recipes = [];
   recipe = {};
   
-  constructor(
+  constructor(service: RecipemanagerService,
     private http: HttpClient,
     private router: Router,
     ) { }
@@ -41,6 +42,8 @@ export class RecipemanagerComponent implements OnInit {
     this.http.get("api/recipe/getrecipe?id=" + recipe.Id)
     .subscribe(res =>{
       this.recipe = res;
+      this.router.navigate(['dashboard/recipeedit']);
+
     })
   }
   

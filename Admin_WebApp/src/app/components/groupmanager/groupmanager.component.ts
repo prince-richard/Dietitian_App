@@ -79,7 +79,11 @@ export class GroupmanagerComponent implements OnInit {
     //send update from to server
   }
   select(group){
-    this.showGroup = true;
-    this.group = group;
+    this.http.get("api/group/getgroup?id=" + group.Id)
+    .subscribe(res=>{
+      this.showGroup = true;
+      this.group = group;
+    })
+   
   }
 }

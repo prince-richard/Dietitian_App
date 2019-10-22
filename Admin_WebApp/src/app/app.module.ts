@@ -18,6 +18,8 @@ import { GroupmanagerComponent } from './components/groupmanager/groupmanager.co
 import { GroupeditComponent } from './components/groupedit/groupedit.component';
 import { RecipemanagerComponent } from './components/recipemanager/recipemanager.component';
 import { RecipeeditComponent }from './components/recipeedit/recipeedit.component';
+import { RmtestComponent } from './components/rmtest/rmtest.component';
+
 
 
 //service
@@ -33,6 +35,8 @@ import { UsermanagerService } from './components/usermanager/usermanager.service
 
 //directive, module
 import { snaAccess, SnaAccessService } from './directives/sna-access.directive';
+import { RecipemanagerService } from './components/recipemanager/recipemanager.service';
+import { RmtestService } from './components/rmtest/rmtest.service';
 
 
 
@@ -60,7 +64,9 @@ export function getToken(){
     GroupmanagerComponent,
     RecipemanagerComponent,
     GroupeditComponent,
-    RecipeeditComponent
+    RecipeeditComponent,
+    RmtestComponent,
+    
   ],
   entryComponents: [],
   imports: [
@@ -86,7 +92,9 @@ export function getToken(){
     UsermanagerService,
     AuthGuard,
     NgbDropdown,
-    snaAlertService
+    snaAlertService,
+    RecipemanagerService,
+    RmtestService,
   ],
   bootstrap: [AppComponent]
 })
