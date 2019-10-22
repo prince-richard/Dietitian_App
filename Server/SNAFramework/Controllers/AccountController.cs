@@ -106,7 +106,8 @@ namespace DietitianApp.Controllers
                         email = userprofile.Email,
                         firstname = userprofile.FirstName,
                         lastname = userprofile.LastName,
-                        phonenumber = userprofile.PhoneNumber
+                        phonenumber = userprofile.PhoneNumber,
+                        roles
                     });
                 }
                 else
