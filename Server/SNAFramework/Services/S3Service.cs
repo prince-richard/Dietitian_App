@@ -8,7 +8,34 @@ using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using Microsoft.Extensions.Configuration;
 
-namespace DietitianApp.Services
+//P.S. Usages
+// in constructor of controller put:
+// _s3Service = new S3Service(s3Client, _configuration);
+// Url = _s3Service.GeneratePreSignedURL(pic.FilePath, 2)
+
+//var docu = new Document();
+//docu.FileName = form["fileName"];
+//                docu.RefId = IdeaId;
+//                docu.RefTable = form["Table"];
+//                docu.Size = int.Parse(form["Size"]);
+//docu.FileType = form["FileType"];
+//                docu.CreatedAt = DateTime.Now;
+
+//                //P.S. All files are in folder 'images'
+//                //P.S. All file start with "F" + unique idea,concept and project Id
+//                docu.FilePath = "images/" + docu.RefTable + "_" + Id + "_" + docu.FileName;
+
+//                //First load the image to S3
+//                var bytes = Convert.FromBase64String(file);
+//var contents = new MemoryStream(bytes);
+//                if (!await _s3Service.UploadFile(docu.FilePath, contents))
+//                {
+//                    return StatusCode(StatusCodes.Status500InternalServerError, "Cannot Save to S3");
+//                }
+
+
+
+namespace SNAFramework.Services
 {
     public class S3Service
     {
@@ -18,7 +45,7 @@ namespace DietitianApp.Services
         public S3Service(IAmazonS3 s3Client, IConfiguration Configuration)
         {
             this.s3Client = s3Client;
-            this.BucketName = Configuration.GetSection("Application").GetSection("S3BucketName").Value;
+            this.BucketName = Configuration.GetSection("AWS").GetSection("S3BucketName").Value;
         }
 
         //path format (band/16/profile.jpg) or (profile.jpg)

@@ -2,7 +2,7 @@
 <button (click)="getRecipeSteps()">Get Recipe</button><br>
 Recipes: 
 {{recipes.length}}<br>
-
+<button class="btn btn-primary" (click)="editRecipe(null)">Add Recipe</button>
 <div class="row">
     <div class="col-md-7">
         <h3>List of Recipes</h3>
@@ -22,7 +22,7 @@ Recipes:
                     <td>{{recipe.Calories}}</td>
                     <td>{{recipe.PrepTime}}</td>
                     <td>{{recipe.PicFilePath}}</td>
-                    <td><i placement="top" ngbTooltip="Edit" (click)="editRecipe();" class="pointer iconcolor material-icons mdi-lg">edit</i></td>        
+                    <td><i placement="top" ngbTooltip="Edit" (click)="editRecipe(recipe);" class="pointer iconcolor material-icons mdi-lg">edit</i></td>        
                 </tr>
             </tbody>
         </table>

@@ -61,7 +61,32 @@ namespace DietitianApp.Controllers
         }
 
 
-        
+        [HttpPut]
+        [Route("updaterecipe")]
+        public async Task<IActionResult> updaterecipe([FromBody] Recipe rec)
+        {
+            try
+            {
+                int id = rec.Id;
+                Recipe r = new Recipe();
+                if (id > 0) r = _context.Recipe.SingleOrDefault(x => x.Id == rec.Id);
+
+                r.Name = rec.Name;
+                r.Calories = rec.Calories;
+                //.....
+                if (id == 0) _context.Recipe.Add(r);
+
+                _context.SaveChanges();
+
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(r));
+            } 
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+
         [HttpGet]
         [Route("getrecipe")]
         public async Task<IActionResult> getrecipe([FromQuery]string id)
