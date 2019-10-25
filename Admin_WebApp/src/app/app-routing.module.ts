@@ -16,6 +16,7 @@ import { ResetpasswordComponent } from './components/resetpassword/resetpassword
 import { RecipemanagerComponent } from './components/recipemanager/recipemanager.component';
 import { RecipeeditComponent } from './components/recipeedit/recipeedit.component';
 import { RmtestComponent } from './components/rmtest/rmtest.component';
+import { TestComponent } from './components/test/test.component';
 
 
 const routes: Routes = [
@@ -38,6 +39,7 @@ const routes: Routes = [
       { path: 'usermodification/:id', component: UsereditComponent },
       { path: 'groupedit', component: GroupeditComponent},
       { path: 'rmtest', component: RmtestComponent},
+      {path: 'test', component: TestComponent}
     ]
   }
 ];

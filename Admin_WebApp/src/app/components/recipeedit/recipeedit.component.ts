@@ -12,4 +12,8 @@ export class RecipeeditComponent implements OnInit {
   ngOnInit() {
   }
 
+  submit(){
+    alert("name");
+    //send update from to server
+  }
 }
