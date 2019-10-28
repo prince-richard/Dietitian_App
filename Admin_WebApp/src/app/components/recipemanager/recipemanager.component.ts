@@ -34,8 +34,13 @@ export class RecipemanagerComponent implements OnInit {
     })
   }
 
-  editRecipe() {
-    this.router.navigate(['dashboard/recipeedit']);
+  editRecipe(rec) {
+    if (rec == null){
+      this.router.navigate(['dashboard/recipeedit'],{ queryParams: { id: 0 } });
+    }else{
+      this.router.navigate(['dashboard/recipeedit'],{ queryParams: { id: rec.Id } });
+    }
+    
   }
 
   select(recipe){
