@@ -21,7 +21,7 @@ using Amazon.SimpleEmail;
 using DietitianApp.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace SNAFramework
+namespace DietitianApp
 {
     public class AppSetting
     {
