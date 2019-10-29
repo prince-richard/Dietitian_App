@@ -76,88 +76,88 @@ namespace DietitianApp.Data
                     .HasConstraintName("FK_Message_UserProfile");
             });
 
-            //    modelBuilder.Entity<Recipe>(entity =>
-            //    {
-            //        entity.Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<Recipe>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //        entity.Property(e => e.Name)
-            //            .HasMaxLength(50)
-            //            .IsUnicode(false);
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-            //        entity.Property(e => e.PicFilePath)
-            //            .HasMaxLength(50)
-            //            .IsUnicode(false);
-            //    });
+                entity.Property(e => e.PicFilePath)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
 
-            //    modelBuilder.Entity<RecipeGroupRef>(entity =>
-            //    {
-            //        entity.Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<RecipeGroupRef>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //        entity.HasOne(d => d.Group)
-            //            .WithMany(p => p.RecipeGroupRef)
-            //            .HasForeignKey(d => d.GroupId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_RecipeGroupRef_Group");
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.RecipeGroupRef)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecipeGroupRef_Group");
 
-            //        entity.HasOne(d => d.Recipe)
-            //            .WithMany(p => p.RecipeGroupRef)
-            //            .HasForeignKey(d => d.RecipeId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_RecipeGroupRef_Recipe");
-            //    });
+                entity.HasOne(d => d.Recipe)
+                    .WithMany(p => p.RecipeGroupRef)
+                    .HasForeignKey(d => d.RecipeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecipeGroupRef_Recipe");
+            });
 
-            //    modelBuilder.Entity<RecipeIngredient>(entity =>
-            //    {
-            //        entity.Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<RecipeIngredient>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //        entity.Property(e => e.Description)
-            //            .HasMaxLength(50)
-            //            .IsUnicode(false);
+                entity.Property(e => e.Description)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-            //        entity.HasOne(d => d.Recipe)
-            //            .WithMany(p => p.RecipeIngredient)
-            //            .HasForeignKey(d => d.RecipeId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_RecipeIngredient_Recipe");
-            //    });
+                entity.HasOne(d => d.Recipe)
+                    .WithMany(p => p.RecipeIngredient)
+                    .HasForeignKey(d => d.RecipeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecipeIngredient_Recipe");
+            });
 
-            //    modelBuilder.Entity<RecipeStep>(entity =>
-            //    {
-            //        entity.Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<RecipeStep>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //        entity.Property(e => e.Description)
-            //            .HasMaxLength(50)
-            //            .IsUnicode(false);
+                entity.Property(e => e.Description)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-            //        entity.HasOne(d => d.Recipe)
-            //            .WithMany(p => p.RecipeStep)
-            //            .HasForeignKey(d => d.RecipeId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_RecipeStep_Recipe");
-            //    });
+                entity.HasOne(d => d.Recipe)
+                    .WithMany(p => p.RecipeStep)
+                    .HasForeignKey(d => d.RecipeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecipeStep_Recipe");
+            });
 
-            //    modelBuilder.Entity<UserFeedback>(entity =>
-            //    {
-            //        entity.Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<UserFeedback>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //        entity.Property(e => e.Comment)
-            //            .HasMaxLength(50)
-            //            .IsUnicode(false);
+                entity.Property(e => e.Comment)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-            //        entity.Property(e => e.Timestamp).HasColumnType("datetime");
+                entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
-            //        entity.HasOne(d => d.Recipe)
-            //            .WithMany(p => p.UserFeedback)
-            //            .HasForeignKey(d => d.RecipeId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_UserFeedback_Recipe");
+                entity.HasOne(d => d.Recipe)
+                    .WithMany(p => p.UserFeedback)
+                    .HasForeignKey(d => d.RecipeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserFeedback_Recipe");
 
-            //        entity.HasOne(d => d.User)
-            //            .WithMany(p => p.UserFeedback)
-            //            .HasForeignKey(d => d.UserId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_UserFeedback_User");
-            //    });
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserFeedback)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserFeedback_User");
+            });
 
             modelBuilder.Entity<Group>(entity =>
             {
