@@ -18,7 +18,7 @@ namespace DietitianApp.Services
         public S3Service(IAmazonS3 s3Client, IConfiguration Configuration)
         {
             this.s3Client = s3Client;
-            this.BucketName = Configuration.GetSection("Application").GetSection("S3BucketName").Value;
+            this.BucketName = Configuration.GetSection("AWS").GetSection("S3BucketName").Value;
         }
 
         //path format (band/16/profile.jpg) or (profile.jpg)

@@ -16,6 +16,8 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using DietitianApp.Data;
 using DietitianApp.Models;
+using Amazon.S3;
+using DietitianApp.Services;
 
 namespace DietitianApp.Controllers
 {
@@ -24,19 +26,56 @@ namespace DietitianApp.Controllers
     [Route("api/recipe")]
     public class RecipeController : SnaBaseController
     {
+        public readonly S3Service _s3Service;
+
         public RecipeController(
             ApplicationDbContext context,
             IConfiguration configuration,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             RoleManager<IdentityRole> roleManager,
-            IAmazonSimpleEmailService client
+            IAmazonSimpleEmailService client,
+            IAmazonS3 s3Client
 
             ) : base(context, configuration, roleManager, client, userManager, signInManager)
         {
-
+            _s3Service = new S3Service(s3Client, _configuration);
         }
 
+        [HttpGet("tests3")]
+        public async Task<IActionResult> tests3()
+        {
+            try
+            {
+                var recipe = _context.Recipe.Select(d => new
+                {
+                    d.Id,
+                    d.Name,
+                    d.Calories,
+                    d.PrepTime,
+                    d.PicFilePath
+
+                }).Where(x => x.Id == 1);
+                var docs = _context.Document.Where(x => x.RefTable == "Recipe" && x.RefId == 1)
+                    .Select(x => new
+                    {
+                        x.Id,
+                        x.FileName,
+                        x.FilePath,
+                        Url = _s3Service.GeneratePreSignedURL(x.FilePath, 2)
+                    });
+                var res = new
+                {
+                    recipe,
+                    docs
+                };
+                return Ok(JsonConvert.SerializeObject(res));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
+            }
+        }
         [HttpGet("allrecipes")]
         public async Task<IActionResult> allrecipes()
         {

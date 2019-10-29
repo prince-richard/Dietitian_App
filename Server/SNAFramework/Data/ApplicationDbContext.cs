@@ -8,7 +8,8 @@ namespace DietitianApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
-        
+
+        public virtual DbSet<Document> Document { get; set; }
         public virtual DbSet<UserProfile> UserProfile { get; set; }
         public virtual DbSet<Group> Group { get; set; }
         public virtual DbSet<Message> Message { get; set; }
@@ -28,6 +29,23 @@ namespace DietitianApp.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Document>(entity =>
+            {
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.FileName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.FilePath)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.FileType).HasMaxLength(50);
+
+                entity.Property(e => e.RefTable).HasMaxLength(50);
+            });
 
             modelBuilder.Entity<Message>(entity =>
             {
