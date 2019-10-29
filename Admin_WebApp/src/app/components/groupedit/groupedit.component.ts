@@ -14,5 +14,9 @@ export class GroupeditComponent implements OnInit {
   ngOnInit() {
   }
   
+  submit(){
+    alert("name");
+    //send update from to server
+  }
 
 }

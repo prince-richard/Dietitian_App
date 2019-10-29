@@ -27,3 +27,4 @@ J:\development\dietitianApp\Server\SNAFramework\obj\Release\netcoreapp2.1\Dietit
 J:\development\dietitianApp\Server\SNAFramework\obj\Release\netcoreapp2.1\DietitianApp.RazorTargetAssemblyInfo.cache
 J:\development\dietitianApp\Server\SNAFramework\obj\Release\netcoreapp2.1\DietitianApp.dll
 J:\development\dietitianApp\Server\SNAFramework\obj\Release\netcoreapp2.1\DietitianApp.pdb
+J:\development\Dietitian_App\Server\SNAFramework\obj\Release\netcoreapp2.1\DietitianApp.csprojAssemblyReference.cache
