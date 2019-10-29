@@ -14,10 +14,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using SNAFramework.Data;
-using SNAFramework.Models;
+using DietitianApp.Data;
+using DietitianApp.Models;
 
-namespace SNAFramework.Controllers
+namespace DietitianApp.Controllers
 {
     //Default security to only request with JWT Bearer Tokens
     [Authorize(AuthenticationSchemes = "Bearer")]
@@ -106,7 +106,8 @@ namespace SNAFramework.Controllers
                         email = userprofile.Email,
                         firstname = userprofile.FirstName,
                         lastname = userprofile.LastName,
-                        phonenumber = userprofile.PhoneNumber
+                        phonenumber = userprofile.PhoneNumber,
+                        roles
                     });
                 }
                 else

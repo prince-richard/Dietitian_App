@@ -1,0 +1,38 @@
+<h2>Group Manager</h2>
+<button (click)="getData()">Get Data</button><br>
+Groups: 
+{{groups.length}}<br>
+
+<div class="row">
+  <div class="col-md-7">
+    <h3>List of Groups</h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Dietician Name</th>
+          <th>Group Name</th>
+          <th>Users</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let group of groups">
+          <td>{{group.Id}}</td>
+          <td>{{group.DietitianName}}</td>
+          <td (click)="select(group)" style="color:blue;text-decoration:underline ">{{group.Name}}</td>
+          <td>
+            <ul>
+              <li *ngFor="let user of group.Users">
+                {{user.FirstName}}
+              </li>
+            </ul>
+          </td>
+          <td><i placement="top" ngbTooltip="Edit" (click)="editGroup();" class="pointer iconcolor material-icons mdi-lg">edit</i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+  <!-- ng-if="showGroup" -->
+

@@ -14,6 +14,14 @@ import { UsermanagerComponent } from './components/usermanager/usermanager.compo
 import { UsereditComponent } from './components/useredit/useredit.component';
 import { NewuserComponent } from './components/newuser/newuser.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
+import { GroupmanagerComponent } from './components/groupmanager/groupmanager.component';
+import { GroupeditComponent } from './components/groupedit/groupedit.component';
+import { RecipemanagerComponent } from './components/recipemanager/recipemanager.component';
+import { RecipeeditComponent }from './components/recipeedit/recipeedit.component';
+import { RmtestComponent } from './components/rmtest/rmtest.component';
+import { TestComponent } from './components/test/test.component';
+
+
 
 //service
 import { AccountService } from './components/login/account.service';
@@ -28,6 +36,9 @@ import { UsermanagerService } from './components/usermanager/usermanager.service
 
 //directive, module
 import { snaAccess, SnaAccessService } from './directives/sna-access.directive';
+import { RecipemanagerService } from './components/recipemanager/recipemanager.service';
+
+
 
 
 
@@ -50,7 +61,14 @@ export function getToken(){
     UsereditComponent,
     NewuserComponent,
     snaAlertComponent,
-    ResetpasswordComponent
+    ResetpasswordComponent,
+    GroupmanagerComponent,
+    RecipemanagerComponent,
+    GroupeditComponent,
+    RecipeeditComponent,
+    RmtestComponent,
+    TestComponent,
+    
   ],
   entryComponents: [],
   imports: [
@@ -76,7 +94,8 @@ export function getToken(){
     UsermanagerService,
     AuthGuard,
     NgbDropdown,
-    snaAlertService
+    snaAlertService,
+    RecipemanagerService,
   ],
   bootstrap: [AppComponent]
 })

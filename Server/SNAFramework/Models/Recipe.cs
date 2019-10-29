@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SNAFramework.Models
+namespace DietitianApp.Models
 {
     public partial class Recipe
     {
@@ -13,11 +13,12 @@ namespace SNAFramework.Models
             UserFeedback = new HashSet<UserFeedback>();
         }
 
-        public int RecipeId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string PicFilePath { get; set; }
         public int? Calories { get; set; }
         public int? PrepTime { get; set; }
+        public int? Servings { get; set; }
 
         public ICollection<RecipeGroupRef> RecipeGroupRef { get; set; }
         public ICollection<RecipeIngredient> RecipeIngredient { get; set; }
