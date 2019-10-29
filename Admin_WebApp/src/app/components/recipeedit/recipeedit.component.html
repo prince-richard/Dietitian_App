@@ -1,4 +1,4 @@
-<h4>Recipe</h4>
+<h4>{{recipe.Name}}</h4>
 <button class='btn btn-primary' (click)="saveRecipe()">Update recipe</button>
 Name: <input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
 <div class=row>  
@@ -8,13 +8,29 @@ Name: <input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
         <tr>
           <th>Ingredients</th>
           <th>Steps</th>
+          <th>Calories</th>
+          <th>Prep Time</th>
           <th>Remove</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Test</td>
-          <td>Test</td>
+          <td>
+            <ul>
+              <li *ngFor="let ing of recipe.ingredients">
+                {{ing.Description}}
+              </li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li *ngFor="let step of recipe.steps">
+                {{step.Description}}
+              </li>
+            </ul>
+          </td>
+          <td>{{recipe.Calories | json}}</td>
+          <td>{{recipe.PrepTime}}</td>
           <td><input type="checkbox"><br></td>
         </tr>
       </tbody>
@@ -33,8 +49,8 @@ Name: <input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
         </thead>
         <tbody>
           <tr>
-            <td>1</td>
-            <td>Test Group</td>
+            <td>test</td>
+            <td>test</td>
             <td><input type="checkbox"><br></td>
           </tr>
         </tbody>

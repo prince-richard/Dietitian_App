@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpBackend } from '@angular/common/http';
 import { post } from 'selenium-webdriver/http';
+import {ActivatedRoute} from '@angular/router';
+
 
 @Component({
   selector: 'app-groupedit',
@@ -8,11 +10,27 @@ import { post } from 'selenium-webdriver/http';
   styleUrls: ['./groupedit.component.scss']
 })
 export class GroupeditComponent implements OnInit {
+  id: string;
+  group: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private route: ActivatedRoute) {
+      
+     }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+      this.id = this.route.snapshot.queryParamMap.get('id');
+      if (this.id == "0"){
+        this.group = {};
+        this.group['Id']="0";
+        this.group['Name']="undefined";
+      }else{
+      this.http.get("/api/group/getgroup?id="+this.id)
+      .subscribe(res =>{
+        this.group = res;
+      });
+      }
+    }
   
 
 }

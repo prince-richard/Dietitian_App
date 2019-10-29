@@ -1,6 +1,9 @@
 <h4>Group Name</h4>
 <h4>Dietitian</h4>
 
+<button class='btn btn-primary' (click)="saveGroup()">Update Group</button>
+Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
+
 <div class="row">
   <div class="col-md-7">
     <h3>List of Users</h3>
@@ -13,9 +16,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>Zach</td>
+        <tr *ngFor="let user of group.Users">
+          <td>{{user.Id}}</td>
+          <td>test</td>
           <td> <input type="checkbox"><br>
 
           </td>
@@ -36,7 +39,7 @@
       <tbody>
         <tr>
           <td>1</td>
-          <td>Roasted Vegetables</td>
+          <td>test</td>
           <td><input type="checkbox"><br></td>
         </tr>
       </tbody>

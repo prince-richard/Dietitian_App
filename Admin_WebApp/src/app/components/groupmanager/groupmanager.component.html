@@ -2,6 +2,8 @@
 <button (click)="getData()">Get Data</button><br>
 Groups: 
 {{groups.length}}<br>
+<button class="btn btn-primary" (click)="editGroup(null)">Add Group</button>
+
 
 <div class="row">
   <div class="col-md-7">
@@ -28,7 +30,7 @@ Groups:
               </li>
             </ul>
           </td>
-          <td><i placement="top" ngbTooltip="Edit" (click)="editGroup();" class="pointer iconcolor material-icons mdi-lg">edit</i></td>
+          <td><i placement="top" ngbTooltip="Edit" (click)="editGroup(group);" class="pointer iconcolor material-icons mdi-lg">edit</i></td>
         </tr>
       </tbody>
     </table>

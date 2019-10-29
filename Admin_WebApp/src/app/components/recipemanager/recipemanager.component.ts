@@ -47,7 +47,7 @@ export class RecipemanagerComponent implements OnInit {
     this.http.get("api/recipe/getrecipe?id=" + recipe.Id)
     .subscribe(res =>{
       this.recipe = res;
-      this.router.navigate(['dashboard/recipeedit']);
+//      this.router.navigate(['dashboard/recipeedit']);
 
     })
   }
