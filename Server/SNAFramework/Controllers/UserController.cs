@@ -308,6 +308,95 @@ namespace DietitianApp.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("getDietitianName")]
+        public async Task<IActionResult> getDietitianName([FromQuery]string patientId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(patientId))
+                {
+                    var name = _context.UserProfile.Join(
+                        _context.Group,
+                        u => u.Id,
+                        g => g.DieticianId,
+                        (u, g) => new
+                        {
+                            u.FirstName,
+                            u.LastName
+                        }).Distinct();
+
+                    return Ok(JsonConvert.SerializeObject(name));
+                }
+                else
+                {
+                    var groupId = _context.UserProfile.Where(s => s.Id.ToString().Equals(patientId))
+                                                      .Select(g => g.GroupId)
+                                                      .FirstOrDefault();
+
+                    var dietitianId = _context.Group.Where(g => g.Id.ToString().Equals(groupId.ToString()))
+                                                    .Select(s => s.DieticianId)
+                                                    .FirstOrDefault();
+
+                    var name = _context.UserProfile.Where(q => q.Id.ToString().Equals(dietitianId.ToString()))
+                                                   .Select(d => new { d.FirstName, d.LastName })
+                                                   .FirstOrDefault();
+
+                    return Ok(JsonConvert.SerializeObject(name));
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("getMessages")]
+        public async Task<IActionResult> getMessages([FromQuery]string patientId, string groupId = null)
+        {
+            try
+            {
+
+                if (string.IsNullOrEmpty(groupId))
+                {
+                    var gId = _context.UserProfile.Where(s => s.Id.ToString().Equals(patientId))
+                                                  .Select(g => g.GroupId)
+                                                  .FirstOrDefault();
+
+                    int dietitianId = _context.Group.Where(g => g.Id.ToString().Equals(gId.ToString()))
+                                                    .Select(s => s.DieticianId)
+                                                    .FirstOrDefault();
+
+                    var messages = _context.Message.Where(g => g.GroupId.ToString().Equals(gId.ToString()) &&
+                                                               g.SenderId.ToString().Equals(patientId.ToString()) &&
+                                                               g.RecieverId == dietitianId)
+                                                   .Select(s => new { s.Contents, s.Timestamp });
+
+                    return Ok(JsonConvert.SerializeObject(messages));
+                }
+                else
+                {
+                    int dietitianId = _context.Group.Where(g => g.Id.ToString().Equals(groupId.ToString()))
+                                                    .Select(s => s.DieticianId)
+                                                    .FirstOrDefault();
+
+                    var messages = _context.Message.Where(g => g.GroupId.ToString().Equals(groupId) &&
+                                                               g.SenderId.ToString().Equals(patientId.ToString()) &&
+                                                               g.RecieverId == dietitianId)
+                                                   .Select(s => new { s.Contents, s.Timestamp });
+
+                    return Ok(JsonConvert.SerializeObject(messages));
+                }                               
+
+                
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
         //models
         public class changepassword
         {
