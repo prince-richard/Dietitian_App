@@ -86,5 +86,30 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+
+        [HttpGet]
+        [Route("getdietitiangroups")]
+        public async Task<IActionResult> getdietitiangroups()
+        {
+            try
+            {
+                var dietitianGroups = _context.UserProfile.Join(
+                    _context.Group,
+                    u => u.Id,
+                    g => g.DieticianId,
+                    (u, g) => new
+                    {
+                        dietitianName = u.FirstName + " " + u.LastName,
+                        group = g.Id,
+
+                    });
+
+                return Ok(JsonConvert.SerializeObject(dietitianGroups));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
     }
 }
