@@ -189,5 +189,38 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+
+        [HttpGet]
+        [Route("getGroupRecipes")]
+        public async Task<IActionResult> getGroupRecipes([FromQuery]string groupId)
+        {
+            try
+            {
+                var recipes = _context.RecipeGroupRef
+                    .Where(s => s.GroupId.ToString().Equals(groupId))
+                    .Select(r => new
+                    {
+                        RecipeInfo = _context.Recipe.Where(q => q.Id == r.RecipeId)
+                                                    .Select(g => new
+                                                    {
+                                                        g.Id,
+                                                        g.Name,
+                                                        g.PrepTime,
+                                                        g.Calories,
+                                                        g.Servings,
+                                                        Rating = g.UserFeedback.Select(x => x.Rating)
+                                                                               .FirstOrDefault(),
+                                                        Ingredients = g.RecipeIngredient.ToList(),
+                                                        Steps = g.RecipeStep.ToList()
+                                                    })
+                    });
+                                                    
+                return Ok(JsonConvert.SerializeObject(recipes));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
     }
 }

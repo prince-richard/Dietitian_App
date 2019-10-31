@@ -111,5 +111,32 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+
+        [HttpGet]
+        [Route("getGroupPatients")]
+        public async Task<IActionResult> getGroupPatients([FromQuery] string groupId)
+        {
+            try
+            {
+                var patients = _context.UserProfile.Where(q => q.GroupId.ToString().Equals(groupId))
+                                                   .Select(d => new
+                                                   {
+                                                       d.FirstName,
+                                                       d.LastName,
+                                                       d.Email,
+                                                       TimeSinceLastPost = d.UserFeedback.Select(x => new
+                                                       {
+                                                           TimeSince = DateTime.Now.Subtract(x.Timestamp)
+                                                       })
+                                                   
+                });
+
+                return Ok(JsonConvert.SerializeObject(patients));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
     }
 }
