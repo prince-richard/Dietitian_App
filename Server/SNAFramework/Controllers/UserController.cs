@@ -397,6 +397,43 @@ namespace DietitianApp.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("getFeedback")]
+        public async Task<IActionResult> getFeedback([FromQuery]string userId, string groupId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(groupId))
+                {
+                    var feedback = _context.UserProfile.Where(u => u.Id.ToString().Equals(userId)).Select(x => new
+                    {
+                        x.FirstName,
+                        x.LastName,
+                        x.Email,
+                        allFeedback = x.UserFeedback
+                    });
+
+                    return Ok(JsonConvert.SerializeObject(feedback));
+                }
+                else
+                {
+                    var feedback = _context.UserProfile.Where(u => u.GroupId.ToString().Equals(groupId)).Select(x => new
+                    {
+                        x.FirstName,
+                        x.LastName,
+                        x.Email,
+                        allFeedback = x.UserFeedback
+                    });
+
+                    return Ok(JsonConvert.SerializeObject(feedback));
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
         //models
         public class changepassword
         {
