@@ -31,6 +31,12 @@ export class GroupeditComponent implements OnInit {
       });
       }
     }
-  
+    
+    saveGroup() {
+      alert('temporary alert');
+    }
 
+    submit() {
+      alert('temporary alert');
+    }
 }
