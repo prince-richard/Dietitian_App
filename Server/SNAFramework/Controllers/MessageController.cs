@@ -35,25 +35,55 @@ namespace DietitianApp.Controllers
     IAmazonS3 s3Client
 
     ) : base(context, configuration, roleManager, client, userManager, signInManager)
-        {
-        }
-    }
+        { }
 
-    //get by dietitian, patient (userid) 
-    //skip m take n by date desc
-    //- Id, Message, senderid, receiverid,groupid,timestamp content
-    [HttpGet("getmessages")]
-    public async Task<IActionResult> getmessages([FromQuery] int userid)
-    {
-        try
+        //get by dietitian, patient (userid) 
+        //skip m take n by date desc
+        //- Id, Message, senderid, receiverid,groupid,timestamp content
+        [HttpGet("getmessages")]
+        public async Task<IActionResult> getmessages([FromQuery] int userid, [FromQuery]int skip, [FromQuery] int take)
         {
-            var res = new { };
-            return Ok(JsonConvert.SerializeObject(res));
+            try
+            {
+                var res = _context.Message.Where(x => x.SenderId == userid || x.RecieverId == userid)
+                        .OrderByDescending(o => o.Timestamp).Skip(skip).Take(take).Select(m => new
+                        {
+                            m.Id,
+                            m.SenderId,
+                            m.RecieverId,
+                            m.GroupId,
+                            m.Timestamp,
+                            m.Contents,
+                            FirstName = m.Sender.FirstName,
+                            LastName = m.Sender.LastName,
+                        }).ToList();
+                return Ok(JsonConvert.SerializeObject(res));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
+            }
         }
-        catch (Exception e)
+
+        [HttpPost("postmessage")]
+        public async Task<IActionResult> postmessage([FromBody] Message message)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
+            try
+            {
+                var m = new Message();
+                m.SenderId = message.SenderId;
+                m.RecieverId = message.RecieverId;
+                m.GroupId = message.GroupId;
+                m.Timestamp = message.Timestamp;
+                m.Contents = message.Contents;
+                _context.Message.Add(m);
+                _context.SaveChanges();
+                return Ok(JsonConvert.SerializeObject(m));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
+            }
         }
     }
-        //post a message
-    }
+}
