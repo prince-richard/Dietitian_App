@@ -1,3 +1,9 @@
-<p>
-  test works!
-</p>
+<h2>Test S3</h2>
+<button class="btn btn-primary" (click)="getRecipe()">Get Recipe No 1</button>
+<br>
+recipe: {{recipe | json}}<br>
+docs: {{docs | json}}
+<h4>Pictures</h4>
+<div *ngFor="let pic of docs">
+  <img [src]="pic.Url" alt="pic"/>
+</div>

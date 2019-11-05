@@ -15,6 +15,7 @@ namespace DietitianApp.ModelTemp
         public int Id { get; set; }
         public string Name { get; set; }
         public int DieticianId { get; set; }
+        public string WeeklyStatement { get; set; }
 
         public UserProfile Dietician { get; set; }
         public ICollection<Message> Message { get; set; }

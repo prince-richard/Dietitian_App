@@ -15,13 +15,14 @@ namespace DietitianApp.ModelTemp
         {
         }
 
-        //public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
-        //public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
-        //public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
-        //public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
-        //public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
-        //public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        //public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
+        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual DbSet<Document> Document { get; set; }
         public virtual DbSet<Group> Group { get; set; }
         public virtual DbSet<Message> Message { get; set; }
         public virtual DbSet<Recipe> Recipe { get; set; }
@@ -136,11 +137,30 @@ namespace DietitianApp.ModelTemp
                     .HasForeignKey(d => d.UserId);
             });
 
+            modelBuilder.Entity<Document>(entity =>
+            {
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.FileName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.FilePath)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.FileType).HasMaxLength(50);
+
+                entity.Property(e => e.RefTable).HasMaxLength(50);
+            });
+
             modelBuilder.Entity<Group>(entity =>
             {
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.WeeklyStatement).HasColumnType("text");
 
                 entity.HasOne(d => d.Dietician)
                     .WithMany(p => p.Group)

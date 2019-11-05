@@ -8,7 +8,8 @@ namespace DietitianApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
-        
+
+        public virtual DbSet<Document> Document { get; set; }
         public virtual DbSet<UserProfile> UserProfile { get; set; }
         public virtual DbSet<Group> Group { get; set; }
         public virtual DbSet<Message> Message { get; set; }
@@ -28,6 +29,23 @@ namespace DietitianApp.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Document>(entity =>
+            {
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.FileName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.FilePath)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.FileType).HasMaxLength(50);
+
+                entity.Property(e => e.RefTable).HasMaxLength(50);
+            });
 
             modelBuilder.Entity<Message>(entity =>
             {
@@ -58,88 +76,88 @@ namespace DietitianApp.Data
                     .HasConstraintName("FK_Message_UserProfile");
             });
 
-            //    modelBuilder.Entity<Recipe>(entity =>
-            //    {
-            //        entity.Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<Recipe>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //        entity.Property(e => e.Name)
-            //            .HasMaxLength(50)
-            //            .IsUnicode(false);
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-            //        entity.Property(e => e.PicFilePath)
-            //            .HasMaxLength(50)
-            //            .IsUnicode(false);
-            //    });
+                entity.Property(e => e.PicFilePath)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
 
-            //    modelBuilder.Entity<RecipeGroupRef>(entity =>
-            //    {
-            //        entity.Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<RecipeGroupRef>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //        entity.HasOne(d => d.Group)
-            //            .WithMany(p => p.RecipeGroupRef)
-            //            .HasForeignKey(d => d.GroupId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_RecipeGroupRef_Group");
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.RecipeGroupRef)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecipeGroupRef_Group");
 
-            //        entity.HasOne(d => d.Recipe)
-            //            .WithMany(p => p.RecipeGroupRef)
-            //            .HasForeignKey(d => d.RecipeId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_RecipeGroupRef_Recipe");
-            //    });
+                entity.HasOne(d => d.Recipe)
+                    .WithMany(p => p.RecipeGroupRef)
+                    .HasForeignKey(d => d.RecipeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecipeGroupRef_Recipe");
+            });
 
-            //    modelBuilder.Entity<RecipeIngredient>(entity =>
-            //    {
-            //        entity.Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<RecipeIngredient>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //        entity.Property(e => e.Description)
-            //            .HasMaxLength(50)
-            //            .IsUnicode(false);
+                entity.Property(e => e.Description)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-            //        entity.HasOne(d => d.Recipe)
-            //            .WithMany(p => p.RecipeIngredient)
-            //            .HasForeignKey(d => d.RecipeId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_RecipeIngredient_Recipe");
-            //    });
+                entity.HasOne(d => d.Recipe)
+                    .WithMany(p => p.RecipeIngredient)
+                    .HasForeignKey(d => d.RecipeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecipeIngredient_Recipe");
+            });
 
-            //    modelBuilder.Entity<RecipeStep>(entity =>
-            //    {
-            //        entity.Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<RecipeStep>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //        entity.Property(e => e.Description)
-            //            .HasMaxLength(50)
-            //            .IsUnicode(false);
+                entity.Property(e => e.Description)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-            //        entity.HasOne(d => d.Recipe)
-            //            .WithMany(p => p.RecipeStep)
-            //            .HasForeignKey(d => d.RecipeId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_RecipeStep_Recipe");
-            //    });
+                entity.HasOne(d => d.Recipe)
+                    .WithMany(p => p.RecipeStep)
+                    .HasForeignKey(d => d.RecipeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecipeStep_Recipe");
+            });
 
-            //    modelBuilder.Entity<UserFeedback>(entity =>
-            //    {
-            //        entity.Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<UserFeedback>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //        entity.Property(e => e.Comment)
-            //            .HasMaxLength(50)
-            //            .IsUnicode(false);
+                entity.Property(e => e.Comment)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-            //        entity.Property(e => e.Timestamp).HasColumnType("datetime");
+                entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
-            //        entity.HasOne(d => d.Recipe)
-            //            .WithMany(p => p.UserFeedback)
-            //            .HasForeignKey(d => d.RecipeId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_UserFeedback_Recipe");
+                entity.HasOne(d => d.Recipe)
+                    .WithMany(p => p.UserFeedback)
+                    .HasForeignKey(d => d.RecipeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserFeedback_Recipe");
 
-            //        entity.HasOne(d => d.User)
-            //            .WithMany(p => p.UserFeedback)
-            //            .HasForeignKey(d => d.UserId)
-            //            .OnDelete(DeleteBehavior.ClientSetNull)
-            //            .HasConstraintName("FK_UserFeedback_User");
-            //    });
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserFeedback)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserFeedback_User");
+            });
 
             modelBuilder.Entity<Group>(entity =>
             {
