@@ -1,33 +1,39 @@
 <h4>{{recipe.Name}}</h4>
-<button class='btn btn-primary' (click)="saveRecipe()">Update recipe</button>
-Name: <input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
+
+<input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
+<button class='btn btn-primary' (click)="saveRecipe()">Update recipe</button><br>
+<!--
 <div class=row>  
   <div class="col-md-7">
     <table class="table table-bordered">
       <thead>
+        -->
+<div class="table-responsive">
+    <table class="tablemargin table">
+        <thead class="thead-dark-sna">
         <tr>
-          <th>Ingredients</th>
-          <th>Steps</th>
-          <th>Calories</th>
-          <th>Prep Time</th>
-          <th>Remove</th>
+          <th scope="col">Ingredients</th>
+          <th scope="col">Steps</th>
+          <th scope="col">Calories</th>
+          <th scope="col">Prep Time</th>
+          <th scope="col">Remove</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-            <ul>
+            <ol>
               <li *ngFor="let ing of recipe.ingredients">
                 {{ing.Description}}
               </li>
-            </ul>
+            </ol>
           </td>
           <td>
-            <ul>
+            <ol>
               <li *ngFor="let step of recipe.steps">
                 {{step.Description}}
               </li>
-            </ul>
+            </ol>
           </td>
           <td>{{recipe.Calories | json}}</td>
           <td>{{recipe.PrepTime}}</td>
@@ -35,12 +41,14 @@ Name: <input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
         </tr>
       </tbody>
     </table>
-    <input type="submit" value="Submit">
+    <button class="btn btn-primary" (click)="submit()">Submit</button>
+</div>
     <br><br>
 
-    <h4>Group List</h4>
-    <table class="table table-bordered">
-        <thead>
+<h4>Group List</h4>
+  <div class="table-responsive">
+    <table class="tablemargin table">
+        <thead class="thead-dark-sna">
           <tr>
             <th>Id</th>
             <th>Name</th>
@@ -49,15 +57,22 @@ Name: <input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
         </thead>
         <tbody>
           <tr>
-            <td>test</td>
-            <td>test</td>
+            <td>1</td>
+            <td>Schmitt</td>
             <td><input type="checkbox"><br></td>
           </tr>
+          <tr>
+              <td>3</td>
+              <td>Smith</td>
+              <td><input type="checkbox"><br></td>
+            </tr>
         </tbody>
       </table>
-      <input type="submit" value="Submit">
-</div>
+  </div>
+  <button class="btn btn-primary" (click)="submit()">Submit</button>
+  <br><br>
 
+<!--
 <div class="col-md-5">
     <h3>Add Recipe</h3>
     <div class="form-group">
@@ -67,3 +82,4 @@ Name: <input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
     <button class="btn btn-primary" (click)="submit()">Add</button>
   </div>
 </div>
+-->
