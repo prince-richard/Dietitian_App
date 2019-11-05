@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpBackend, HttpClient } from '@angular/common/http';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-test',
@@ -9,6 +10,7 @@ import { HttpBackend, HttpClient } from '@angular/common/http';
 export class TestComponent implements OnInit {
   recipe: any;
   docs: any;
+  localFile: any;
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
@@ -20,4 +22,18 @@ export class TestComponent implements OnInit {
       this.docs = res['docs'];
     });
   }
+  fileChangeEvent(files: FileList) {
+
+    let fileToUpload = files.item(0);
+
+    let input: FormData = new FormData();
+    input.append('fileKey', fileToUpload, fileToUpload.name);
+    input.append('fileName', fileToUpload.name);
+
+    this.http.post("api/recipe/uploadFile", input)
+    .subscribe(res  =>{
+      alert(res);
+    });
+  }
+
 }

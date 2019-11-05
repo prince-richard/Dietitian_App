@@ -18,6 +18,7 @@ using DietitianApp.Data;
 using DietitianApp.Models;
 using Amazon.S3;
 using DietitianApp.Services;
+using System.IO;
 
 namespace DietitianApp.Controllers
 {
@@ -41,7 +42,43 @@ namespace DietitianApp.Controllers
         {
             _s3Service = new S3Service(s3Client, _configuration);
         }
+        [HttpPost("uploadFile")]
+        public async Task<IActionResult> uploadFile()
+        {
+            try
+            {
+                var form = Request.Form;
+                var files = form.Files;
+                var file = files["FileKey"];
+                byte[] bytes2 = new byte[file.Length];
+                using (var reader = file.OpenReadStream())
+                {
+                    await reader.ReadAsync(bytes2, 0, (int)file.Length);
+                }
 
+                var fileName = form["fileName"];//base64 filestring with header
+                string filepath = "Images/" + fileName;
+
+                var contents = new MemoryStream(bytes2);
+                if (!await _s3Service.UploadFile(filepath, contents))
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Cannot Save to S3");
+                }
+
+                var res = new
+                {
+                    mes =  "Message"
+                };
+
+                return Ok(JsonConvert.SerializeObject(res));
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
+            }
+        }
+            
         [HttpGet("tests3")]
         public async Task<IActionResult> tests3()
         {

@@ -1,4 +1,12 @@
 <h2>Test S3</h2>
+Test Uploading a picture here
+
+
+<br><br>
+<input type="file"  (change)="fileChangeEvent($event.target.files)">
+
+<hr>
+Testing downloading  picture<br>
 <button class="btn btn-primary" (click)="getRecipe()">Get Recipe No 1</button>
 <br>
 recipe: {{recipe | json}}<br>
