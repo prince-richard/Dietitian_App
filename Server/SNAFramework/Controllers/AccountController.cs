@@ -68,6 +68,7 @@ namespace DietitianApp.Controllers
                     //}
                     var userprofile = _context.UserProfile.Where(r => r.Email == userobj.email).Select(d => new
                     {
+                        d.GroupId,
                         d.CreatedDate,
                         d.Id,
                         d.FirstName,
@@ -107,6 +108,7 @@ namespace DietitianApp.Controllers
                         firstname = userprofile.FirstName,
                         lastname = userprofile.LastName,
                         phonenumber = userprofile.PhoneNumber,
+                        groupId = userprofile.GroupId,
                         roles
                     });
                 }

@@ -118,7 +118,7 @@ namespace DietitianApp.Controllers
                 _context.SaveChanges();
 
                 return Content(Newtonsoft.Json.JsonConvert.SerializeObject(r));
-            } 
+            }
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
@@ -132,25 +132,93 @@ namespace DietitianApp.Controllers
         {
             try
             {
+
                 int Id = int.Parse(id);
                 var recipe = _context.Recipe.Select(d => new
                 {
                     d.Id,
                     d.Name,
-                    d.PicFilePath,
                     d.Calories,
                     d.PrepTime,
                     d.Servings,
                     steps = d.RecipeStep.ToList(),
                     ingredients = d.RecipeIngredient.ToList()
                 }).Where(q => q.Id == Id).FirstOrDefault();
-                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(recipe));
+                var docs = _context.Document.Where(x => x.RefTable == "Recipe" && x.RefId == Id)
+                    .Select(x => new
+                    {
+                        x.Id,
+                        x.FileName,
+                        x.FilePath,
+                        Url = _s3Service.GeneratePreSignedURL(x.FilePath, 2)
+                    }).ToList();
+                var rec = new
+                {
+                    Id = recipe.Id,
+                    recipe.Name,
+                    recipe.Calories,
+                    recipe.PrepTime,
+                    recipe.Servings,
+                    steps = recipe.steps,
+                    ingredients = recipe.ingredients,
+                    URL = docs[0].Url
+
+                };
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(rec));
             }
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-        
+
+        [HttpGet]
+        [Route("getrecipeofweek")]
+        public async Task<IActionResult> getrecipeofweek([FromQuery]int groupId)
+        {
+            try
+            {
+                var recotw = _context.RecipeGroupRef.Where(x => x.GroupId == groupId && x.IsSpecial == true).SingleOrDefault();
+                var recipe = _context.Recipe.Select(d => new
+                {
+                    d.Id,
+                    d.Name,
+                    d.Calories,
+                    d.PrepTime,
+                    d.Servings,
+                    steps = d.RecipeStep.ToList(),
+                    ingredients = d.RecipeIngredient.ToList()
+                }).Where(q => q.Id == recotw.RecipeId).FirstOrDefault();
+
+                var docs = _context.Document.Where(x => x.RefTable == "Recipe" && x.RefId == recotw.RecipeId)
+                    .Select(x => new
+                    {
+                        x.Id,
+                        x.FileName,
+                        x.FilePath,
+                        Url = _s3Service.GeneratePreSignedURL(x.FilePath, 2)
+                    }).ToList();
+                var rec = new
+                {
+                    Id = recipe.Id,
+                    recipe.Name,
+                    recipe.Calories,
+                    recipe.PrepTime,
+                    recipe.Servings,
+                    Steps = recipe.steps,
+                    Ingredients = recipe.ingredients,
+                    PicFiePath = docs[0].Url
+
+                };
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(rec));
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+
+
+        }
     }
 }
