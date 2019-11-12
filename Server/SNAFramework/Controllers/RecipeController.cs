@@ -207,18 +207,79 @@ namespace DietitianApp.Controllers
                     recipe.Servings,
                     Steps = recipe.steps,
                     Ingredients = recipe.ingredients,
-                    PicFiePath = docs[0].Url
+                    PicFilePath = docs[0].Url
 
                 };
                 return Content(Newtonsoft.Json.JsonConvert.SerializeObject(rec));
             }
             catch (Exception e)
             {
-
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
+        }
 
+        [Route("getRecipeOfTheWeek")]
+        public async Task<IActionResult> getRecipeOfTheWeek([FromQuery]string groupId)
+        {
+            try
+            {
+                var recipeId = _context.RecipeGroupRef.Where(s => s.GroupId.ToString().Equals(groupId) && s.IsSpecial == true)
+                    .Select(g => g.RecipeId).FirstOrDefault();
 
+                var WeeklyStatement = _context.Group.Where(g => g.Id.ToString().Equals(groupId))
+                    .Select(w => w.WeeklyStatement).FirstOrDefault();
+
+                var recipe = _context.Recipe.Where(s => s.Id.ToString().Equals(recipeId.ToString()))
+                    .Select(g => new
+                    {
+                        g.Id,
+                        g.Name,
+                        g.PrepTime,
+                        g.Calories,
+                        g.Servings,
+                        Rating = g.UserFeedback.Where(f => f.RecipeId.ToString().Equals(recipeId.ToString()))
+                            .Select(x => x.Rating).FirstOrDefault(),
+                        WeeklyStatement
+                    }).FirstOrDefault();
+
+                return Ok(JsonConvert.SerializeObject(recipe));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("getGroupRecipes")]
+        public async Task<IActionResult> getGroupRecipes([FromQuery]string groupId)
+        {
+            try
+            {
+                var recipes = _context.RecipeGroupRef
+                    .Where(s => s.GroupId.ToString().Equals(groupId))
+                    .Select(r => new
+                    {
+                        RecipeInfo = _context.Recipe.Where(q => q.Id == r.RecipeId).Select(g => new
+                        {
+                            g.Id,
+                            g.Name,
+                            g.PrepTime,
+                            g.Calories,
+                            g.Servings,
+                            Rating = g.UserFeedback.Select(x => x.Rating)
+                                                    .FirstOrDefault(),
+                            Ingredients = g.RecipeIngredient.ToList(),
+                            Steps = g.RecipeStep.ToList()
+                        })
+                    });
+                                                    
+                return Ok(JsonConvert.SerializeObject(recipes));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
         }
     }
 }
