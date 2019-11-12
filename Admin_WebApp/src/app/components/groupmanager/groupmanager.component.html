@@ -1,13 +1,13 @@
 <h2>Group Manager</h2>
-<button (click)="getData()">Get Data</button><br>
+<!--<button (click)="getData()">Get Data</button><br>-->
 Groups: 
 {{groups.length}}<br>
+<button class="btn btn-primary" (click)="editGroup(null)">Add Group</button>
 
-<div class="row">
-  <div class="col-md-7">
-    <h3>List of Groups</h3>
-    <table class="table table-bordered">
-      <thead>
+
+<div class="table-responsive">
+    <table class="tablemargin table">
+      <thead class="thead-dark-sna">
         <tr>
           <th>Id</th>
           <th>Dietician Name</th>
@@ -28,11 +28,10 @@ Groups:
               </li>
             </ul>
           </td>
-          <td><i placement="top" ngbTooltip="Edit" (click)="editGroup();" class="pointer iconcolor material-icons mdi-lg">edit</i></td>
+          <td><i placement="top" ngbTooltip="Edit" (click)="editGroup(group);" class="pointer iconcolor material-icons mdi-lg">edit</i></td>
         </tr>
       </tbody>
     </table>
-  </div>
   </div>
   <!-- ng-if="showGroup" -->
 

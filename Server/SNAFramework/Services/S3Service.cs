@@ -8,6 +8,33 @@ using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using Microsoft.Extensions.Configuration;
 
+//P.S. Usages
+// in constructor of controller put:
+// _s3Service = new S3Service(s3Client, _configuration);
+// Url = _s3Service.GeneratePreSignedURL(pic.FilePath, 2)
+
+//var docu = new Document();
+//docu.FileName = form["fileName"];
+//                docu.RefId = IdeaId;
+//                docu.RefTable = form["Table"];
+//                docu.Size = int.Parse(form["Size"]);
+//docu.FileType = form["FileType"];
+//                docu.CreatedAt = DateTime.Now;
+
+//                //P.S. All files are in folder 'images'
+//                //P.S. All file start with "F" + unique idea,concept and project Id
+//                docu.FilePath = "images/" + docu.RefTable + "_" + Id + "_" + docu.FileName;
+
+//                //First load the image to S3
+//                var bytes = Convert.FromBase64String(file);
+//var contents = new MemoryStream(bytes);
+//                if (!await _s3Service.UploadFile(docu.FilePath, contents))
+//                {
+//                    return StatusCode(StatusCodes.Status500InternalServerError, "Cannot Save to S3");
+//                }
+
+
+
 namespace DietitianApp.Services
 {
     public class S3Service

@@ -9,6 +9,36 @@
         <a (click)="isCollapsed = false" class="nav-link" [routerLink]="['home']">Home <span class="sr-only">(current)</span></a>
       </li>
       <li *snaAccess="['DIETITIAN','ADMINISTRATOR','Developer']" ngbDropdown class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle pointer" ngbDropdownToggle id="navbarDropdown" role="button">
+            Dietitian
+          </a>
+          <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" [routerLink]="['recipemanager']">Recipe Manager</a>
+          </div>
+        </li>
+        <li *snaAccess="['ADMINISTRATOR','Developer']" ngbDropdown class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle pointer" ngbDropdownToggle id="navbarDropdown" role="button">
+            Administrator
+          </a>
+          <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" [routerLink]="['usermanager']">User Manager</a>
+            <a class="dropdown-item" [routerLink]="['groupmanager']">Group Manager</a>
+          </div>
+  
+        </li>
+        <li *snaAccess="['Developer']" ngbDropdown class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle pointer" ngbDropdownToggle id="navbarDropdown" role="button">
+            Developer
+          </a>
+          <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" [routerLink]="['test']">Test</a>
+          </div>
+  
+        </li>
+      </ul>
+
+<!--
+      <li *snaAccess="['Developer']" ngbDropdown class="nav-item dropdown">
         <a class="nav-link dropdown-toggle pointer" ngbDropdownToggle id="navbarDropdown" role="button">
           Dietitian
         </a>
@@ -36,6 +66,7 @@
 
       </li>
     </ul>
+    --> 
     <div class="form-inline my-2 my-lg-0">
       <span> Welcome, {{logedinuser}}</span>
       <ul class="navbar-nav mr-auto">

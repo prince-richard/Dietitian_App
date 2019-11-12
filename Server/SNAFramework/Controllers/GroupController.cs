@@ -42,7 +42,7 @@ namespace DietitianApp.Controllers
         {
             try
             {
-                var users = _context.Group.Select(d => new
+                var groups = _context.Group.Select(d => new
                 {
                     d.Id,
                     d.DieticianId,
@@ -55,7 +55,7 @@ namespace DietitianApp.Controllers
                     }).ToList()
 
                 }).ToList();
-                return Ok(JsonConvert.SerializeObject(users));
+                return Ok(JsonConvert.SerializeObject(groups));
             }
             catch (Exception e)
             {
@@ -64,6 +64,34 @@ namespace DietitianApp.Controllers
 
         }
 
+        [HttpGet("getgroup")]
+        public async Task<IActionResult> getgroup()
+        {
+            try
+            {
+                var group = _context.Group.Select(d => new
+                {
+                    d.Id,
+                    d.DieticianId,
+                    DietitianName = d.Dietician.FirstName + " " + d.Dietician.LastName,
+                    d.Name,
+                    Users = d.UserProfile.Where(u => u.GroupId == d.Id).Select(x => new
+                    {
+                        x.Id,
+                        x.FirstName
+                    }).ToList()
+
+                }).ToList();
+                return Ok(JsonConvert.SerializeObject(group));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
+            }
+
+        }
+
+        /*
         [HttpGet]
         [Route("getgroup")]
         public async Task<IActionResult> getgroup([FromQuery]string id)
@@ -132,6 +160,26 @@ namespace DietitianApp.Controllers
                 });
 
                 return Ok(JsonConvert.SerializeObject(patients));
+        */
+
+        //update group
+        [HttpPut]
+        [Route("updategroup")]
+        public async Task<IActionResult> updategroup([FromBody] Group grp)
+        {
+            try
+            {
+                int id = grp.Id;
+                Group g = new Group();
+                if (id > 0) g = _context.Group.SingleOrDefault(x => x.Id == grp.Id);
+
+                g.Name = grp.Name;
+                //.....
+                if (id == 0) _context.Group.Add(g);
+
+                _context.SaveChanges();
+
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(g));
             }
             catch (Exception e)
             {

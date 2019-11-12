@@ -1,49 +1,116 @@
-<h4>Group Name</h4>
+<h4>Group: Schmitt</h4>
 <h4>Dietitian</h4>
 
-<div class="row">
-  <div class="col-md-7">
-    <h3>List of Users</h3>
-    <table class="table table-bordered">
-      <thead>
+<button class='btn btn-primary' (click)="saveGroup()">Update Group</button>
+Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
+
+<h3>List of Users</h3>
+<div class="table-responsive">
+  <table class="tablemargin table">
+      <thead class="thead-dark-sna">
         <tr>
           <th>Id</th>
           <th>Name</th>
-          <th>remove</th>
+          <th>Remove</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>1</td>
+          <td>2</td>
           <td>Zach</td>
           <td> <input type="checkbox"><br>
-
+          </td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Ryan</td>
+          <td> <input type="checkbox"><br>
           </td>
         </tr>
       </tbody>
     </table>
-    <input type="submit" value="Submit">
-    <br><br>
+    <button class="btn btn-primary" (click)="submit()">Submit</button> | 
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Add User
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input class="form-control" type="text"/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+<br><br>
+
     <h3>List of Recipes</h3>
-    <table class="table table-bordered">
-      <thead>
+    <div class="table-responsive">
+    <table class="tablemargin table">
+        <thead class="thead-dark-sna">
         <tr>
           <th>Id</th>
           <th>Name</th>
-          <th>remove</th>
+          <th>Remove</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>1</td>
-          <td>Roasted Vegetables</td>
+          <td>Roasted Broccoli</td>
+          <td><input type="checkbox"><br></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Black Bean Veggie Burger</td>
           <td><input type="checkbox"><br></td>
         </tr>
       </tbody>
     </table>
-    <input type="submit" value="Submit">
-  </div>
+    <button class="btn btn-primary" (click)="submit()">Submit</button> | 
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Add Recipe
+</button>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add Recipe</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input class="form-control" type="text" placeholder="Add Recipe"/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+<br><br>
+<!--
+<br><br>
   <div class="col-md-5">
     <h3>Add User</h3>
     <div class="form-group">
@@ -53,3 +120,4 @@
     <button class="btn btn-primary" (click)="submit()">Add</button>
   </div>
 </div>
+-->

@@ -38,11 +38,11 @@ export class UsereditComponent implements OnInit {
           this.user = res;
           this.getroles();
           this.getuserrole(this.user.Email);
-          },
+        },
           err => {
           console.log(err);
           this.snaAlertService.Alert(err.error.message);
-          });
+        });
   }
 
   

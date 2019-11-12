@@ -28,8 +28,13 @@ export class GroupmanagerComponent implements OnInit {
       })
   }
 
-  editGroup() {
-    this.router.navigate(['dashboard/groupedit']);
+  editGroup(group) {
+    if (group == null){
+      this.router.navigate(['dashboard/groupedit'],{ queryParams: { id: 0 } });
+    }else{
+      this.router.navigate(['dashboard/groupedit'],{ queryParams: { id: group.Id } });
+    }
+    
   }
 
   //JSON object
