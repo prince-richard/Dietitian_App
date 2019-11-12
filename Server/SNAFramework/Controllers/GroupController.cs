@@ -65,10 +65,11 @@ namespace DietitianApp.Controllers
         }
 
         [HttpGet("getgroup")]
-        public async Task<IActionResult> getgroup()
+        public async Task<IActionResult> getgroup([FromQuery]string id)
         {
             try
             {
+                int Id = int.Parse(id);
                 var group = _context.Group.Select(d => new
                 {
                     d.Id,
@@ -81,8 +82,8 @@ namespace DietitianApp.Controllers
                         x.FirstName
                     }).ToList()
 
-                }).ToList();
-                return Ok(JsonConvert.SerializeObject(group));
+                }).Where(q => q.Id == Id).FirstOrDefault();
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(group));
             }
             catch (Exception e)
             {

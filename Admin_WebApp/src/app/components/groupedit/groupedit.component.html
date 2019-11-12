@@ -9,24 +9,20 @@ Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
   <table class="tablemargin table">
       <thead class="thead-dark-sna">
         <tr>
-          <th>Id</th>
           <th>Name</th>
+          <th>Id</th>
           <th>Remove</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>2</td>
-          <td>Zach</td>
-          <td> <input type="checkbox"><br>
+          <td>
+            <ul>
+              <li *ngFor="let user of group.Users">
+                {{user.FirstName}}
+              </li>
+            </ul>
           </td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>Ryan</td>
-          <td> <input type="checkbox"><br>
-          </td>
-        </tr>
       </tbody>
     </table>
     <button class="btn btn-primary" (click)="submit()">Submit</button> | 
