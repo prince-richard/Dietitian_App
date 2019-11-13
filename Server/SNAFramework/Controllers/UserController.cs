@@ -309,41 +309,21 @@ namespace DietitianApp.Controllers
         }
 
         [HttpGet]
-        [Route("getDietitianName")]
-        public async Task<IActionResult> getDietitianName([FromQuery]string patientId)
+        [Route("getDietitian")]
+        public async Task<IActionResult> getDietitian([FromQuery]string groupId)
         {
             try
             {
-                if (string.IsNullOrEmpty(patientId))
-                {
-                    var name = _context.UserProfile.Join(
-                        _context.Group,
-                        u => u.Id,
-                        g => g.DieticianId,
-                        (u, g) => new
-                        {
-                            u.FirstName,
-                            u.LastName
-                        }).Distinct();
-
-                    return Ok(JsonConvert.SerializeObject(name));
-                }
-                else
-                {
-                    var groupId = _context.UserProfile.Where(s => s.Id.ToString().Equals(patientId))
-                                                      .Select(g => g.GroupId)
-                                                      .FirstOrDefault();
-
-                    var dietitianId = _context.Group.Where(g => g.Id.ToString().Equals(groupId.ToString()))
+                var dietitianId = _context.Group.Where(g => g.Id.ToString().Equals(groupId))
                                                     .Select(s => s.DieticianId)
                                                     .FirstOrDefault();
 
-                    var name = _context.UserProfile.Where(q => q.Id.ToString().Equals(dietitianId.ToString()))
+                var name = _context.UserProfile.Where(q => q.Id.ToString().Equals(dietitianId.ToString()))
                                                    .Select(d => new { d.FirstName, d.LastName })
                                                    .FirstOrDefault();
 
                     return Ok(JsonConvert.SerializeObject(name));
-                }
+                
             }
             catch (Exception e)
             {
