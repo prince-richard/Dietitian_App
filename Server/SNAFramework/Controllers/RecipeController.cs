@@ -187,6 +187,8 @@ namespace DietitianApp.Controllers
                     d.PrepTime,
                     d.Servings,
                     steps = d.RecipeStep.ToList(),
+                    rating = d.UserFeedback.Sum(x => x.Rating),
+                    counter = d.UserFeedback.Count(),
                     ingredients = d.RecipeIngredient.ToList()
                 }).Where(q => q.Id == recotw.RecipeId).FirstOrDefault();
 
@@ -207,42 +209,11 @@ namespace DietitianApp.Controllers
                     recipe.Servings,
                     Steps = recipe.steps,
                     Ingredients = recipe.ingredients,
+                    Rating = recipe.counter > 0 ? recipe.rating / recipe.counter : 0,
                     PicFilePath = docs[0].Url
 
                 };
                 return Content(Newtonsoft.Json.JsonConvert.SerializeObject(rec));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
-        }
-
-        [Route("getRecipeOfTheWeek")]
-        public async Task<IActionResult> getRecipeOfTheWeek([FromQuery]string groupId)
-        {
-            try
-            {
-                var recipeId = _context.RecipeGroupRef.Where(s => s.GroupId.ToString().Equals(groupId) && s.IsSpecial == true)
-                    .Select(g => g.RecipeId).FirstOrDefault();
-
-                var WeeklyStatement = _context.Group.Where(g => g.Id.ToString().Equals(groupId))
-                    .Select(w => w.WeeklyStatement).FirstOrDefault();
-
-                var recipe = _context.Recipe.Where(s => s.Id.ToString().Equals(recipeId.ToString()))
-                    .Select(g => new
-                    {
-                        g.Id,
-                        g.Name,
-                        g.PrepTime,
-                        g.Calories,
-                        g.Servings,
-                        Rating = g.UserFeedback.Where(f => f.RecipeId.ToString().Equals(recipeId.ToString()))
-                            .Select(x => x.Rating).FirstOrDefault(),
-                        WeeklyStatement
-                    }).FirstOrDefault();
-
-                return Ok(JsonConvert.SerializeObject(recipe));
             }
             catch (Exception e)
             {
@@ -267,13 +238,17 @@ namespace DietitianApp.Controllers
                             g.PrepTime,
                             g.Calories,
                             g.Servings,
-                            Rating = g.UserFeedback.Select(x => x.Rating)
-                                                    .FirstOrDefault(),
+                            Rating = g.UserFeedback.Sum(x => x.Rating),
+                            Counter = g.UserFeedback.Count(),
+                            rat = g.UserFeedback.Count() > 0 ? g.UserFeedback.Sum(x => x.Rating) / g.UserFeedback.Count() : 0,
+                            PicFilePath = g.PicFilePath,
+                            Url = _s3Service.GeneratePreSignedURL(_context.Document.Where(x => x.RefId == g.Id).FirstOrDefault().FilePath, 2),
                             Ingredients = g.RecipeIngredient.ToList(),
                             Steps = g.RecipeStep.ToList()
                         })
-                    });
-                                                    
+                    }).ToList();
+
+
                 return Ok(JsonConvert.SerializeObject(recipes));
             }
             catch (Exception e)
