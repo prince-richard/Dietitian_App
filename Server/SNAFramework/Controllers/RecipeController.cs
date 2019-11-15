@@ -249,7 +249,7 @@ namespace DietitianApp.Controllers
                     }).ToList();
 
 
-                return Ok(JsonConvert.SerializeObject(recipes));
+                return Ok(Newtonsoft.Json.JsonConvert.SerializeObject(recipes));
             }
             catch (Exception e)
             {
