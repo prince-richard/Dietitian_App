@@ -223,31 +223,45 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getGroupRecipes")]
-        public async Task<IActionResult> getGroupRecipes([FromQuery]string groupId)
+        public async Task<IActionResult> getGroupRecipes([FromQuery]int groupId)
         {
             try
             {
-                var recipes = _context.RecipeGroupRef
-                    .Where(s => s.GroupId.ToString().Equals(groupId))
-                    .Select(r => new
-                    {
-                        RecipeInfo = _context.Recipe.Where(q => q.Id == r.RecipeId).Select(g => new
-                        {
-                            g.Id,
-                            g.Name,
-                            g.PrepTime,
-                            g.Calories,
-                            g.Servings,
-                            Rating = g.UserFeedback.Sum(x => x.Rating),
-                            Counter = g.UserFeedback.Count(),
-                            rat = g.UserFeedback.Count() > 0 ? g.UserFeedback.Sum(x => x.Rating) / g.UserFeedback.Count() : 0,
-                            PicFilePath = g.PicFilePath,
-                            Url = _s3Service.GeneratePreSignedURL(_context.Document.Where(x => x.RefId == g.Id).FirstOrDefault().FilePath, 2),
-                            Ingredients = g.RecipeIngredient.ToList(),
-                            Steps = g.RecipeStep.ToList()
-                        })
-                    }).ToList();
-
+                //var recipes = _context.RecipeGroupRef
+                //    .Where(s => s.GroupId.ToString().Equals(groupId))
+                //    .Select(r => new
+                //    {
+                //        RecipeInfo = _context.Recipe.Where(q => q.Id == r.RecipeId).Select(g => new
+                //        {
+                //            g.Id,
+                //            g.Name,
+                //            g.PrepTime,
+                //            g.Calories,
+                //            g.Servings,
+                //            Rating = g.UserFeedback.Sum(x => x.Rating),
+                //            Counter = g.UserFeedback.Count(),
+                //            rat = g.UserFeedback.Count() > 0 ? g.UserFeedback.Sum(x => x.Rating) / g.UserFeedback.Count() : 0,
+                //            PicFilePath = g.PicFilePath,
+                //            Url = _s3Service.GeneratePreSignedURL(_context.Document.Where(x => x.RefId == g.Id).FirstOrDefault().FilePath, 2),
+                //            Ingredients = g.RecipeIngredient.ToList(),
+                //            Steps = g.RecipeStep.ToList()
+                //        })
+                //    }).ToList();
+                var recipes = _context.Recipe.Where(r => r.RecipeGroupRef.Any(x => x.GroupId == groupId)).Select(g => new
+                {
+                    g.Id,
+                    g.Name,
+                    g.PrepTime,
+                    g.Calories,
+                    g.Servings,
+                    Rating = g.UserFeedback.Sum(x => x.Rating),
+                    Counter = g.UserFeedback.Count(),
+                    rat = g.UserFeedback.Count() > 0 ? g.UserFeedback.Sum(x => x.Rating) / g.UserFeedback.Count() : 0,
+                    g.PicFilePath,
+                    Url = _s3Service.GeneratePreSignedURL(_context.Document.Where(x => x.RefId == g.Id).FirstOrDefault().FilePath, 2),
+                    Ingredients = g.RecipeIngredient.ToList(),
+                    Steps = g.RecipeStep.ToList()
+                }).ToList();
 
                 return Ok(Newtonsoft.Json.JsonConvert.SerializeObject(recipes));
             }
