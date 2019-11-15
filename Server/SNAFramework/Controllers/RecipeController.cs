@@ -179,6 +179,7 @@ namespace DietitianApp.Controllers
             try
             {
                 var recotw = _context.RecipeGroupRef.Where(x => x.GroupId == groupId && x.IsSpecial == true).SingleOrDefault();
+                var group = await _context.Group.FirstOrDefaultAsync(x => x.Id == groupId);
                 var recipe = _context.Recipe.Select(d => new
                 {
                     d.Id,
@@ -210,8 +211,10 @@ namespace DietitianApp.Controllers
                     Steps = recipe.steps,
                     Ingredients = recipe.ingredients,
                     Rating = recipe.counter > 0 ? recipe.rating / recipe.counter : 0,
-                    PicFilePath = docs[0].Url
-
+                    PicFilePath = docs[0].Url,
+                    group.WeeklyStatement,
+                    DietFName = group.Dietician.FirstName,
+                    DietLName = group.Dietician.LastName
                 };
                 return Content(Newtonsoft.Json.JsonConvert.SerializeObject(rec));
             }
