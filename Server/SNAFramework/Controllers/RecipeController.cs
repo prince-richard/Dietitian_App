@@ -180,6 +180,8 @@ namespace DietitianApp.Controllers
             {
                 var recotw = _context.RecipeGroupRef.Where(x => x.GroupId == groupId && x.IsSpecial == true).SingleOrDefault();
                 var group = await _context.Group.FirstOrDefaultAsync(x => x.Id == groupId);
+                var dietId = group.DieticianId;
+                var user = await _context.UserProfile.FirstOrDefaultAsync(x => x.Id == dietId);
                 var recipe = _context.Recipe.Select(d => new
                 {
                     d.Id,
@@ -213,8 +215,8 @@ namespace DietitianApp.Controllers
                     Rating = recipe.counter > 0 ? recipe.rating / recipe.counter : 0,
                     PicFilePath = docs[0].Url,
                     group.WeeklyStatement,
-                    DietFName = group.Dietician.FirstName,
-                    DietLName = group.Dietician.LastName
+                    DietFName = user.FirstName,
+                    DietLName = user.LastName,
                 };
                 return Content(Newtonsoft.Json.JsonConvert.SerializeObject(rec));
             }
