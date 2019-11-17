@@ -3,11 +3,11 @@
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
-    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">C:\Users\Brand\dieticianApplication\Dietitian_App\Server\SNAFramework\obj\project.assets.json</ProjectAssetsFile>
+    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Brand\.nuget\packages\;C:\Program Files\dotnet\sdk\NuGetFallbackFolder</NuGetPackageFolders>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Rodrigo\.nuget\packages\;C:\Program Files\dotnet\sdk\NuGetFallbackFolder</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
-    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">4.9.3</NuGetToolVersion>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.3.0</NuGetToolVersion>
   </PropertyGroup>
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -23,12 +23,12 @@
     <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.all\2.1.0\build\netcoreapp2.1\Microsoft.AspNetCore.All.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.all\2.1.0\build\netcoreapp2.1\Microsoft.AspNetCore.All.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\Brand\.nuget\packages\microsoft.entityframeworkcore.tools\2.1.0</PkgMicrosoft_EntityFrameworkCore_Tools>
+    <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\Rodrigo\.nuget\packages\microsoft.entityframeworkcore.tools\2.1.0</PkgMicrosoft_EntityFrameworkCore_Tools>
     <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.codeanalysis.analyzers\1.1.0</PkgMicrosoft_CodeAnalysis_Analyzers>
-    <PkgMicrosoft_AspNetCore_Razor_Design Condition=" '$(PkgMicrosoft_AspNetCore_Razor_Design)' == '' ">C:\Users\Brand\.nuget\packages\microsoft.aspnetcore.razor.design\2.1.0</PkgMicrosoft_AspNetCore_Razor_Design>
-    <PkgAWSSDK_Core Condition=" '$(PkgAWSSDK_Core)' == '' ">C:\Users\Brand\.nuget\packages\awssdk.core\3.3.24</PkgAWSSDK_Core>
-    <PkgAWSSDK_SQS Condition=" '$(PkgAWSSDK_SQS)' == '' ">C:\Users\Brand\.nuget\packages\awssdk.sqs\3.3.3.8</PkgAWSSDK_SQS>
-    <PkgAWSSDK_SimpleEmail Condition=" '$(PkgAWSSDK_SimpleEmail)' == '' ">C:\Users\Brand\.nuget\packages\awssdk.simpleemail\3.3.6.8</PkgAWSSDK_SimpleEmail>
-    <PkgAWSSDK_S3 Condition=" '$(PkgAWSSDK_S3)' == '' ">C:\Users\Brand\.nuget\packages\awssdk.s3\3.3.18.3</PkgAWSSDK_S3>
+    <PkgMicrosoft_AspNetCore_Razor_Design Condition=" '$(PkgMicrosoft_AspNetCore_Razor_Design)' == '' ">C:\Users\Rodrigo\.nuget\packages\microsoft.aspnetcore.razor.design\2.1.0</PkgMicrosoft_AspNetCore_Razor_Design>
+    <PkgAWSSDK_Core Condition=" '$(PkgAWSSDK_Core)' == '' ">C:\Users\Rodrigo\.nuget\packages\awssdk.core\3.3.24</PkgAWSSDK_Core>
+    <PkgAWSSDK_SQS Condition=" '$(PkgAWSSDK_SQS)' == '' ">C:\Users\Rodrigo\.nuget\packages\awssdk.sqs\3.3.3.8</PkgAWSSDK_SQS>
+    <PkgAWSSDK_SimpleEmail Condition=" '$(PkgAWSSDK_SimpleEmail)' == '' ">C:\Users\Rodrigo\.nuget\packages\awssdk.simpleemail\3.3.6.8</PkgAWSSDK_SimpleEmail>
+    <PkgAWSSDK_S3 Condition=" '$(PkgAWSSDK_S3)' == '' ">C:\Users\Rodrigo\.nuget\packages\awssdk.s3\3.3.18.3</PkgAWSSDK_S3>
   </PropertyGroup>
 </Project>

@@ -140,7 +140,7 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-
+        */
         [HttpGet]
         [Route("getGroupPatients")]
         public async Task<IActionResult> getGroupPatients([FromQuery] string groupId)
@@ -156,12 +156,18 @@ namespace DietitianApp.Controllers
                                                        TimeSinceLastPost = d.UserFeedback.Select(x => new
                                                        {
                                                            TimeSince = DateTime.Now.Subtract(x.Timestamp)
-                                                       })
-                                                   
-                });
+                                                       }).FirstOrDefault()
+
+                                                   });
 
                 return Ok(JsonConvert.SerializeObject(patients));
-        */
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
 
         //update group
         [HttpPut]
@@ -177,6 +183,27 @@ namespace DietitianApp.Controllers
                 g.Name = grp.Name;
                 //.....
                 if (id == 0) _context.Group.Add(g);
+
+                _context.SaveChanges();
+
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(g));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("addWeeklyStatement")]
+        public async Task<IActionResult> addWeeklyStatement([FromQuery] int groupId, string message)
+        {
+            try
+            {
+                Group g = new Group();
+
+                g = _context.Group.SingleOrDefault(x => x.Id == groupId);
+                g.WeeklyStatement = message;
 
                 _context.SaveChanges();
 
