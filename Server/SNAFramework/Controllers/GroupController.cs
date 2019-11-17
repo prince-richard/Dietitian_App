@@ -194,9 +194,9 @@ namespace DietitianApp.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("addWeeklyStatement")]
-        public async Task<IActionResult> addWeeklyStatement([FromQuery] int groupId, string message)
+        [HttpPut]
+        [Route("updateWeeklyStatement")]
+        public async Task<IActionResult> updateWeeklyStatement([FromQuery] int groupId, string message)
         {
             try
             {
