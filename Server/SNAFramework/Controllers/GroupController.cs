@@ -65,12 +65,11 @@ namespace DietitianApp.Controllers
         }
 
         [HttpGet("getgroup")]
-        public async Task<IActionResult> getgroup([FromQuery]string id)
+        public async Task<IActionResult> getgroup([FromQuery]int Id)
         {
             try
             {
-                int Id = int.Parse(id);
-                var group = _context.Group.Select(d => new
+                var group = _context.Group.Where(q => q.Id == Id).Select(d => new
                 {
                     d.Id,
                     d.DieticianId,
@@ -81,13 +80,27 @@ namespace DietitianApp.Controllers
                         x.Id,
                         x.FirstName
                     }).ToList()
+                }).FirstOrDefault();
+                var recipes = _context.RecipeGroupRef.Where(s => s.GroupId == Id).Select(r => new
+                {
+                    RecipeInfo = _context.Recipe.Where(q => q.Id == r.RecipeId).Select(g => new
+                    {
+                        g.Id,
+                        g.Name,
+                        g.PrepTime,
+                        g.Calories,
+                        g.Servings,
+                        Rating = g.UserFeedback.Select(x => x.Rating).FirstOrDefault(),
+                        Ingredients = g.RecipeIngredient.ToList(),
+                        Steps = g.RecipeStep.ToList()
+                    })
+                });
 
-                }).Where(q => q.Id == Id).FirstOrDefault();
-                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(group));
+                return Ok(JsonConvert.SerializeObject(new { group, recipes }));
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
 
         }
