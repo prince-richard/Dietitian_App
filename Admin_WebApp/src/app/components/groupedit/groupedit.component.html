@@ -9,21 +9,17 @@ Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
   <table class="tablemargin table">
       <thead class="thead-dark-sna">
         <tr>
-          <th>Name</th>
           <th>Id</th>
+          <th>Users</th>
           <th>Remove</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let user of group.Users">
+          <td>{{user.Id}}</td>
           <td>
-            <ul>
-              <li *ngFor="let user of group.Users">
-                {{user.FirstName}}
-              </li>
-            </ul>
+            {{user.FirstName}}
           </td>
-          <td>{{group.Id}}</td>
           <td><input type="checkbox"><br></td>
       </tbody>
     </table>
