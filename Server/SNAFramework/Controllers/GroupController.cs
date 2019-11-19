@@ -140,28 +140,37 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-
+        */
         [HttpGet]
         [Route("getGroupPatients")]
         public async Task<IActionResult> getGroupPatients([FromQuery] string groupId)
         {
             try
             {
+                var dieticians = _context.Group.Select(o => o.DieticianId);
+
                 var patients = _context.UserProfile.Where(q => q.GroupId.ToString().Equals(groupId))
                                                    .Select(d => new
                                                    {
+                                                       d.Id,
                                                        d.FirstName,
                                                        d.LastName,
                                                        d.Email,
                                                        TimeSinceLastPost = d.UserFeedback.Select(x => new
                                                        {
-                                                           TimeSince = DateTime.Now.Subtract(x.Timestamp)
-                                                       })
-                                                   
-                });
+                                                          TimeSince = x.Timestamp == null ? "No comments submitted" : DateTime.Now.Subtract(x.Timestamp).ToString()
+                                                       }).FirstOrDefault()
+
+                                                   }).Where(f => !dieticians.Contains(f.Id));
 
                 return Ok(JsonConvert.SerializeObject(patients));
-        */
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
 
         //update group
         [HttpPut]
@@ -181,6 +190,45 @@ namespace DietitianApp.Controllers
                 _context.SaveChanges();
 
                 return Content(Newtonsoft.Json.JsonConvert.SerializeObject(g));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("updateWeeklyStatement")]
+        public async Task<IActionResult> updateWeeklyStatement([FromQuery] int groupId, string message)
+        {
+            try
+            {
+                Group g = new Group();
+
+                g = _context.Group.SingleOrDefault(x => x.Id == groupId);
+                g.WeeklyStatement = message;
+
+                _context.SaveChanges();
+
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(g));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("getRequests")]
+        public async Task<IActionResult> getRequests([FromQuery] int groupId)
+        {
+            try
+            {
+                var requests = _context.UserProfile.Where(q => q.GroupId == groupId && q.StatusId == 1)
+                                                   .Select(u => new { u.FirstName, u.LastName, u.Email })
+                                                   .ToList();
+
+                return Ok(JsonConvert.SerializeObject(requests));
             }
             catch (Exception e)
             {
