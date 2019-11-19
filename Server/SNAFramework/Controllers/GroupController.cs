@@ -150,6 +150,7 @@ namespace DietitianApp.Controllers
                 var patients = _context.UserProfile.Where(q => q.GroupId.ToString().Equals(groupId))
                                                    .Select(d => new
                                                    {
+                                                       d.Id,
                                                        d.FirstName,
                                                        d.LastName,
                                                        d.Email,
