@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpBackend } from '@angular/common/http';
 import { Router } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 
 
@@ -13,17 +14,15 @@ export class GroupmanagerComponent implements OnInit {
   groups = [];
   group = {};
   showGroup = false;
+  id: string;
 
-  constructor(
-    private http: HttpClient, 
-    private router: Router,
-    ) { 
-    
-  }
+  constructor( private http: HttpClient,  private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.id = this.route.snapshot.queryParamMap.get('id');
     this.http.get("api/group/allgroups")
       .subscribe(res =>{
+        //if id isnt null, groups.filter(id);
         this.groups = res as any;
       })
   }
