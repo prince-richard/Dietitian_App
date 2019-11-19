@@ -158,7 +158,7 @@ namespace DietitianApp.Controllers
                                                        d.Email,
                                                        TimeSinceLastPost = d.UserFeedback.Select(x => new
                                                        {
-                                                           TimeSince = DateTime.Now.Subtract(x.Timestamp)
+                                                          TimeSince = x.Timestamp == null ? "No comments submitted" : DateTime.Now.Subtract(x.Timestamp).ToString()
                                                        }).FirstOrDefault()
 
                                                    }).Where(f => !dieticians.Contains(f.Id));
@@ -211,6 +211,24 @@ namespace DietitianApp.Controllers
                 _context.SaveChanges();
 
                 return Content(Newtonsoft.Json.JsonConvert.SerializeObject(g));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("getRequests")]
+        public async Task<IActionResult> getRequests([FromQuery] int groupId)
+        {
+            try
+            {
+                var requests = _context.UserProfile.Where(q => q.GroupId == groupId && q.StatusId == 1)
+                                                   .Select(u => new { u.FirstName, u.LastName, u.Email })
+                                                   .ToList();
+
+                return Ok(JsonConvert.SerializeObject(requests));
             }
             catch (Exception e)
             {
