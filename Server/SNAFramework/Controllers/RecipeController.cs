@@ -275,5 +275,25 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+
+        [HttpGet]
+        [Route("getComments")]
+        public async Task<IActionResult> getComments([FromQuery]int groupId)
+        {
+            try
+            {
+                var recipes = _context.Recipe.Where(r => r.RecipeGroupRef.Any(x => x.GroupId == groupId))
+                                             .Select(t => t.Id);
+
+                var comments = _context.UserFeedBack.Select(q => new { q.RecipeId, q.Comment }).Where(f => recipes.Contains(f.RecipeId)).GroupBy(g => g.RecipeId);
+
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(comments));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
     }
 }
