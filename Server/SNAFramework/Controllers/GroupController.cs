@@ -143,11 +143,11 @@ namespace DietitianApp.Controllers
         */
         [HttpGet]
         [Route("getGroupPatients")]
-        public async Task<IActionResult> getGroupPatients([FromQuery] string groupId)
+        public async Task<IActionResult> getGroupPatients([FromQuery] int groupId)
         {
             try
             {
-                var patients = _context.UserProfile.Where(q => q.GroupId.ToString().Equals(groupId))
+                var patients = _context.UserProfile.Where(q => q.GroupId == groupId)
                                                    .Select(d => new
                                                    {
                                                        d.Id,
