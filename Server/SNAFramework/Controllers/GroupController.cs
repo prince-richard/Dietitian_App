@@ -147,6 +147,8 @@ namespace DietitianApp.Controllers
         {
             try
             {
+                var dieticians = _context.Group.Select(o => o.DieticianId);
+
                 var patients = _context.UserProfile.Where(q => q.GroupId.ToString().Equals(groupId))
                                                    .Select(d => new
                                                    {
@@ -159,7 +161,7 @@ namespace DietitianApp.Controllers
                                                            TimeSince = DateTime.Now.Subtract(x.Timestamp)
                                                        }).FirstOrDefault()
 
-                                                   });
+                                                   }).Where(f => !dieticians.Contains(f.Id));
 
                 return Ok(JsonConvert.SerializeObject(patients));
             }
