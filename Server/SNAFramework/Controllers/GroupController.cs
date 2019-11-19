@@ -140,7 +140,7 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-
+        */
         [HttpGet]
         [Route("getGroupPatients")]
         public async Task<IActionResult> getGroupPatients([FromQuery] string groupId)
@@ -150,18 +150,25 @@ namespace DietitianApp.Controllers
                 var patients = _context.UserProfile.Where(q => q.GroupId.ToString().Equals(groupId))
                                                    .Select(d => new
                                                    {
+                                                       d.Id,
                                                        d.FirstName,
                                                        d.LastName,
                                                        d.Email,
                                                        TimeSinceLastPost = d.UserFeedback.Select(x => new
                                                        {
                                                            TimeSince = DateTime.Now.Subtract(x.Timestamp)
-                                                       })
-                                                   
-                });
+                                                       }).FirstOrDefault()
+
+                                                   });
 
                 return Ok(JsonConvert.SerializeObject(patients));
-        */
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
 
         //update group
         [HttpPut]
@@ -177,6 +184,27 @@ namespace DietitianApp.Controllers
                 g.Name = grp.Name;
                 //.....
                 if (id == 0) _context.Group.Add(g);
+
+                _context.SaveChanges();
+
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(g));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("updateWeeklyStatement")]
+        public async Task<IActionResult> updateWeeklyStatement([FromQuery] int groupId, string message)
+        {
+            try
+            {
+                Group g = new Group();
+
+                g = _context.Group.SingleOrDefault(x => x.Id == groupId);
+                g.WeeklyStatement = message;
 
                 _context.SaveChanges();
 

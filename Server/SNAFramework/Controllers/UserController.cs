@@ -333,38 +333,42 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getMessages")]
-        public async Task<IActionResult> getMessages([FromQuery]string patientId, string groupId = null)
+        public async Task<IActionResult> getMessages([FromQuery]int patientId, string groupId = null)
         {
             try
             {
 
                 if (string.IsNullOrEmpty(groupId))
                 {
-                    var gId = _context.UserProfile.Where(s => s.Id.ToString().Equals(patientId))
-                                                  .Select(g => g.GroupId)
-                                                  .FirstOrDefault();
+                    int? gId = _context.UserProfile.Where(s => s.Id == patientId)
+                                                   .Select(g => g.GroupId)
+                                                   .FirstOrDefault();
 
-                    int dietitianId = _context.Group.Where(g => g.Id.ToString().Equals(gId.ToString()))
+                    int dietitianId = _context.Group.Where(g => g.Id == gId)
                                                     .Select(s => s.DieticianId)
                                                     .FirstOrDefault();
 
-                    var messages = _context.Message.Where(g => g.GroupId.ToString().Equals(gId.ToString()) &&
-                                                               g.SenderId.ToString().Equals(patientId.ToString()) &&
+                    var messages = _context.Message.Where(g => g.GroupId == gId &&
+                                                               g.SenderId == patientId &&
                                                                g.RecieverId == dietitianId)
-                                                   .Select(s => new { s.Contents, s.Timestamp });
+                                                   .Select(s => new { s.Contents, s.Timestamp })
+                                                   .FirstOrDefault();
 
                     return Ok(JsonConvert.SerializeObject(messages));
                 }
                 else
                 {
-                    int dietitianId = _context.Group.Where(g => g.Id.ToString().Equals(groupId.ToString()))
+                    int gId = Convert.ToInt32(groupId);
+
+                    int dietitianId = _context.Group.Where(g => g.Id == gId)
                                                     .Select(s => s.DieticianId)
                                                     .FirstOrDefault();
 
-                    var messages = _context.Message.Where(g => g.GroupId.ToString().Equals(groupId) &&
-                                                               g.SenderId.ToString().Equals(patientId.ToString()) &&
+                    var messages = _context.Message.Where(g => g.GroupId == gId &&
+                                                               g.SenderId == patientId &&
                                                                g.RecieverId == dietitianId)
-                                                   .Select(s => new { s.Contents, s.Timestamp });
+                                                   .Select(s => new { s.Contents, s.Timestamp })
+                                                   .FirstOrDefault();
 
                     return Ok(JsonConvert.SerializeObject(messages));
                 }                               
