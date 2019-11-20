@@ -15,7 +15,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using DietitianApp.Data;
+using Amazon.S3;
 using DietitianApp.Models;
+using DietitianApp.Services;
 
 namespace DietitianApp.Controllers
 {
@@ -24,17 +26,20 @@ namespace DietitianApp.Controllers
     [Route("api/group")]
     public class GroupController : SnaBaseController
     {
+        public readonly S3Service _s3Service;
+
         public GroupController(
             ApplicationDbContext context,
             IConfiguration configuration,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             RoleManager<IdentityRole> roleManager,
-            IAmazonSimpleEmailService client
+            IAmazonSimpleEmailService client,
+            IAmazonS3 s3Client
 
             ) : base(context, configuration, roleManager, client, userManager, signInManager)
         {
-
+            _s3Service = new S3Service(s3Client, _configuration);
         }
 
         [HttpGet("allgroups")]
@@ -75,7 +80,7 @@ namespace DietitianApp.Controllers
                     d.DieticianId,
                     DietitianName = d.Dietician.FirstName + " " + d.Dietician.LastName,
                     d.Name,
-                    Users = d.UserProfile.Where(u => u.GroupId == d.Id).Select(x => new
+                    Users = d.UserProfile.Where(u => u.GroupId == d.Id && d.Id != d.DieticianId).Select(x => new
                     {
                         x.Id,
                         x.FirstName
@@ -153,28 +158,35 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-
+        */
         [HttpGet]
         [Route("getGroupPatients")]
-        public async Task<IActionResult> getGroupPatients([FromQuery] string groupId)
+        public async Task<IActionResult> getGroupPatients([FromQuery] int groupId)
         {
             try
             {
-                var patients = _context.UserProfile.Where(q => q.GroupId.ToString().Equals(groupId))
+                var dieticians = _context.Group.Select(o => o.DieticianId);
+                var patients = _context.UserProfile.Where(q => q.GroupId == groupId && q.StatusId==2)
+
                                                    .Select(d => new
                                                    {
+                                                       d.Id,
                                                        d.FirstName,
                                                        d.LastName,
                                                        d.Email,
-                                                       TimeSinceLastPost = d.UserFeedback.Select(x => new
-                                                       {
-                                                           TimeSince = DateTime.Now.Subtract(x.Timestamp)
-                                                       })
-                                                   
-                });
+                                                       TimeSinceLastPost = d.UserFeedback.Select(x => DateTime.Now.Subtract(x.Timestamp).ToString()).DefaultIfEmpty("No comment yet")
+                                                       .FirstOrDefault()
 
+                                                   }).Where(f => !dieticians.Contains(f.Id));
+                
                 return Ok(JsonConvert.SerializeObject(patients));
-        */
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
 
         //update group
         [HttpPut]
@@ -194,6 +206,105 @@ namespace DietitianApp.Controllers
                 _context.SaveChanges();
 
                 return Content(Newtonsoft.Json.JsonConvert.SerializeObject(g));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("updateWeeklyStatement")]
+        public async Task<IActionResult> updateWeeklyStatement([FromQuery] int groupId, string message)
+        {
+            try
+            {
+                Group g = new Group();
+
+                g = _context.Group.SingleOrDefault(x => x.Id == groupId);
+                g.WeeklyStatement = message;
+
+                _context.SaveChanges();
+
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(g));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+        [HttpGet]
+        [Route("getDietHomePage")]
+        public async Task<IActionResult> getDietHomePage([FromQuery] int groupId)
+        {
+            try
+            {
+                var group = await _context.Group.FirstOrDefaultAsync(x => x.Id == groupId);
+                var dietId = group.DieticianId;
+                var user = await _context.UserProfile.FirstOrDefaultAsync(x => x.Id == dietId);
+                var PatientCount =  _context.UserProfile.Where(x => x.GroupId == groupId && x.StatusId == 2).Count();
+                var RequestCount = _context.UserProfile.Where(x => x.GroupId == groupId && x.StatusId == 1).Count();
+                var RecipeCount = _context.RecipeGroupRef.Where(x => x.GroupId == groupId).Count();
+                var recotw = _context.RecipeGroupRef.Where(x => x.GroupId == groupId && x.IsSpecial == true).SingleOrDefault();
+                var recipe = _context.Recipe.Select(d => new
+                {
+                    d.Id,
+                    d.Name,
+                    d.Calories,
+                    d.PrepTime,
+                    d.Servings,
+                    steps = d.RecipeStep.ToList(),
+                    rating = d.UserFeedback.Sum(x => x.Rating),
+                    counter = d.UserFeedback.Count(),
+                    ingredients = d.RecipeIngredient.ToList()
+                }).Where(q => q.Id == recotw.RecipeId).FirstOrDefault();
+
+                var docs = _context.Document.Where(x => x.RefTable == "Recipe" && x.RefId == recotw.RecipeId)
+                    .Select(x => new
+                    {
+                        x.Id,
+                        x.FileName,
+                        x.FilePath,
+                        Url = _s3Service.GeneratePreSignedURL(x.FilePath, 2)
+                    }).ToList();
+                var homePage = new
+                {
+                    recipe.Id,
+                    recipe.Name,
+                    recipe.Calories,
+                    recipe.PrepTime,
+                    recipe.Servings,
+                    Steps = recipe.steps,
+                    Ingredients = recipe.ingredients,
+                    Rating = recipe.counter > 0 ? recipe.rating / recipe.counter : 0,
+                    PicFilePath = docs[0].Url,
+                    group.WeeklyStatement,
+                    DietFName = user.FirstName,
+                    DietLName = user.LastName,
+                    PatientCount,
+                    RequestCount,
+                    RecipeCount,
+
+                };
+                return Ok(JsonConvert.SerializeObject(homePage));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("getRequests")]
+        public async Task<IActionResult> getRequests([FromQuery] int groupId)
+        {
+            try
+            {
+                var requests = _context.UserProfile.Where(q => q.GroupId == groupId && q.StatusId == 1)
+                                                   .Select(u => new { u.FirstName, u.LastName, u.Email })
+                                                   .ToList();
+
+                return Ok(JsonConvert.SerializeObject(requests));
             }
             catch (Exception e)
             {
