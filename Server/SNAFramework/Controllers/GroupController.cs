@@ -95,11 +95,11 @@ namespace DietitianApp.Controllers
                         g.PrepTime,
                         g.Calories,
                         g.Servings,
-                        //Rating = g.UserFeedback.Select(x => x.Rating).FirstOrDefault(),
-                        //Ingredients = g.RecipeIngredient.ToList(),
-                        //Steps = g.RecipeStep.ToList()
-                    }).ToList()
-                }).FirstOrDefault();
+                        Rating = g.UserFeedback.Select(x => x.Rating).FirstOrDefault(),
+                        Ingredients = g.RecipeIngredient.ToList(),
+                        Steps = g.RecipeStep.ToList()
+                    })
+                });
 
                 return Ok(JsonConvert.SerializeObject(new { group, recipes }));
             }
