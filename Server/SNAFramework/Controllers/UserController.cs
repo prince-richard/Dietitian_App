@@ -309,21 +309,41 @@ namespace DietitianApp.Controllers
         }
 
         [HttpGet]
-        [Route("getDietitian")]
-        public async Task<IActionResult> getDietitian([FromQuery]string groupId)
+        [Route("getDietitianName")]
+        public async Task<IActionResult> getDietitianName([FromQuery]string patientId)
         {
             try
             {
-                var dietitianId = _context.Group.Where(g => g.Id.ToString().Equals(groupId))
+                if (string.IsNullOrEmpty(patientId))
+                {
+                    var name = _context.UserProfile.Join(
+                        _context.Group,
+                        u => u.Id,
+                        g => g.DieticianId,
+                        (u, g) => new
+                        {
+                            u.FirstName,
+                            u.LastName
+                        }).Distinct();
+
+                    return Ok(JsonConvert.SerializeObject(name));
+                }
+                else
+                {
+                    var groupId = _context.UserProfile.Where(s => s.Id.ToString().Equals(patientId))
+                                                      .Select(g => g.GroupId)
+                                                      .FirstOrDefault();
+
+                    var dietitianId = _context.Group.Where(g => g.Id.ToString().Equals(groupId.ToString()))
                                                     .Select(s => s.DieticianId)
                                                     .FirstOrDefault();
 
-                var name = _context.UserProfile.Where(q => q.Id.ToString().Equals(dietitianId.ToString()))
+                    var name = _context.UserProfile.Where(q => q.Id.ToString().Equals(dietitianId.ToString()))
                                                    .Select(d => new { d.FirstName, d.LastName })
                                                    .FirstOrDefault();
 
                     return Ok(JsonConvert.SerializeObject(name));
-                
+                }
             }
             catch (Exception e)
             {
@@ -333,42 +353,38 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getMessages")]
-        public async Task<IActionResult> getMessages([FromQuery]int patientId, string groupId = null)
+        public async Task<IActionResult> getMessages([FromQuery]string patientId, string groupId = null)
         {
             try
             {
 
                 if (string.IsNullOrEmpty(groupId))
                 {
-                    int? gId = _context.UserProfile.Where(s => s.Id == patientId)
-                                                   .Select(g => g.GroupId)
-                                                   .FirstOrDefault();
+                    var gId = _context.UserProfile.Where(s => s.Id.ToString().Equals(patientId))
+                                                  .Select(g => g.GroupId)
+                                                  .FirstOrDefault();
 
-                    int dietitianId = _context.Group.Where(g => g.Id == gId)
+                    int dietitianId = _context.Group.Where(g => g.Id.ToString().Equals(gId.ToString()))
                                                     .Select(s => s.DieticianId)
                                                     .FirstOrDefault();
 
-                    var messages = _context.Message.Where(g => g.GroupId == gId &&
-                                                               g.SenderId == patientId &&
+                    var messages = _context.Message.Where(g => g.GroupId.ToString().Equals(gId.ToString()) &&
+                                                               g.SenderId.ToString().Equals(patientId.ToString()) &&
                                                                g.RecieverId == dietitianId)
-                                                   .Select(s => new { s.Contents, s.Timestamp })
-                                                   .FirstOrDefault();
+                                                   .Select(s => new { s.Contents, s.Timestamp });
 
                     return Ok(JsonConvert.SerializeObject(messages));
                 }
                 else
                 {
-                    int gId = Convert.ToInt32(groupId);
-
-                    int dietitianId = _context.Group.Where(g => g.Id == gId)
+                    int dietitianId = _context.Group.Where(g => g.Id.ToString().Equals(groupId.ToString()))
                                                     .Select(s => s.DieticianId)
                                                     .FirstOrDefault();
 
-                    var messages = _context.Message.Where(g => g.GroupId == gId &&
-                                                               g.SenderId == patientId &&
+                    var messages = _context.Message.Where(g => g.GroupId.ToString().Equals(groupId) &&
+                                                               g.SenderId.ToString().Equals(patientId.ToString()) &&
                                                                g.RecieverId == dietitianId)
-                                                   .Select(s => new { s.Contents, s.Timestamp })
-                                                   .FirstOrDefault();
+                                                   .Select(s => new { s.Contents, s.Timestamp });
 
                     return Ok(JsonConvert.SerializeObject(messages));
                 }                               
@@ -435,26 +451,6 @@ namespace DietitianApp.Controllers
 
                 _context.SaveChanges();
 
-
-        [HttpPost]
-        [Route("addRating")]
-        public async Task<IActionResult> addRating([FromBody] UserFeedback feedback)
-        {
-            try
-            {
-                UserFeedback fb = new UserFeedback();
-
-                fb.UserId = feedback.UserId;
-                fb.RecipeId = feedback.RecipeId;
-                fb.Rating = feedback.Rating;
-                fb.Comment = feedback.Comment;
-                //fb.Timestamp = DateTime.Today;
-
-                _context.UserFeedBack.Add(fb);
-
-                _context.SaveChanges();
-
-
                 return Content(Newtonsoft.Json.JsonConvert.SerializeObject(fb));
             }
             catch (Exception e)
@@ -462,7 +458,6 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-
         //models
         public class changepassword
         {

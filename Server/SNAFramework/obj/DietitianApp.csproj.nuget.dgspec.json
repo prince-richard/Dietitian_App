@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Rodrigo\\Dietitian_App_3\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {}
+    "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Rodrigo\\Dietitian_App_3\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {
+    "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Rodrigo\\Dietitian_App_3\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
+        "projectUniqueName": "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
         "projectName": "DietitianApp",
-        "projectPath": "C:\\Users\\Rodrigo\\Dietitian_App_3\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
-        "packagesPath": "C:\\Users\\Rodrigo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Rodrigo\\Dietitian_App_3\\Dietitian_App\\Server\\SNAFramework\\obj\\",
+        "projectPath": "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
+        "packagesPath": "C:\\Users\\zquag\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Rodrigo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\zquag\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
