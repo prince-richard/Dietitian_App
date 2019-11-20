@@ -417,23 +417,23 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-        [HttpPost]
-        [Route("addRating")]
-        public async Task<IActionResult> addRating([FromBody] UserFeedback feedback)
-        {
-            try
-            {
-                UserFeedback fb = new UserFeedback();
+        //[HttpPost]
+        //[Route("addRating")]
+        //public async Task<IActionResult> addRating([FromBody] UserFeedback feedback)
+        //{
+        //    try
+        //    {
+        //        UserFeedback fb = new UserFeedback();
 
-                fb.UserId = feedback.UserId;
-                fb.RecipeId = feedback.RecipeId;
-                fb.Rating = feedback.Rating;
-                fb.Comment = feedback.Comment;
-                fb.Timestamp = DateTime.Today;
+        //        fb.UserId = feedback.UserId;
+        //        fb.RecipeId = feedback.RecipeId;
+        //        fb.Rating = feedback.Rating;
+        //        fb.Comment = feedback.Comment;
+        //        fb.Timestamp = DateTime.Today;
 
-                _context.UserFeedBack.Add(fb);
+        //        _context.UserFeedBack.Add(fb);
 
-                _context.SaveChanges();
+        //        _context.SaveChanges();
 
         [HttpPost]
         [Route("addRating")]
