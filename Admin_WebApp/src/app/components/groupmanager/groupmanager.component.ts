@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { HttpClient, HttpBackend } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {ActivatedRoute} from '@angular/router';
-
 
 
 @Component({
@@ -10,6 +9,7 @@ import {ActivatedRoute} from '@angular/router';
   templateUrl: './groupmanager.component.html',
   styleUrls: ['./groupmanager.component.scss']
 })
+
 export class GroupmanagerComponent implements OnInit {
   groups = [];
   group = {};

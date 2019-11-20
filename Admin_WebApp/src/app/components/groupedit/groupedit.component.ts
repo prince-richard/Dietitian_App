@@ -29,6 +29,7 @@ export class GroupeditComponent implements OnInit {
       this.http.get("/api/group/getgroup?id="+this.id)
       .subscribe(res =>{
         this.group = res["group"];
+        console.log(this.group)
         this.recipes = res["recipes"];
         console.log(this.recipes);
       });

@@ -58,14 +58,14 @@ Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
         <thead class="thead-dark-sna">
         <tr>
           <th>Id</th>
-          <th>Name</th>
+          <th>Recipe Name</th>
           <th>Remove</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>placeholder</td>
-          <td>placeholder</td>
+        <tr *ngFor="let recipe of recipes.RecipeInfo">
+          <td>{{recipe.Id}}</td>
+          <td>{{recipe.Name}}</td>
           <td><input type="checkbox"><br></td>
         </tr>
       </tbody>
