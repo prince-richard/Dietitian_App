@@ -161,10 +161,8 @@ namespace DietitianApp.Controllers
                                                        d.FirstName,
                                                        d.LastName,
                                                        d.Email,
-                                                       TimeSinceLastPost = d.UserFeedback.Select(x => new
-                                                       {
-                                                          TimeSince = DateTime.Now.Subtract(x.Timestamp)
-                                                       }).FirstOrDefault()
+                                                       TimeSinceLastPost = d.UserFeedback.Select(x => DateTime.Now.Subtract(x.Timestamp).ToString()).DefaultIfEmpty("No comment yet")
+                                                       .FirstOrDefault()
 
                                                    }).Where(f => !dieticians.Contains(f.Id));
                 
