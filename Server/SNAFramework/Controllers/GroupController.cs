@@ -81,7 +81,7 @@ namespace DietitianApp.Controllers
                     d.DieticianId,
                     DietitianName = d.Dietician.FirstName + " " + d.Dietician.LastName,
                     d.Name,
-                    Users = d.UserProfile.Where(u => u.GroupId == d.Id).Select(x => new
+                    Users = d.UserProfile.Where(u => u.GroupId == d.Id && d.Id != d.DieticianId).Select(x => new
                     {
                         x.Id,
                         x.FirstName
