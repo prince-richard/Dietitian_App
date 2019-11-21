@@ -296,7 +296,7 @@ namespace DietitianApp.Controllers
                                                      x.User.LastName,
                                                      
                                                  }).ToList(),
-                                                NumberOfComments = d.UserFeedback.Where(t => t.RecipeId == d.Id).Select(t => t.Comment.Count())
+                                                NumberOfComments = d.UserFeedback.Where(t => t.RecipeId == d.Id).Count()
 
 
                                              }).ToList();
