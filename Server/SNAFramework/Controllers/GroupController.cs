@@ -288,10 +288,34 @@ namespace DietitianApp.Controllers
             try
             {
                 var requests = _context.UserProfile.Where(q => q.GroupId == groupId && q.StatusId == 1)
-                                                   .Select(u => new { u.FirstName, u.LastName, u.Email })
+                                                   .Select(u => new { u.FirstName, u.Id, u.LastName, u.Email })
                                                    .ToList();
 
                 return Ok(JsonConvert.SerializeObject(requests));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+        [HttpPut]
+        [Route("updateRequestStatus/{userId}/{statusId}")]
+        public async Task<IActionResult> updateRequestStatus([FromRoute] int statusId, [FromRoute] int userId)
+        {
+            try
+            {
+                var userprofile = await _context.UserProfile.FirstOrDefaultAsync(x => x.Id == userId);
+                if(statusId == 0)
+                {
+                    userprofile.StatusId = 0;
+                    userprofile.GroupId = null;
+                }
+                else
+                {
+                    userprofile.StatusId = 2;
+                }
+                _context.UserProfile.Update(userprofile);
+                return Ok();
             }
             catch (Exception e)
             {
