@@ -315,6 +315,7 @@ namespace DietitianApp.Controllers
                     userprofile.StatusId = 2;
                 }
                 _context.UserProfile.Update(userprofile);
+                _context.SaveChanges();
                 return Ok();
             }
             catch (Exception e)
