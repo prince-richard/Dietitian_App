@@ -66,6 +66,7 @@ namespace DietitianApp.Controllers
                         d.GroupId,
                         d.CreatedDate,
                         d.Id,
+                        d.StatusId,
                         d.FirstName,
                         d.LastName,
                         d.Email,
