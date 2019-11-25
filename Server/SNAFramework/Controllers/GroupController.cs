@@ -96,56 +96,6 @@ namespace DietitianApp.Controllers
             }
 
         }
-
-        /*
-        [HttpGet]
-        [Route("getgroup")]
-        public async Task<IActionResult> getgroup([FromQuery]string id)
-        {
-            try
-            {
-                var user = _context.UserProfile.Select(d => new
-                {
-                    d.CreatedDate,
-                    d.Id,
-                    d.FirstName,
-                    d.LastName,
-                    d.Email,
-                    d.PhoneNumber,
-                }).Where(q => q.Id.ToString().Equals(id)).FirstOrDefault();
-                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(user));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
-        }
-
-        [HttpGet]
-        [Route("getdietitiangroups")]
-        public async Task<IActionResult> getdietitiangroups()
-        {
-            try
-            {
-                var dietitianGroups = _context.UserProfile.Join(
-                    _context.Group,
-                    u => u.Id,
-                    g => g.DieticianId,
-                    (u, g) => new
-                    {
-                        dietitianName = u.FirstName + " " + u.LastName,
-                        group = g.Id,
-
-                    });
-
-                return Ok(JsonConvert.SerializeObject(dietitianGroups));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
-        }
-        */
         [HttpGet]
         [Route("getGroupPatients")]
         public async Task<IActionResult> getGroupPatients([FromQuery] int groupId)
@@ -351,6 +301,24 @@ namespace DietitianApp.Controllers
                 _context.UserProfile.Update(userprofile);
                 _context.SaveChanges();
                 return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+        [HttpGet]
+        [Route("getDieticians")]
+        public async Task<IActionResult> getDieticians()
+        {
+            try
+            {
+                var dieticians = _context.Group.Select(d => new
+                {
+                    d.Id,
+                    Name = d.Dietician.FirstName + " " + d.Dietician.LastName,
+                }).ToList();
+                return Ok(JsonConvert.SerializeObject(dieticians));
             }
             catch (Exception e)
             {

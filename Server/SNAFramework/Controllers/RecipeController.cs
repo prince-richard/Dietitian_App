@@ -294,6 +294,38 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+        //Brandon's
+        [HttpGet]
+        [Route("getAllRecipes")]
+        public async Task<IActionResult> getAllRecipes([FromQuery]int groupId)
+        {
+            try
+            {
+                var recipes = _context.Recipe.Select(g => new
+                {
+                    g.Id,
+                    g.Name,
+                    g.PrepTime,
+                    g.Calories,
+                    g.Servings,
+                    IsGroup = g.RecipeGroupRef.Any(x=> x.RecipeId == g.Id && x.GroupId == groupId)? true: false,
+                    IsSpecial = g.RecipeGroupRef.Any(x => x.RecipeId == g.Id && x.GroupId == groupId && x.IsSpecial == true)? true: false,
+                    rat = g.UserFeedback.Sum(x => x.Rating),
+                    Counter = g.UserFeedback.Count(),
+                    Rating = g.UserFeedback.Count() > 0 ? g.UserFeedback.Sum(x => x.Rating) / g.UserFeedback.Count() : 0,
+                    g.PicFilePath,
+                    Url = _s3Service.GeneratePreSignedURL(_context.Document.Where(x => x.RefId == g.Id).FirstOrDefault().FilePath, 2),
+                    Ingredients = g.RecipeIngredient.ToList(),
+                    Steps = g.RecipeStep.ToList()
+                }).ToList();
+
+                return Ok(Newtonsoft.Json.JsonConvert.SerializeObject(recipes));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
 
     }
 }
