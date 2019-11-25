@@ -201,19 +201,17 @@ namespace DietitianApp.Controllers
         }
 
         [HttpPut]
-        [Route("updateWeeklyStatement")]
-        public async Task<IActionResult> updateWeeklyStatement([FromQuery] int groupId, string message)
+        [Route("updateWeeklyStatement/{groupId}/{message}")]
+        public async Task<IActionResult> updateWeeklyStatement([FromRoute] int groupId, [FromRoute] string message)
         {
             try
             {
-                Group g = new Group();
-
-                g = _context.Group.SingleOrDefault(x => x.Id == groupId);
-                g.WeeklyStatement = message;
+                var group = await _context.Group.FirstOrDefaultAsync(x => x.Id == groupId);
+                group.WeeklyStatement = message;
 
                 _context.SaveChanges();
 
-                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(g));
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(group));
             }
             catch (Exception e)
             {
@@ -314,6 +312,42 @@ namespace DietitianApp.Controllers
                 {
                     userprofile.StatusId = 2;
                 }
+                _context.UserProfile.Update(userprofile);
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+        [HttpPut]
+        [Route("leaveGroup/{userId}")]
+        public async Task<IActionResult> leaveGroup([FromRoute] int userId)
+        {
+            try
+            {
+                var userprofile = await _context.UserProfile.FirstOrDefaultAsync(x => x.Id == userId);
+                userprofile.StatusId = 0;
+                userprofile.GroupId = null;
+                _context.UserProfile.Update(userprofile);
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+        [HttpPut]
+        [Route("requestGroup/{userId}/{groupId}")]
+        public async Task<IActionResult> requestGroup([FromRoute] int groupId, [FromRoute] int userId)
+        {
+            try
+            {
+                var userprofile = await _context.UserProfile.FirstOrDefaultAsync(x => x.Id == userId);
+                userprofile.StatusId = 1;
+                userprofile.GroupId = groupId;
                 _context.UserProfile.Update(userprofile);
                 _context.SaveChanges();
                 return Ok();

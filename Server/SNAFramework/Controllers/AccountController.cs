@@ -61,11 +61,6 @@ namespace DietitianApp.Controllers
                 // bool islocked = await _userManager.IsLockedOutAsync(user);
                 if (result.Succeeded)
                 {
-                    //bool canlogin = _context.UserProfile.Where(x => x.IdentityUserId.Equals(user.Id)).Select(c => c.Inactive).FirstOrDefault();
-                    //if (canlogin)
-                    //{
-                    //    throw new Exception("You have been Locked out");
-                    //}
                     var userprofile = _context.UserProfile.Where(r => r.Email == userobj.email).Select(d => new
                     {
                         d.GroupId,
@@ -109,6 +104,7 @@ namespace DietitianApp.Controllers
                         lastname = userprofile.LastName,
                         phonenumber = userprofile.PhoneNumber,
                         groupId = userprofile.GroupId,
+                        statusId = userprofile.StatusId,
                         roles
                     });
                 }
