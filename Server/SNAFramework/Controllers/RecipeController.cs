@@ -242,6 +242,15 @@ namespace DietitianApp.Controllers
                     rat = g.UserFeedback.Sum(x => x.Rating),
                     Counter = g.UserFeedback.Count(),
                     Rating = g.UserFeedback.Count() > 0 ? g.UserFeedback.Sum(x => x.Rating) / g.UserFeedback.Count() : 0,
+                    Comments = g.UserFeedback.Where(u => u.RecipeId == g.Id).Select(x => new
+                    {
+                        x.Comment,
+                        x.Rating,
+                        x.Timestamp,
+                        x.User.FirstName,
+                        x.User.LastName,
+
+                    }).ToList(),
                     g.PicFilePath,
                     Url = _s3Service.GeneratePreSignedURL(_context.Document.Where(x => x.RefId == g.Id).FirstOrDefault().FilePath, 2),
                     Ingredients = g.RecipeIngredient.ToList(),
