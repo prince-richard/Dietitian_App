@@ -40,12 +40,11 @@ namespace DietitianApp.Controllers
                 RoleManager<IdentityRole> roleManager,
                 IAmazonSimpleEmailService client,
                 IAmazonS3 s3Client,
-                IHubContext<SignalRHub> signalRHubContext
-
+                IHubContext<SignalRHub> signalRHub
                 ) : base(context, configuration, roleManager, client, userManager, signInManager)
             {
                 _s3Service = new S3Service(s3Client, _configuration);
-                _signalRHubContext = signalRHubContext;
+                _signalRHubContext = signalRHub;
             }
 
 
@@ -70,8 +69,19 @@ namespace DietitianApp.Controllers
                     var sender = _context.UserProfile.FirstOrDefault(u => u.Id == message.SenderId);
                     var reciever = _context.UserProfile.FirstOrDefault(u => u.Id == message.RecieverId);
 
-                    if (senderConnection.IsConnected) await _signalRHubContext.Clients.Group(sender.Email).SendAsync("chatListener", nMsg);
-                    if (recieverConnection.IsConnected) await _signalRHubContext.Clients.Group(reciever.Email).SendAsync("chatListener", nMsg);
+                var retObj = new
+                {
+                    Contents = message.Contents,
+                    GroupId = message.GroupId,
+                    RecieverId = message.RecieverId,
+                    SenderId = message.SenderId,
+                    Timestamp = DateTime.Now
+                };
+
+                var groups = _signalRHubContext.Groups;
+                var client = _signalRHubContext.Clients.Group(reciever.Email);
+                    if (senderConnection.IsConnected) await _signalRHubContext.Clients.All.SendAsync("chatlistener", sender.Email, retObj);
+                    if (recieverConnection.IsConnected) await _signalRHubContext.Clients.Group(reciever.Email).SendAsync("chatlistener", sender.Email, retObj);
 
                     return Ok();
                 }

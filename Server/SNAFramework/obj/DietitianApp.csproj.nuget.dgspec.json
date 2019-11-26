@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {}
+    "C:\\Users\\SA6\\Documents\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {}
   },
   "projects": {
-    "C:\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {
+    "C:\\Users\\SA6\\Documents\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
+        "projectUniqueName": "C:\\Users\\SA6\\Documents\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
         "projectName": "DietitianApp",
-        "projectPath": "C:\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
-        "packagesPath": "C:\\Users\\wao wao\\.nuget\\packages\\",
-        "outputPath": "C:\\Dietitian_App\\Server\\SNAFramework\\obj\\",
+        "projectPath": "C:\\Users\\SA6\\Documents\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
+        "packagesPath": "C:\\Users\\SA6\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\SA6\\Documents\\Dietitian_App\\Server\\SNAFramework\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\wao wao\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\SA6\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
