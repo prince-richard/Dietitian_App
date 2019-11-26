@@ -80,53 +80,30 @@ namespace DietitianApp.Controllers
                     d.DieticianId,
                     DietitianName = d.Dietician.FirstName + " " + d.Dietician.LastName,
                     d.Name,
-                    Users = d.UserProfile.Where(u => u.GroupId == d.Id).Select(x => new
+                    Users = d.UserProfile.Where(u => u.GroupId == d.Id && u.StatusId == 2).Select(x => new
                     {
                         x.Id,
                         x.FirstName
-                    }).ToList()
-                }).FirstOrDefault();
-                var recipes = _context.RecipeGroupRef.Where(s => s.GroupId == Id).Select(r => new
-                {
-                    RecipeInfo = _context.Recipe.Where(q => q.Id == r.RecipeId).Select(g => new
+                    }).ToList(),
+                    Recipes = d.RecipeGroupRef.Select(r => new
                     {
-                        g.Id,
-                        g.Name,
-                        g.PrepTime,
-                        g.Calories,
-                        g.Servings,
-                        //Rating = g.UserFeedback.Select(x => x.Rating).FirstOrDefault(),
-                        //Ingredients = g.RecipeIngredient.ToList(),
-                        //Steps = g.RecipeStep.ToList()
-                    }).ToList()
-                }).FirstOrDefault();
-
-                return Ok(JsonConvert.SerializeObject(new { group, recipes }));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
-
-        }
-
-        /*
-        [HttpGet]
-        [Route("getgroup")]
-        public async Task<IActionResult> getgroup([FromQuery]string id)
-        {
-            try
-            {
-                var user = _context.UserProfile.Select(d => new
+                        r.RecipeId,
+                        r.Recipe.Name
+                    })
+                }).SingleOrDefault();
+                var recipes = _context.Recipe.Select(r => new
                 {
-                    d.CreatedDate,
-                    d.Id,
-                    d.FirstName,
-                    d.LastName,
-                    d.Email,
-                    d.PhoneNumber,
-                }).Where(q => q.Id.ToString().Equals(id)).FirstOrDefault();
-                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(user));
+                    r.Id,
+                    r.Name
+                });
+                var users = _context.UserProfile.Select(u => new
+                {
+                    u.Id,
+                    u.FirstName,
+                    u.LastName,
+                    u.Email
+                });
+                return Ok(JsonConvert.SerializeObject(new { group, recipes, users }));
             }
             catch (Exception e)
             {
@@ -134,31 +111,6 @@ namespace DietitianApp.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("getdietitiangroups")]
-        public async Task<IActionResult> getdietitiangroups()
-        {
-            try
-            {
-                var dietitianGroups = _context.UserProfile.Join(
-                    _context.Group,
-                    u => u.Id,
-                    g => g.DieticianId,
-                    (u, g) => new
-                    {
-                        dietitianName = u.FirstName + " " + u.LastName,
-                        group = g.Id,
-
-                    });
-
-                return Ok(JsonConvert.SerializeObject(dietitianGroups));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
-        }
-        */
         [HttpGet]
         [Route("getGroupPatients")]
         public async Task<IActionResult> getGroupPatients([FromQuery] int groupId)
@@ -168,16 +120,16 @@ namespace DietitianApp.Controllers
                 var dieticians = _context.Group.Select(o => o.DieticianId);
                 var patients = _context.UserProfile.Where(q => q.GroupId == groupId && q.StatusId==2)
 
-                                                   .Select(d => new
-                                                   {
-                                                       d.Id,
-                                                       d.FirstName,
-                                                       d.LastName,
-                                                       d.Email,
-                                                       TimeSinceLastPost = d.UserFeedback.Select(x => DateTime.Now.Subtract(x.Timestamp).ToString()).DefaultIfEmpty("No comment yet")
-                                                       .FirstOrDefault()
+                    .Select(d => new
+                    {
+                        d.Id,
+                        d.FirstName,
+                        d.LastName,
+                        d.Email,
+                        TimeSinceLastPost = d.UserFeedback.Select(x => DateTime.Now.Subtract(x.Timestamp).ToString()).DefaultIfEmpty("No comment yet")
+                        .FirstOrDefault()
 
-                                                   }).Where(f => !dieticians.Contains(f.Id));
+                    }).Where(f => !dieticians.Contains(f.Id));
                 
                 return Ok(JsonConvert.SerializeObject(patients));
             }
