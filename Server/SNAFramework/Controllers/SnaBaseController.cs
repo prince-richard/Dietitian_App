@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using DietitianApp.Data;
 using DietitianApp.Services;
 using Amazon.SimpleEmail;
+using Microsoft.AspNetCore.SignalR;
+using DietitianApp.Hubs;
 
 namespace DietitianApp.Controllers
 {

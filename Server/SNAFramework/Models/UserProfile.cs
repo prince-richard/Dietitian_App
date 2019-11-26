@@ -8,6 +8,7 @@ namespace DietitianApp.Models
     {
         public UserProfile()
         {
+            ChatConnection = new HashSet<ChatConnection>();
             Group = new HashSet<Group>();
             MessageReciever = new HashSet<Message>();
             MessageSender = new HashSet<Message>();
@@ -30,6 +31,7 @@ namespace DietitianApp.Models
 
         public Group GroupNavigation { get; set; }
         public IdentityUser IdentityUser { get; set; }
+        public ICollection<ChatConnection> ChatConnection { get; set; }
         public ICollection<Group> Group { get; set; }
         public ICollection<Message> MessageReciever { get; set; }
         public ICollection<Message> MessageSender { get; set; }

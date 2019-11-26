@@ -416,8 +416,7 @@ namespace DietitianApp.Controllers
                 fb.Rating = feedback.Rating;
                 fb.Comment = feedback.Comment;
                 //fb.Timestamp = DateTime.Today;
-
-                _context.UserFeedBack.Add(fb);
+                _context.UserFeedback.Add(fb);
 
                 _context.SaveChanges();
 
