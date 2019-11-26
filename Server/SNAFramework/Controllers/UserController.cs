@@ -20,7 +20,7 @@ using DietitianApp.Models;
 namespace DietitianApp.Controllers
 {
     //Default security to only request with JWT Bearer Tokens
-    //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Developer")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Developer")]
     [Route("api/user")]
     public class UserController : SnaBaseController
     {
@@ -425,11 +425,6 @@ namespace DietitianApp.Controllers
             try
             {
                 UserFeedback fb = new UserFeedback();
-
-                Console.WriteLine(feedback.UserId);
-                Console.WriteLine(feedback.RecipeId);
-                Console.WriteLine(feedback.Rating);
-                Console.WriteLine(feedback.Comment);
 
                 fb.UserId = feedback.UserId;
                 fb.RecipeId = feedback.RecipeId;

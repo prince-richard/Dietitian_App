@@ -138,7 +138,6 @@ namespace DietitianApp.Data
 
             modelBuilder.Entity<UserFeedback>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Comment)
                     .HasMaxLength(50)
