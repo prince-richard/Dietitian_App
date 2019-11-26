@@ -22,7 +22,7 @@ using DietitianApp.Services;
 namespace DietitianApp.Controllers
 {
     //Default security to only request with JWT Bearer Tokens
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Developer")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Develop, User, Dietitian")]
     [Route("api/recipe")]
     public class RecipeController : SnaBaseController
     {
@@ -171,7 +171,7 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         [HttpGet]
         [Route("getrecipeofweek")]
         public async Task<IActionResult> getrecipeofweek([FromQuery]int groupId)
