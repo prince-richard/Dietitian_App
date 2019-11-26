@@ -214,6 +214,7 @@ namespace DietitianApp.Data
                     .HasForeignKey(d => d.GroupId)
                     .HasConstraintName("FK_UserProfile_Group");
 
+
             });
         }
     }

@@ -20,6 +20,7 @@ using Amazon.Runtime.CredentialManagement;
 using Amazon.SimpleEmail;
 using DietitianApp.Data;
 using Microsoft.EntityFrameworkCore;
+using DietitianApp.Hubs;
 
 namespace DietitianApp
 {
@@ -178,10 +179,10 @@ namespace DietitianApp
             app.UseAuthentication();
             app.UseCors("CorsPolicy");
             //signalR
-            //app.UseSignalR(routes =>
-            //{
-            //    routes.MapHub<HazmatHub>("/hazmathub");
-            //});
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<SignalRHub>("/chathub");
+            });
 
             app.UseMvc();
         }

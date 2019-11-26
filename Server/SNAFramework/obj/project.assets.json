@@ -14622,9 +14622,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\DING_\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Users\\wao wao\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -14633,19 +14631,15 @@
       "projectUniqueName": "C:\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
       "projectName": "DietitianApp",
       "projectPath": "C:\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
-      "packagesPath": "C:\\Users\\DING_\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\wao wao\\.nuget\\packages\\",
       "outputPath": "C:\\Dietitian_App\\Server\\SNAFramework\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\DING_\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\wao wao\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
