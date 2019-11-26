@@ -22,7 +22,7 @@ using DietitianApp.Services;
 namespace DietitianApp.Controllers
 {
     //Default security to only request with JWT Bearer Tokens
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Develop, User, Dietitian")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Developer, User, Dietitian")]
     [Route("api/recipe")]
     public class RecipeController : SnaBaseController
     {
