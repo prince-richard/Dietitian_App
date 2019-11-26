@@ -23,17 +23,16 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace DietitianApp.Controllers
 {
-    public class MessageController : Controller
-    {
+   
         // GET: /<controller>/
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Administrator")]
         [Route("api/message")]
-        public class RecipeController : SnaBaseController
+        public class MessageController : SnaBaseController
         {
             public readonly S3Service _s3Service;
             private IHubContext<SignalRHub> _signalRHubContext { get; set; }
 
-            public RecipeController(
+            public MessageController(
                 ApplicationDbContext context,
                 IConfiguration configuration,
                 UserManager<IdentityUser> userManager,
@@ -71,8 +70,8 @@ namespace DietitianApp.Controllers
                     var sender = _context.UserProfile.FirstOrDefault(u => u.Id == message.SenderId);
                     var reciever = _context.UserProfile.FirstOrDefault(u => u.Id == message.RecieverId);
 
-                    if (senderConnection.IsConnected) await _signalRHubContext.Clients.Group(sender.Email).SendAsync("ChatMessage", nMsg);
-                    if (recieverConnection.IsConnected) await _signalRHubContext.Clients.Group(reciever.Email).SendAsync("ChatMessage", nMsg);
+                    if (senderConnection.IsConnected) await _signalRHubContext.Clients.Group(sender.Email).SendAsync("chatListener", nMsg);
+                    if (recieverConnection.IsConnected) await _signalRHubContext.Clients.Group(reciever.Email).SendAsync("chatListener", nMsg);
 
                     return Ok();
                 }
@@ -81,6 +80,6 @@ namespace DietitianApp.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
                 }
             }
-        }
+        
     }
 }

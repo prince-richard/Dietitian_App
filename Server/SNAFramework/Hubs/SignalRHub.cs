@@ -1,5 +1,6 @@
 ﻿using Amazon.S3;
 using DietitianApp.Data;
+using DietitianApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
@@ -61,6 +62,26 @@ namespace DietitianApp.Hubs
 
         public async Task AddToGroup(string groupName)
         {
+            var user = _dbcontext.UserProfile.FirstOrDefault(u => u.Email == groupName);
+            var conn = _dbcontext.ChatConnection.FirstOrDefault(c => c.ConnectionOwnerId == user.Id);
+            if (conn == null)
+            {
+                var nConn = new ChatConnection() {
+                    ConnectionOwnerId = user.Id,
+                    IsConnected = true,
+                    LastEnter = DateTime.Now,
+                    LastLeave = null,
+                    GroupId = user.GroupId
+                };
+                _dbcontext.ChatConnection.Add(nConn);
+            } else
+            {
+                conn.IsConnected = true;
+                conn.LastEnter = DateTime.Now;
+                _dbcontext.ChatConnection.Update(conn);
+            }
+            _dbcontext.SaveChanges();
+
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
         }
 

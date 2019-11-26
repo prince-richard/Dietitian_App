@@ -107,6 +107,11 @@ C:\Users\Rodrigo\Dietitian_App_3\Dietitian_App\Server\SNAFramework\bin\Debug\net
 C:\Users\Rodrigo\Dietitian_App_3\Dietitian_App\Server\SNAFramework\bin\Debug\netcoreapp2.1\DietitianApp.dll
 C:\Users\Rodrigo\Dietitian_App_3\Dietitian_App\Server\SNAFramework\bin\Debug\netcoreapp2.1\DietitianApp.pdb
 C:\Users\Rodrigo\Dietitian_App_3\Dietitian_App\Server\SNAFramework\obj\Debug\netcoreapp2.1\DietitianApp.RazorTargetAssemblyInfo.cache
+C:\Dietitian_App\Server\SNAFramework\bin\Debug\netcoreapp2.1\DietitianApp.deps.json
+C:\Dietitian_App\Server\SNAFramework\bin\Debug\netcoreapp2.1\DietitianApp.runtimeconfig.json
+C:\Dietitian_App\Server\SNAFramework\bin\Debug\netcoreapp2.1\DietitianApp.runtimeconfig.dev.json
+C:\Dietitian_App\Server\SNAFramework\bin\Debug\netcoreapp2.1\DietitianApp.dll
+C:\Dietitian_App\Server\SNAFramework\bin\Debug\netcoreapp2.1\DietitianApp.pdb
 C:\Dietitian_App\Server\SNAFramework\obj\Debug\netcoreapp2.1\DietitianApp.csprojAssemblyReference.cache
 C:\Dietitian_App\Server\SNAFramework\obj\Debug\netcoreapp2.1\DietitianApp.csproj.CoreCompileInputs.cache
 C:\Dietitian_App\Server\SNAFramework\obj\Debug\netcoreapp2.1\DietitianApp.RazorAssemblyInfo.cache
@@ -114,11 +119,6 @@ C:\Dietitian_App\Server\SNAFramework\obj\Debug\netcoreapp2.1\DietitianApp.RazorA
 C:\Dietitian_App\Server\SNAFramework\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
 C:\Dietitian_App\Server\SNAFramework\obj\Debug\netcoreapp2.1\DietitianApp.AssemblyInfoInputs.cache
 C:\Dietitian_App\Server\SNAFramework\obj\Debug\netcoreapp2.1\DietitianApp.AssemblyInfo.cs
+C:\Dietitian_App\Server\SNAFramework\obj\Debug\netcoreapp2.1\DietitianApp.RazorTargetAssemblyInfo.cache
 C:\Dietitian_App\Server\SNAFramework\obj\Debug\netcoreapp2.1\DietitianApp.dll
 C:\Dietitian_App\Server\SNAFramework\obj\Debug\netcoreapp2.1\DietitianApp.pdb
-C:\Dietitian_App\Server\SNAFramework\bin\Debug\netcoreapp2.1\DietitianApp.deps.json
-C:\Dietitian_App\Server\SNAFramework\bin\Debug\netcoreapp2.1\DietitianApp.runtimeconfig.json
-C:\Dietitian_App\Server\SNAFramework\bin\Debug\netcoreapp2.1\DietitianApp.runtimeconfig.dev.json
-C:\Dietitian_App\Server\SNAFramework\bin\Debug\netcoreapp2.1\DietitianApp.dll
-C:\Dietitian_App\Server\SNAFramework\bin\Debug\netcoreapp2.1\DietitianApp.pdb
-C:\Dietitian_App\Server\SNAFramework\obj\Debug\netcoreapp2.1\DietitianApp.RazorTargetAssemblyInfo.cache

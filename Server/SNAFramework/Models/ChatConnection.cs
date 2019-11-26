@@ -6,7 +6,7 @@ namespace DietitianApp.Models
     public partial class ChatConnection
     {
         public int Id { get; set; }
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
         public int ConnectionOwnerId { get; set; }
         public bool IsConnected { get; set; }
         public bool IsSilent { get; set; }
