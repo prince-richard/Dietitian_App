@@ -27,7 +27,7 @@ Recipes:
             </thead>
             <tbody>
                 <tr *ngFor="let recipe of recipes">
-                    <td (click)="select(recipe)" style="color:blue;text-decoration:underline ">{{recipe.Name}}</td>
+                    <td>{{recipe.Name}}</td>
                     <td>{{recipe.Calories}}</td>
                     <td>{{recipe.PrepTime}}</td>
                     <td><i placement="top" ngbTooltip="Edit" (click)="editRecipe(recipe);" class="pointer iconcolor material-icons mdi-lg">edit</i></td>        
