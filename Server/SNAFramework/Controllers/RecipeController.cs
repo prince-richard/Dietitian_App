@@ -283,11 +283,31 @@ namespace DietitianApp.Controllers
             try
             {
                 var recipes = _context.Recipe.Where(r => r.RecipeGroupRef.Any(x => x.GroupId == groupId))
-                                             .Select(t => t.Id);
+                                             .Select(d => new
+                                             {
+                                                 d.Name,
+                                                 
+                                                 Comments = d.UserFeedback.Where(u => u.RecipeId == d.Id).Select(x => new
+                                                 {
+                                                     x.Comment,
+                                                     x.Rating,
+                                                     x.Timestamp,
+                                                     x.User.FirstName,
+                                                     x.User.LastName,
+                                                     
+                                                 }).ToList(),
+                                                NumberOfComments = d.UserFeedback.Where(t => t.RecipeId == d.Id).Count()
 
-                var comments = _context.UserFeedBack.Select(q => new { q.RecipeId, q.Comment }).Where(f => recipes.Contains(f.RecipeId)).GroupBy(g => g.RecipeId);
 
-                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(comments));
+                                             }).ToList();
+
+
+                //var comments = _context.UserFeedBack.Select(q => new {
+                //    q.RecipeId, q. q.Comment,  }).Where(f => recipes.Contains(f.RecipeId)).GroupBy(g => g.RecipeId);
+
+
+
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(recipes));
             }
             catch (Exception e)
             {
