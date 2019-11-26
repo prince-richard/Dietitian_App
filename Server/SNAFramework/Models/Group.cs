@@ -7,6 +7,7 @@ namespace DietitianApp.Models
     {
         public Group()
         {
+            ChatConnection = new HashSet<ChatConnection>();
             Message = new HashSet<Message>();
             RecipeGroupRef = new HashSet<RecipeGroupRef>();
             UserProfile = new HashSet<UserProfile>();
@@ -18,6 +19,7 @@ namespace DietitianApp.Models
         public string WeeklyStatement { get; set; }
 
         public UserProfile Dietician { get; set; }
+        public ICollection<ChatConnection> ChatConnection { get; set; }
         public ICollection<Message> Message { get; set; }
         public ICollection<RecipeGroupRef> RecipeGroupRef { get; set; }
         public ICollection<UserProfile> UserProfile { get; set; }

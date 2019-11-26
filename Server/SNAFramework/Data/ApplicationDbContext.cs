@@ -9,26 +9,57 @@ namespace DietitianApp.Data
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
 
+        public virtual DbSet<ChatConnection> ChatConnection { get; set; }
         public virtual DbSet<Document> Document { get; set; }
-        public virtual DbSet<UserProfile> UserProfile { get; set; }
         public virtual DbSet<Group> Group { get; set; }
         public virtual DbSet<Message> Message { get; set; }
         public virtual DbSet<Recipe> Recipe { get; set; }
-        public virtual DbSet<RecipeStep> RecipeStep { get; set; }
         public virtual DbSet<RecipeGroupRef> RecipeGroupRef { get; set; }
-        public virtual DbSet<UserFeedback> UserFeedBack { get; set; }
         public virtual DbSet<RecipeIngredient> RecipeIngredient { get; set; }
-
-
+        public virtual DbSet<RecipeStep> RecipeStep { get; set; }
+        public virtual DbSet<UserFeedback> UserFeedback { get; set; }
+        public virtual DbSet<UserProfile> UserProfile { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+            : base(options)
         {
+            //            if (!optionsBuilder.IsConfigured)
+            //            {
+            //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            //                optionsBuilder.UseSqlServer("Server=52.71.222.139;Database=CapstoneObeyDB;User Id=Dietitian;Password=1234;");
+            //            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ChatConnection>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.LastEnter).HasColumnType("datetime");
+
+                entity.Property(e => e.LastLeave).HasColumnType("datetime");
+
+                entity.HasOne(d => d.ConnectionOwner)
+                    .WithMany(p => p.ChatConnection)
+                    .HasForeignKey(d => d.ConnectionOwnerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ChatConnection_UserProfile");
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.ChatConnection)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ChatConnection_Group");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.InverseIdNavigation)
+                    .HasForeignKey<ChatConnection>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ChatConnection_ChatConnection");
+            });
 
             modelBuilder.Entity<Document>(entity =>
             {
@@ -47,10 +78,23 @@ namespace DietitianApp.Data
                 entity.Property(e => e.RefTable).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Group>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.WeeklyStatement).HasColumnType("text");
+
+                entity.HasOne(d => d.Dietician)
+                    .WithMany(p => p.Group)
+                    .HasForeignKey(d => d.DieticianId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Group_UserProfile");
+            });
+
             modelBuilder.Entity<Message>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Contents)
                     .IsRequired()
                     .IsUnicode(false);
@@ -78,8 +122,6 @@ namespace DietitianApp.Data
 
             modelBuilder.Entity<Recipe>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -91,8 +133,6 @@ namespace DietitianApp.Data
 
             modelBuilder.Entity<RecipeGroupRef>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Group)
                     .WithMany(p => p.RecipeGroupRef)
                     .HasForeignKey(d => d.GroupId)
@@ -108,11 +148,7 @@ namespace DietitianApp.Data
 
             modelBuilder.Entity<RecipeIngredient>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.Description).IsUnicode(false);
 
                 entity.HasOne(d => d.Recipe)
                     .WithMany(p => p.RecipeIngredient)
@@ -123,11 +159,7 @@ namespace DietitianApp.Data
 
             modelBuilder.Entity<RecipeStep>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.Description).IsUnicode(false);
 
                 entity.HasOne(d => d.Recipe)
                     .WithMany(p => p.RecipeStep)
@@ -138,10 +170,8 @@ namespace DietitianApp.Data
 
             modelBuilder.Entity<UserFeedback>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Comment)
-                    .HasMaxLength(50)
+                    .HasMaxLength(1500)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Timestamp).HasColumnType("datetime");
@@ -159,24 +189,8 @@ namespace DietitianApp.Data
                     .HasConstraintName("FK_UserFeedback_User");
             });
 
-            modelBuilder.Entity<Group>(entity =>
-            {
-                entity.Property(e => e.Name)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.Dietician)
-                    .WithMany(p => p.Group)
-                    .HasForeignKey(d => d.DieticianId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Group_UserProfile");
-                entity.HasMany(u => u.UserProfile);
-            });
-
             modelBuilder.Entity<UserProfile>(entity =>
             {
-                entity.ToTable("UserProfile", "dbo");
-
                 entity.HasIndex(e => e.IdentityUserId);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -199,6 +213,7 @@ namespace DietitianApp.Data
                     .WithMany(p => p.UserProfile)
                     .HasForeignKey(d => d.GroupId)
                     .HasConstraintName("FK_UserProfile_Group");
+
             });
         }
     }
