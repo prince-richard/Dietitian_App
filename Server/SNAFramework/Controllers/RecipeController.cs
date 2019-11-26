@@ -112,8 +112,11 @@ namespace DietitianApp.Controllers
 
                 r.Name = rec.Name;
                 r.Calories = rec.Calories;
-                //.....
+                r.PrepTime = rec.PrepTime;
+                r.Servings = rec.PrepTime;
+
                 if (id == 0) _context.Recipe.Add(r);
+                else _context.Recipe.Update(r);
 
                 _context.SaveChanges();
 
@@ -128,13 +131,11 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getrecipe")]
-        public async Task<IActionResult> getrecipe([FromQuery]string id)
+        public async Task<IActionResult> getrecipe([FromQuery]int Id)
         {
             try
             {
-
-                int Id = int.Parse(id);
-                var recipe = _context.Recipe.Select(d => new
+                var recipe = _context.Recipe.Where(q => q.Id == Id).Select(d => new
                 {
                     d.Id,
                     d.Name,
@@ -142,36 +143,18 @@ namespace DietitianApp.Controllers
                     d.PrepTime,
                     d.Servings,
                     steps = d.RecipeStep.ToList(),
-                    ingredients = d.RecipeIngredient.ToList()
-                }).Where(q => q.Id == Id).FirstOrDefault();
-                var docs = _context.Document.Where(x => x.RefTable == "Recipe" && x.RefId == Id)
-                    .Select(x => new
-                    {
-                        x.Id,
-                        x.FileName,
-                        x.FilePath,
-                        Url = _s3Service.GeneratePreSignedURL(x.FilePath, 2)
-                    }).ToList();
-                var rec = new
-                {
-                    Id = recipe.Id,
-                    recipe.Name,
-                    recipe.Calories,
-                    recipe.PrepTime,
-                    recipe.Servings,
-                    steps = recipe.steps,
-                    ingredients = recipe.ingredients,
-                    URL = docs[0].Url
+                    ingredients = d.RecipeIngredient.ToList(),
 
-                };
-                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(rec));
+                    Url = _s3Service.GeneratePreSignedURL(_context.Document.Where(x => x.RefTable == "Recipe" && x.RefId == d.Id).FirstOrDefault().FilePath, 2),
+                }).FirstOrDefault();
+                return Content(JsonConvert.SerializeObject(recipe));
             }
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        
         [HttpGet]
         [Route("getrecipeofweek")]
         public async Task<IActionResult> getrecipeofweek([FromQuery]int groupId)
@@ -180,9 +163,8 @@ namespace DietitianApp.Controllers
             {
                 var recotw = _context.RecipeGroupRef.Where(x => x.GroupId == groupId && x.IsSpecial == true).SingleOrDefault();
                 var group = await _context.Group.FirstOrDefaultAsync(x => x.Id == groupId);
-                var dietId = group.DieticianId;
-                var user = await _context.UserProfile.FirstOrDefaultAsync(x => x.Id == dietId);
-                var recipe = _context.Recipe.Select(d => new
+                var user = await _context.UserProfile.FirstOrDefaultAsync(x => x.Id == group.DieticianId);
+                var recipe = _context.Recipe.Where(q => q.Id == recotw.RecipeId).Select(d => new
                 {
                     d.Id,
                     d.Name,
@@ -190,35 +172,14 @@ namespace DietitianApp.Controllers
                     d.PrepTime,
                     d.Servings,
                     steps = d.RecipeStep.ToList(),
-                    rating = d.UserFeedback.Sum(x => x.Rating),
-                    counter = d.UserFeedback.Count(),
-                    ingredients = d.RecipeIngredient.ToList()
-                }).Where(q => q.Id == recotw.RecipeId).FirstOrDefault();
-
-                var docs = _context.Document.Where(x => x.RefTable == "Recipe" && x.RefId == recotw.RecipeId)
-                    .Select(x => new
-                    {
-                        x.Id,
-                        x.FileName,
-                        x.FilePath,
-                        Url = _s3Service.GeneratePreSignedURL(x.FilePath, 2)
-                    }).ToList();
-                var rec = new
-                {
-                    Id = recipe.Id,
-                    recipe.Name,
-                    recipe.Calories,
-                    recipe.PrepTime,
-                    recipe.Servings,
-                    Steps = recipe.steps,
-                    Ingredients = recipe.ingredients,
-                    Rating = recipe.counter > 0 ? recipe.rating / recipe.counter : 0,
-                    PicFilePath = docs[0].Url,
+                    Rating = d.UserFeedback.Count() > 0 ? d.UserFeedback.Sum(x => x.Rating) / d.UserFeedback.Count() : 0,
+                    ingredients = d.RecipeIngredient.ToList(),
                     group.WeeklyStatement,
                     DietFName = user.FirstName,
                     DietLName = user.LastName,
-                };
-                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(rec));
+                    PicFilePath = _s3Service.GeneratePreSignedURL(_context.Document.Where(x => x.RefTable == "Recipe" && x.RefId == d.Id).FirstOrDefault().FilePath, 2),
+                }).FirstOrDefault();
+                return Content(JsonConvert.SerializeObject(recipe));
             }
             catch (Exception e)
             {
@@ -228,7 +189,7 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getGroupRecipes")]
-        public async Task<IActionResult> getGroupRecipes([FromQuery]int groupId)
+        public IActionResult getGroupRecipes([FromQuery]int groupId)
         {
             try
             {
@@ -249,15 +210,13 @@ namespace DietitianApp.Controllers
                         x.Timestamp,
                         x.User.FirstName,
                         x.User.LastName,
-
                     }).ToList(),
-                    g.PicFilePath,
                     Url = _s3Service.GeneratePreSignedURL(_context.Document.Where(x => x.RefId == g.Id).FirstOrDefault().FilePath, 2),
                     Ingredients = g.RecipeIngredient.ToList(),
                     Steps = g.RecipeStep.ToList()
                 }).ToList();
 
-                return Ok(Newtonsoft.Json.JsonConvert.SerializeObject(recipes));
+                return Ok(JsonConvert.SerializeObject(recipes));
             }
             catch (Exception e)
             {
@@ -271,31 +230,19 @@ namespace DietitianApp.Controllers
         {
             try
             {
-                var recipes = _context.Recipe.Where(r => r.RecipeGroupRef.Any(x => x.GroupId == groupId))
-                                             .Select(d => new
-                                             {
-                                                 d.Name,
-                                                 
-                                                 Comments = d.UserFeedback.Where(u => u.RecipeId == d.Id).Select(x => new
-                                                 {
-                                                     x.Comment,
-                                                     x.Rating,
-                                                     x.Timestamp,
-                                                     x.User.FirstName,
-                                                     x.User.LastName,
-                                                     
-                                                 }).ToList(),
-                                                NumberOfComments = d.UserFeedback.Where(t => t.RecipeId == d.Id).Count()
-
-
-                                             }).ToList();
-
-
-                //var comments = _context.UserFeedBack.Select(q => new {
-                //    q.RecipeId, q. q.Comment,  }).Where(f => recipes.Contains(f.RecipeId)).GroupBy(g => g.RecipeId);
-
-
-
+                var recipes = _context.Recipe.Where(r => r.RecipeGroupRef.Any(x => x.GroupId == groupId)).Select(d => new
+                {
+                    d.Name,
+                    Comments = d.UserFeedback.Where(u => u.RecipeId == d.Id).Select(x => new
+                    {
+                        x.Comment,
+                        x.Rating,
+                        x.Timestamp,
+                        x.User.FirstName,
+                        x.User.LastName,         
+                    }).ToList(),
+                    NumberOfComments = d.UserFeedback.Where(t => t.RecipeId == d.Id).Count()
+                }).ToList();
                 return Content(Newtonsoft.Json.JsonConvert.SerializeObject(recipes));
             }
             catch (Exception e)
@@ -303,7 +250,12 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-        //Brandon's
+
+        /// <summary>
+        /// groupId is used to set a flag if the recipe is not in the group, still returns all recipes
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("getAllRecipes")]
         public async Task<IActionResult> getAllRecipes([FromQuery]int groupId)
@@ -319,16 +271,13 @@ namespace DietitianApp.Controllers
                     g.Servings,
                     IsGroup = g.RecipeGroupRef.Any(x=> x.RecipeId == g.Id && x.GroupId == groupId)? true: false,
                     IsSpecial = g.RecipeGroupRef.Any(x => x.RecipeId == g.Id && x.GroupId == groupId && x.IsSpecial == true)? true: false,
-                    rat = g.UserFeedback.Sum(x => x.Rating),
-                    Counter = g.UserFeedback.Count(),
                     Rating = g.UserFeedback.Count() > 0 ? g.UserFeedback.Sum(x => x.Rating) / g.UserFeedback.Count() : 0,
-                    g.PicFilePath,
                     Url = _s3Service.GeneratePreSignedURL(_context.Document.Where(x => x.RefId == g.Id).FirstOrDefault().FilePath, 2),
                     Ingredients = g.RecipeIngredient.ToList(),
                     Steps = g.RecipeStep.ToList()
                 }).ToList();
 
-                return Ok(Newtonsoft.Json.JsonConvert.SerializeObject(recipes));
+                return Ok(JsonConvert.SerializeObject(recipes));
             }
             catch (Exception e)
             {

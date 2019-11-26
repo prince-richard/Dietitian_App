@@ -308,29 +308,12 @@ namespace DietitianApp.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("getDietitian")]
-        public async Task<IActionResult> getDietitian([FromQuery]string groupId)
-        {
-            try
-            {
-                var dietitianId = _context.Group.Where(g => g.Id.ToString().Equals(groupId))
-                                                    .Select(s => s.DieticianId)
-                                                    .FirstOrDefault();
-
-                var name = _context.UserProfile.Where(q => q.Id.ToString().Equals(dietitianId.ToString()))
-                                                   .Select(d => new { d.FirstName, d.LastName })
-                                                   .FirstOrDefault();
-
-                    return Ok(JsonConvert.SerializeObject(name));
-                
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
-        }
-
+        /// <summary>
+        /// Move to new messaging controller
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("getMessages")]
         public async Task<IActionResult> getMessages([FromQuery]int patientId, string groupId = null)
@@ -340,13 +323,9 @@ namespace DietitianApp.Controllers
 
                 if (string.IsNullOrEmpty(groupId))
                 {
-                    int? gId = _context.UserProfile.Where(s => s.Id == patientId)
-                                                   .Select(g => g.GroupId)
-                                                   .FirstOrDefault();
+                    int? gId = _context.UserProfile.Where(s => s.Id == patientId).Select(g => g.GroupId).FirstOrDefault();
 
-                    int dietitianId = _context.Group.Where(g => g.Id == gId)
-                                                    .Select(s => s.DieticianId)
-                                                    .FirstOrDefault();
+                    int dietitianId = _context.Group.Where(g => g.Id == gId).Select(s => s.DieticianId).FirstOrDefault();
 
                     var messages = _context.Message.Where(g => g.GroupId == gId &&
                                                                g.SenderId == patientId &&
@@ -381,6 +360,12 @@ namespace DietitianApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Not needed from what I can tell
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("getFeedback")]
         public async Task<IActionResult> getFeedback([FromQuery]string userId, string groupId)

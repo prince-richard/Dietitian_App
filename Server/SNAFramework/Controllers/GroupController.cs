@@ -42,8 +42,12 @@ namespace DietitianApp.Controllers
             _s3Service = new S3Service(s3Client, _configuration);
         }
 
+        /// <summary>
+        /// returns all of the groups
+        /// </summary>
+        /// <returns>group list</returns>
         [HttpGet("allgroups")]
-        public async Task<IActionResult> allgroups()
+        public IActionResult allgroups()
         {
             try
             {
@@ -70,24 +74,23 @@ namespace DietitianApp.Controllers
         }
 
         [HttpGet("getgroup")]
-        public async Task<IActionResult> getgroup([FromQuery]string id)
+        public async Task<IActionResult> getgroup([FromQuery]int Id)
         {
             try
             {
-                int Id = int.Parse(id);
-                var group = _context.Group.Select(d => new
+                var group = _context.Group.Where(q => q.Id == Id).Select(d => new
                 {
                     d.Id,
                     d.DieticianId,
                     DietitianName = d.Dietician.FirstName + " " + d.Dietician.LastName,
                     d.Name,
-                    Users = d.UserProfile.Where(u => u.GroupId == d.Id && d.Id != d.DieticianId).Select(x => new
+                    Users = d.UserProfile.Where(u => u.GroupId == d.Id && d.Id != d.DieticianId && u.StatusId == 2).Select(x => new
                     {
                         x.Id,
                         x.FirstName
                     }).ToList()
+                }).SingleOrDefault();
 
-                }).Where(q => q.Id == Id).FirstOrDefault();
                 return Content(Newtonsoft.Json.JsonConvert.SerializeObject(group));
             }
             catch (Exception e)
@@ -102,19 +105,14 @@ namespace DietitianApp.Controllers
         {
             try
             {
-                var dieticians = _context.Group.Select(o => o.DieticianId);
-                var patients = _context.UserProfile.Where(q => q.GroupId == groupId && q.StatusId==2)
-
-                                                   .Select(d => new
-                                                   {
-                                                       d.Id,
-                                                       d.FirstName,
-                                                       d.LastName,
-                                                       d.Email,
-                                                       TimeSinceLastPost = d.UserFeedback.Select(x => DateTime.Now.Subtract(x.Timestamp).ToString()).DefaultIfEmpty("No comment yet")
-                                                       .FirstOrDefault()
-
-                                                   }).Where(f => !dieticians.Contains(f.Id));
+                var patients = _context.UserProfile.Where(q => q.GroupId == groupId && q.StatusId==2).Select(d => new
+                {
+                    d.Id,
+                    d.FirstName,
+                    d.LastName,
+                    d.Email,
+                    TimeSinceLastPost = d.UserFeedback.Max(x => x.Timestamp) == null ? "No Comment Yet" : DateTime.Now.Subtract(d.UserFeedback.Max(x => x.Timestamp)).ToString()
+                });
                 
                 return Ok(JsonConvert.SerializeObject(patients));
             }
@@ -325,5 +323,27 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+
+        [HttpGet]
+        [Route("getDietitian")]
+        public async Task<IActionResult> getDietitian([FromQuery]string groupId)
+        {
+            try
+            {
+                var name = _context.Group.Where(g => g.Id.ToString().Equals(groupId)).Select(s => new
+                {
+                    s.Dietician.FirstName,
+                    s.Dietician.LastName
+
+                }).SingleOrDefault();
+                return Ok(JsonConvert.SerializeObject(name));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+
     }
 }
