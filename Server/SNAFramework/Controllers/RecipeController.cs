@@ -284,6 +284,91 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+        [HttpPut]
+        [Route("specialRecipeChangeNoGroupChange/{groupId}/{recipeId}")]
+        public async Task<IActionResult> specialRecipeChangeNoGroupChange([FromRoute] int groupId, [FromRoute] int recipeId)
+        {
+            try
+            {
+                var previousSpecialRecipe = _context.RecipeGroupRef.Where(r => r.GroupId == groupId && r.IsSpecial == true).SingleOrDefault();
+                var wantedChange = _context.RecipeGroupRef.Where(r => r.GroupId == groupId && r.RecipeId == recipeId).SingleOrDefault();
+                wantedChange.IsSpecial = true;
+                previousSpecialRecipe.IsSpecial = false;
+                _context.SaveChanges();
 
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+        [HttpPost]
+        [Route("specialRecipeChangeNewRecipe{groupId}/{recipeId}")]
+        public IActionResult specialRecipeChangeNewRecipe([FromRoute] int groupId, [FromRoute] int recipeId)
+        {
+            var previousSpecialRecipe = _context.RecipeGroupRef.Where(r => r.GroupId == groupId && r.IsSpecial == true).SingleOrDefault();
+            RecipeGroupRef recipe = new RecipeGroupRef();
+            {
+                recipe.IsSpecial = true;
+                recipe.RecipeId = recipeId;
+                recipe.GroupId = groupId;
+            }
+            try
+            {
+                previousSpecialRecipe.IsSpecial = false;
+                _context.RecipeGroupRef.Add(recipe);
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("NewGroupRecipe")]
+        public IActionResult NewGroupRecipe([FromRoute]recipeInfo recipeInfo)
+        {
+            RecipeGroupRef recipe = new RecipeGroupRef();
+            {
+                recipe.IsSpecial = false;
+                recipe.RecipeId = recipeInfo.recipeId;
+                recipe.GroupId = recipeInfo.groupId;
+            }
+            try
+            {
+                _context.RecipeGroupRef.Add(recipe);
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+        [HttpDelete]
+        [Route("DeleteGroupRecipe{groupId}/{recipeId}")]
+        public IActionResult DeleteGroupRecipe([FromRoute] int groupId, [FromRoute] int recipeId)
+        {
+            var recipe = _context.RecipeGroupRef.Where(r => r.GroupId == groupId && r.RecipeId == recipeId).SingleOrDefault();
+            try
+            {
+                _context.RecipeGroupRef.Remove(recipe);
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+    }
+    public class recipeInfo
+    {
+        public int groupId { get; set; }
+        public int recipeId { get; set; }
     }
 }
