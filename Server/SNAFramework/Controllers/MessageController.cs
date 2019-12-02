@@ -80,7 +80,7 @@ namespace DietitianApp.Controllers
 
                 var groups = _signalRHubContext.Groups;
                 var client = _signalRHubContext.Clients.Group(reciever.Email);
-                    if (senderConnection.IsConnected) await _signalRHubContext.Clients.All.SendAsync("chatlistener", sender.Email, retObj);
+                    if (senderConnection.IsConnected) await _signalRHubContext.Clients.Group(sender.Email).SendAsync("chatlistener", sender.Email, retObj);
                     if (recieverConnection.IsConnected) await _signalRHubContext.Clients.Group(reciever.Email).SendAsync("chatlistener", sender.Email, retObj);
 
                     return Ok();
