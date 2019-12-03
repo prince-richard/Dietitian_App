@@ -17,6 +17,7 @@ import { RecipemanagerComponent } from './components/recipemanager/recipemanager
 import { RecipeeditComponent } from './components/recipeedit/recipeedit.component';
 import { RmtestComponent } from './components/rmtest/rmtest.component';
 import { TestComponent } from './components/test/test.component';
+import { MessageMonitorComponent } from './components/message-monitor/message-monitor.component';
 
 
 const routes: Routes = [
@@ -39,7 +40,8 @@ const routes: Routes = [
       { path: 'usermodification/:id', component: UsereditComponent },
       { path: 'groupedit', component: GroupeditComponent},
       { path: 'rmtest', component: RmtestComponent},
-      {path: 'test', component: TestComponent}
+      {path: 'test', component: TestComponent},
+      {path: 'messages', component: MessageMonitorComponent}
     ]
   }
 ];

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\SA6\\Documents\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {}
+    "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\SA6\\Documents\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {
+    "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SA6\\Documents\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
+        "projectUniqueName": "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
         "projectName": "DietitianApp",
-        "projectPath": "C:\\Users\\SA6\\Documents\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
-        "packagesPath": "C:\\Users\\SA6\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SA6\\Documents\\Dietitian_App\\Server\\SNAFramework\\obj\\",
+        "projectPath": "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
+        "packagesPath": "C:\\Users\\zquag\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\SA6\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\zquag\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -90,10 +90,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
