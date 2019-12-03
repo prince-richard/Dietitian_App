@@ -1,6 +1,9 @@
 <h4>{{recipe.Name}}</h4>
 
-<input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
+Name:<input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
+Calories:<input class="form-control" type="text" [(ngModel)]="recipe.Calories"/>
+PrepTime:<input class="form-control" type="text" [(ngModel)]="recipe.PrepTime"/>
+Servings:<input class="form-control" type="text" [(ngModel)]="recipe.Servings"/>
 <button class='btn btn-primary' (click)="saveRecipe()">Update recipe</button><br>
 
 
@@ -9,7 +12,7 @@
         <thead class="thead-dark-sna">
         <tr>
           <th scope="col">Ingredients</th>
-          <th>Remove</th>
+          <th scope="col">Remove</th>
         </tr>
       </thead>
       <tbody>
@@ -27,7 +30,7 @@
         <thead class="thead-dark-sna">
         <tr>
           <th scope="col">Steps</th>
-          <th>Remove</th>
+          <th scope="col">Remove</th>
         </tr>
       </thead>
       <tbody>
