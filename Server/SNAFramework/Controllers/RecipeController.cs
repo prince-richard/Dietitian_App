@@ -22,7 +22,7 @@ using DietitianApp.Services;
 namespace DietitianApp.Controllers
 {
     //Default security to only request with JWT Bearer Tokens
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Developer, User, Dietitian")]
+    //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Developer, Administrator, User, Dietitian")]
     [Route("api/recipe")]
     public class RecipeController : SnaBaseController
     {
@@ -186,10 +186,10 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-
+        
         [HttpGet]
         [Route("getGroupRecipes")]
-        public IActionResult getGroupRecipes([FromQuery]int groupId)
+        public async Task<IActionResult> getGroupRecipes([FromQuery]int groupId)
         {
             try
             {
@@ -200,8 +200,6 @@ namespace DietitianApp.Controllers
                     g.PrepTime,
                     g.Calories,
                     g.Servings,
-                    rat = g.UserFeedback.Sum(x => x.Rating),
-                    Counter = g.UserFeedback.Count(),
                     Rating = g.UserFeedback.Count() > 0 ? g.UserFeedback.Sum(x => x.Rating) / g.UserFeedback.Count() : 0,
                     Comments = g.UserFeedback.Where(u => u.RecipeId == g.Id).Select(x => new
                     {
@@ -303,16 +301,17 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+        [AllowAnonymous]
         [HttpPost]
-        [Route("specialRecipeChangeNewRecipe{groupId}/{recipeId}")]
-        public IActionResult specialRecipeChangeNewRecipe([FromRoute] int groupId, [FromRoute] int recipeId)
+        [Route("specialRecipeChangeNewRecipe")]
+        public IActionResult specialRecipeChangeNewRecipe([FromBody]recipeInfo recipeInfo)
         {
-            var previousSpecialRecipe = _context.RecipeGroupRef.Where(r => r.GroupId == groupId && r.IsSpecial == true).SingleOrDefault();
+            var previousSpecialRecipe = _context.RecipeGroupRef.Where(r => r.GroupId == recipeInfo.groupId && r.IsSpecial == true).SingleOrDefault();
             RecipeGroupRef recipe = new RecipeGroupRef();
             {
                 recipe.IsSpecial = true;
-                recipe.RecipeId = recipeId;
-                recipe.GroupId = groupId;
+                recipe.RecipeId = recipeInfo.recipeId;
+                recipe.GroupId = recipeInfo.groupId;
             }
             try
             {
@@ -329,7 +328,7 @@ namespace DietitianApp.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("NewGroupRecipe")]
-        public IActionResult NewGroupRecipe([FromRoute]recipeInfo recipeInfo)
+        public IActionResult NewGroupRecipe([FromBody]recipeInfo recipeInfo)
         {
             RecipeGroupRef recipe = new RecipeGroupRef();
             {
@@ -349,7 +348,7 @@ namespace DietitianApp.Controllers
             }
         }
         [HttpDelete]
-        [Route("DeleteGroupRecipe{groupId}/{recipeId}")]
+        [Route("DeleteGroupRecipe/{groupId}/{recipeId}")]
         public IActionResult DeleteGroupRecipe([FromRoute] int groupId, [FromRoute] int recipeId)
         {
             var recipe = _context.RecipeGroupRef.Where(r => r.GroupId == groupId && r.RecipeId == recipeId).SingleOrDefault();
@@ -368,7 +367,7 @@ namespace DietitianApp.Controllers
     }
     public class recipeInfo
     {
-        public int groupId { get; set; }
-        public int recipeId { get; set; }
+        public int groupId;
+        public int recipeId; 
     }
 }

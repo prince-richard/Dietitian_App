@@ -22,7 +22,7 @@ using DietitianApp.Services;
 namespace DietitianApp.Controllers
 {
     //Default security to only request with JWT Bearer Tokens
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Developer, User, Dietitian")]
+    //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Developer, User, Dietitian")]
     [Route("api/group")]
     public class GroupController : SnaBaseController
     {
@@ -111,8 +111,9 @@ namespace DietitianApp.Controllers
                     d.FirstName,
                     d.LastName,
                     d.Email,
-                    TimeSinceLastPost = d.UserFeedback.Max(x => x.Timestamp) == null ? "No Comment Yet" : DateTime.Now.Subtract(d.UserFeedback.Max(x => x.Timestamp)).ToString()
-                });
+                    TimeSinceLastPost = d.UserFeedback.Count != 0 ? d.UserFeedback.Max(x=>x.Timestamp).ToString(): "No comments yet"
+                    
+                }).ToList();
                 
                 return Ok(JsonConvert.SerializeObject(patients));
             }
