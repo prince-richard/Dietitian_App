@@ -2,12 +2,44 @@
 
 <input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
 <button class='btn btn-primary' (click)="saveRecipe()">Update recipe</button><br>
+
+
+<div class="table-responsive">
+    <table class="tablemargin table">
+        <thead class="thead-dark-sna">
+        <tr>
+          <th scope="col">Ingredients</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ing of recipe.ingredients">
+          <td>{{ing.Description}}</td>
+          <td><input type="checkbox"><br></td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-primary" (click)="submit()">Submit</button>
+</div>
+
+<div class="table-responsive">
+    <table class="tablemargin table">
+        <thead class="thead-dark-sna">
+        <tr>
+          <th scope="col">Steps</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let step of recipe.steps">
+          <td>{{step.Description}}</td>
+          <td><input type="checkbox"><br></td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-primary" (click)="submit()">Submit</button>
+</div>
 <!--
-<div class=row>  
-  <div class="col-md-7">
-    <table class="table table-bordered">
-      <thead>
-        -->
 <div class="table-responsive">
     <table class="tablemargin table">
         <thead class="thead-dark-sna">
@@ -43,8 +75,9 @@
     </table>
     <button class="btn btn-primary" (click)="submit()">Submit</button>
 </div>
+-->
     <br><br>
-
+<!--
 <h4>Group List</h4>
   <div class="table-responsive">
     <table class="tablemargin table">
@@ -67,7 +100,7 @@
   <button class="btn btn-primary" (click)="submit()">Submit</button>
   <br><br>
 
-<!--
+
 <div class="col-md-5">
     <h3>Add Recipe</h3>
     <div class="form-group">
