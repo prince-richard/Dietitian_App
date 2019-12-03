@@ -1,11 +1,12 @@
 <h2>Messages</h2>
 <div class="form-group">
-  <select name="" id="" class="form-control" [(ngModel)]="user">
-    <option value="" *ngFor="let u of users" [ngValue]="u">{{u.FirstName}}</option>
+  <select name="" id="" class="form-control" [(ngModel)]="userid">
+    <option value="" *ngFor="let u of users" [value]="u.Id">{{u.FirstName}}</option>
   </select>
 </div>
-<button class="btn btn-primary" (click)="getData()"></button>
-{{user | json}}
+<button class="btn btn-primary" (click)="getData()">GetData</button>
+
+<button class="btn btn-primary" (click)="userid=0;getData()">GetData</button>
 <table class="table table-bordered table-striped">
   <thead>
     <tr>

@@ -9,18 +9,18 @@ import { HttpClient, HttpBackend } from '@angular/common/http';
 export class MessageMonitorComponent implements OnInit {
   messages : any;
   users: any;
-  user: any;
+  userid: any;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.http.get("api/users/allusers")
+    this.http.get("api/user/allusers")
     .subscribe(res =>{
       this.users = res;
     })
   }
   getData(){
-    this.http.get("api/message/GetMessages?userId=4&take=100")
+    this.http.get("api/message/GetMessages?userId="+this.userid+"&take=100")
     .subscribe(res =>{
       this.messages = res;
     })
