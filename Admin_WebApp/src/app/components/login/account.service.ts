@@ -93,8 +93,8 @@ export class AccountService {
       sessionStorage.setItem("username", user.username);
       sessionStorage.setItem("phonenumber", user.phonenumber);
       sessionStorage.setItem("gender", user.gender);
-    sessionStorage.setItem("id", user.id);
-    sessionStorage.setItem("customer", user.customer);
+      sessionStorage.setItem("id", user.id);
+      sessionStorage.setItem("customer", user.customer);
       //sessionStorage.setItem("userlastname", user.LastName);
     }
 

@@ -13,9 +13,6 @@
         "packagesPath": "C:\\Users\\SA6\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\SA6\\Documents\\Dietitian_App\\Server\\SNAFramework\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\SA6\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"

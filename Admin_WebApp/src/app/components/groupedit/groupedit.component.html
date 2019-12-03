@@ -9,17 +9,13 @@ Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
   <table class="tablemargin table">
       <thead class="thead-dark-sna">
         <tr>
-          <th>Id</th>
           <th>Users</th>
           <th>Remove</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of group.Users">
-          <td>{{user.Id}}</td>
-          <td>
-            {{user.FirstName}}
-          </td>
+          <td>{{user.FirstName}}</td>
           <td><input type="checkbox"><br></td>
       </tbody>
     </table>
@@ -29,7 +25,7 @@ Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
   Add User
 </button>
 
-<!-- Modal -->
+<!-- Modal to add a user to group -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -40,6 +36,20 @@ Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
         </button>
       </div>
       <div class="modal-body">
+          <div class="table-responsive">
+              <table class="tablemargin table">
+                  <thead class="thead-dark-sna">
+                    <tr>
+                      <th>Users</th>
+                      <th>Add</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of group.Users">
+                      <td>{{user.FirstName}}</td>
+                      <td><input type="checkbox"><br></td>
+                  </tbody>
+                </table>
         <input class="form-control" type="text"/>
       </div>
       <div class="modal-footer">
@@ -57,15 +67,13 @@ Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
     <table class="tablemargin table">
         <thead class="thead-dark-sna">
         <tr>
-          <th>Id</th>
-          <th>Name</th>
+          <th>Recipe Name</th>
           <th>Remove</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>placeholder</td>
-          <td>placeholder</td>
+        <tr *ngFor="let recipe of group.Recipes">
+          <td>{{recipe.Name}}</td>
           <td><input type="checkbox"><br></td>
         </tr>
       </tbody>
@@ -87,6 +95,21 @@ Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
         </button>
       </div>
       <div class="modal-body">
+          <div class="table-responsive">
+              <table class="tablemargin table">
+                  <thead class="thead-dark-sna">
+                  <tr>
+                    <th>Recipe Name</th>
+                    <th>Add</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let recipe of group.Recipes">
+                    <td>{{recipe.Name}}</td>
+                    <td><input type="checkbox"><br></td>
+                  </tr>
+                </tbody>
+              </table>
         <input class="form-control" type="text" placeholder="Add Recipe"/>
       </div>
       <div class="modal-footer">
