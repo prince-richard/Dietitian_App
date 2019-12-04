@@ -363,6 +363,30 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+        [HttpPost]
+        [Route("addRating")]
+        public async Task<IActionResult> addRating([FromBody] UserFeedback feedback)
+        {
+            try
+            {
+                UserFeedback fb = new UserFeedback();
+
+                fb.UserId = feedback.UserId;
+                fb.RecipeId = feedback.RecipeId;
+                fb.Rating = feedback.Rating;
+                fb.Comment = feedback.Comment;
+                fb.Timestamp = DateTime.Today;
+                _context.UserFeedback.Add(fb);
+
+                _context.SaveChanges();
+
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(fb));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
 
     }
     public class recipeInfo
