@@ -61,7 +61,7 @@ namespace DietitianApp.Controllers
                         SenderId = message.SenderId,
                         Timestamp = DateTime.Now
                     };
-                    _context.Message.Update(nMsg);
+                    _context.Message.Add(nMsg);
                     await _context.SaveChangesAsync();
 
                     var senderConnection = _context.ChatConnection.FirstOrDefault(c => c.ConnectionOwnerId == message.SenderId);
@@ -71,16 +71,17 @@ namespace DietitianApp.Controllers
 
                 var retObj = new
                 {
-                    Contents = message.Contents,
-                    GroupId = message.GroupId,
-                    RecieverId = message.RecieverId,
-                    SenderId = message.SenderId,
+                    Id = nMsg.Id,
+                    Contents = nMsg.Contents,
+                    GroupId = nMsg.GroupId,
+                    RecieverId = nMsg.RecieverId,
+                    SenderId = nMsg.SenderId,
                     Timestamp = DateTime.Now
                 };
 
                 var groups = _signalRHubContext.Groups;
                 var client = _signalRHubContext.Clients.Group(reciever.Email);
-                    if (senderConnection.IsConnected) await _signalRHubContext.Clients.Group(sender.Email).SendAsync("chatlistener", sender.Email, retObj);
+                    //if (senderConnection.IsConnected) await _signalRHubContext.Clients.Group(sender.Email).SendAsync("chatlistener", sender.Email, retObj);
                     if (recieverConnection.IsConnected) await _signalRHubContext.Clients.Group(reciever.Email).SendAsync("chatlistener", sender.Email, retObj);
 
                     return Ok();
