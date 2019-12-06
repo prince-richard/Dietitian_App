@@ -74,7 +74,7 @@ namespace DietitianApp.Controllers
         }
 
         [HttpGet("getgroup")]
-        public async Task<IActionResult> getgroup([FromQuery]int Id)
+        public IActionResult getgroup([FromQuery]int Id)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getGroupPatients")]
-        public async Task<IActionResult> getGroupPatients([FromQuery] int groupId)
+        public IActionResult getGroupPatients([FromQuery] int groupId)
         {
             try
             {
@@ -147,7 +147,7 @@ namespace DietitianApp.Controllers
         //update group
         [HttpPut]
         [Route("updategroup")]
-        public async Task<IActionResult> updategroup([FromBody] Group grp)
+        public IActionResult updategroup([FromBody] Group grp)
         {
             try
             {
@@ -250,7 +250,7 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getRequests")]
-        public async Task<IActionResult> getRequests([FromQuery] int groupId)
+        public IActionResult getRequests([FromQuery] int groupId)
         {
             try
             {
@@ -328,7 +328,7 @@ namespace DietitianApp.Controllers
         }
         [HttpGet]
         [Route("getDieticians")]
-        public async Task<IActionResult> getDieticians()
+        public IActionResult getDieticians()
         {
             try
             {
@@ -347,7 +347,7 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getDietitian")]
-        public async Task<IActionResult> getDietitian([FromQuery]string groupId)
+        public IActionResult getDietitian([FromQuery]string groupId)
         {
             try
             {

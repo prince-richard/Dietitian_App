@@ -38,7 +38,7 @@ namespace DietitianApp.Controllers
         }
 
         [HttpGet("allusers")]
-        public async Task<IActionResult> allusers()
+        public IActionResult allusers()
         {
             try
             {
@@ -64,7 +64,7 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getuser")]
-        public async Task<IActionResult> getuser([FromQuery]string id)
+        public IActionResult getuser([FromQuery]string id)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("lockupdate")]
-        public async Task<IActionResult> lockupdate([FromQuery]int userid,bool operation)
+        public IActionResult lockupdate([FromQuery]int userid,bool operation)
         {
             try
             {
@@ -216,7 +216,7 @@ namespace DietitianApp.Controllers
 
 
         [HttpGet("roles")]
-        public async Task<IActionResult> allroles()
+        public IActionResult allroles()
         {
             try
             {
@@ -316,7 +316,7 @@ namespace DietitianApp.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("getMessages")]
-        public async Task<IActionResult> getMessages([FromQuery]int patientId, string groupId = null)
+        public IActionResult getMessages([FromQuery]int patientId, string groupId = null)
         {
             try
             {
@@ -368,7 +368,7 @@ namespace DietitianApp.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("getFeedback")]
-        public async Task<IActionResult> getFeedback([FromQuery]string userId, string groupId)
+        public IActionResult getFeedback([FromQuery]string userId, string groupId)
         {
             try
             {
@@ -402,27 +402,9 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-        //[HttpPost]
-        //[Route("addRating")]
-        //public async Task<IActionResult> addRating([FromBody] UserFeedback feedback)
-        //{
-        //    try
-        //    {
-        //        UserFeedback fb = new UserFeedback();
-
-        //        fb.UserId = feedback.UserId;
-        //        fb.RecipeId = feedback.RecipeId;
-        //        fb.Rating = feedback.Rating;
-        //        fb.Comment = feedback.Comment;
-        //        fb.Timestamp = DateTime.Today;
-
-        //        _context.UserFeedBack.Add(fb);
-
-        //        _context.SaveChanges();
-
         [HttpPost]
         [Route("addRating")]
-        public async Task<IActionResult> addRating([FromBody] UserFeedback feedback)
+        public IActionResult addRating([FromBody] UserFeedback feedback)
         {
             try
             {
