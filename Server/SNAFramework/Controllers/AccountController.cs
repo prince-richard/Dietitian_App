@@ -287,7 +287,11 @@ namespace DietitianApp.Controllers
 
     public class returnMsg
     {
+        public returnMsg() { }
+        public returnMsg(string msg) { message = msg; }
+        public returnMsg(string msg, string msgH) { message = msg; messageHeader = msgH; }
         public string message { get; set; }
+        public string messageHeader { get; set; } = null;
     }
 
     public class FeedbackUser

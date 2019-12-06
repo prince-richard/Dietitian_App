@@ -438,7 +438,7 @@ namespace DietitianApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                    return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = userobj.Email + ": The email you used has already been used." }) );
 
                 }
 
@@ -447,7 +447,7 @@ namespace DietitianApp.Controllers
             else
             {
                 var exceptionText = result.Errors.First();
-                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = exceptionText.Description }));
+                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = exceptionText.Description, messageHeader = "Email Invalid" }));
             }
         }
 
