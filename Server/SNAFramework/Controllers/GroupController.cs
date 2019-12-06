@@ -326,18 +326,36 @@ namespace DietitianApp.Controllers
         }
 
         [HttpGet]
-        [Route("getDietitian")]
-        public async Task<IActionResult> getDietitian([FromQuery]string groupId)
+        [Route("getDietitian/{groupId}")]
+        public async Task<IActionResult> getDietitian([FromRoute]int groupId)
         {
             try
             {
-                var name = _context.Group.Where(g => g.Id.ToString().Equals(groupId)).Select(s => new
+                var name = _context.Group.Where(g => g.Id == groupId).Select(s => new
                 {
                     s.Dietician.FirstName,
                     s.Dietician.LastName
 
                 }).SingleOrDefault();
                 return Ok(JsonConvert.SerializeObject(name));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+        [HttpGet]
+        [Route("getDietitianId/{groupId}")]
+        public async Task<IActionResult> getDietitianId([FromRoute]int groupId)
+        {
+            try
+            {
+                var id = _context.Group.Where(g => g.Id == groupId).Select(s => new
+                {
+                    s.DieticianId,
+
+                }).SingleOrDefault();
+                return Ok(JsonConvert.SerializeObject(id));
             }
             catch (Exception e)
             {

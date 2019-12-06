@@ -402,6 +402,54 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("createPatient")]
+        public async Task<IActionResult> createPatient([FromBody]NewPatient userobj)
+        {
+            var user = new IdentityUser { UserName = userobj.Email, Email = userobj.Email, PhoneNumber = userobj.PhoneNumber };
+            var result = await _userManager.CreateAsync(user, userobj.Password);
+            if (result.Succeeded)
+            {
+
+                IdentityUser curUser = _context.Users.Where(y => y.Email == userobj.Email).FirstOrDefault();
+                UserProfile newuser = new UserProfile();
+                {
+                    newuser.IdentityUserId = curUser.Id;
+                    newuser.Email = curUser.Email;
+                    newuser.Inactive = false;
+                    newuser.PhoneNumber = userobj.PhoneNumber;
+                    newuser.FirstName = userobj.FirstName;
+                    newuser.LastName = userobj.LastName;
+                    newuser.CreatedDate = DateTime.Today;
+                    newuser.StatusId = 1;
+                    newuser.GroupId = userobj.GroupId;
+                }
+                try
+                {
+                    _context.UserProfile.Add(newuser);
+                    _context.SaveChanges();
+                    IdentityUser createduser = _context.Users.Where(r => r.Email == curUser.Email).First();
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    _AuthMessageSender.SendEmailAsync(_appData.ApplicationName + " Account Created on " + _appData.ApplicationName, "Your Account is created please use the link below confirm your email :  "
+                    + _appData.PasswordResetLink + "?email=" + curUser.Email + "&token=" + code, _AuthMessageSender.SystemGeneralEmail, new List<string> { curUser.Email });
+
+                    await _userManager.AddToRolesAsync(curUser, userobj.rolestring);
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+
+                }
+
+                return StatusCode(StatusCodes.Status200OK, JsonConvert.SerializeObject(new returnMsg { message = userobj.Email + " User created." }));
+            }
+            else
+            {
+                var exceptionText = result.Errors.First();
+                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = exceptionText.Description }));
+            }
+        }
 
 
         //models
@@ -425,6 +473,16 @@ namespace DietitianApp.Controllers
             public string LastName;
             public string PhoneNumber;
             public string[] rolestring;
+        }
+        public class NewPatient
+        {
+            public string Email;
+            public string Password;
+            public string FirstName;
+            public string LastName;
+            public string PhoneNumber;
+            public string[] rolestring;
+            public int GroupId;
         }
     }
 }

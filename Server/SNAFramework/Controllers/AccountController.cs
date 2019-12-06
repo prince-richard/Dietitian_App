@@ -57,6 +57,10 @@ namespace DietitianApp.Controllers
             try
             {
                 IdentityUser user = await _userManager.FindByEmailAsync(userobj.email);
+                if(user == null)
+                {
+                    return Unauthorized();
+                }
                 var result = await _signInManager.CheckPasswordSignInAsync(user, userobj.password, false);
                 // bool islocked = await _userManager.IsLockedOutAsync(user);
                 if (result.Succeeded)
@@ -111,7 +115,7 @@ namespace DietitianApp.Controllers
                 }
                 else
                 {
-                    return BadRequest(result);
+                    return Unauthorized();
                 }
             }
             catch (Exception e)
