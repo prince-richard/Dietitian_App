@@ -107,22 +107,6 @@ namespace DietitianApp.Controllers
                     return Ok(JsonConvert.SerializeObject(m));
                 }
             }
-        [HttpGet("GetMessages")]
-        public async Task<IActionResult> GetMessages([FromQuery] int userId, [FromQuery] int take)
-        {
-            try
-            {
-                if (userId == 0)
-                {
-                    var m = _context.Message.OrderByDescending(x => x.Id).Take(take);
-                    return Ok(JsonConvert.SerializeObject(m));
-                }
-                else
-                {
-                    var m = _context.Message.Where(s => s.SenderId == userId || s.RecieverId == userId).OrderByDescending(x => x.Id).Take(take).ToList();
-                    return Ok(JsonConvert.SerializeObject(m));
-                }
-            }
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));

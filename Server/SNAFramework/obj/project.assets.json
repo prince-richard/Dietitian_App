@@ -14622,30 +14622,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\DING_\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\zquag\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
+      "projectUniqueName": "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
       "projectName": "DietitianApp",
-      "projectPath": "C:\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
-      "packagesPath": "C:\\Users\\DING_\\.nuget\\packages\\",
-      "outputPath": "C:\\Dietitian_App\\Server\\SNAFramework\\obj\\",
+      "projectPath": "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\DietitianApp.csproj",
+      "packagesPath": "C:\\Users\\zquag\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\zquag\\Documents\\GitHub\\Dietitian_App\\Server\\SNAFramework\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\DING_\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\zquag\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
