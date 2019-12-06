@@ -15,11 +15,13 @@ export class DashboardComponent implements OnInit {
   ) { }
   logedinuser: string;
   customer: string;
+  id: string;
   isCollapsed: boolean;
   isUserCollapsed: boolean;
   ngOnInit() {
     this.logedinuser = sessionStorage.getItem("firstname");
     this.customer = sessionStorage.getItem("customer")
+    this.id = sessionStorage.getItem("id")
   }
 
   logout() {
