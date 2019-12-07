@@ -4,8 +4,13 @@ import Icon from 'react-native-vector-icons/Entypo';
 
 const styles = StyleSheet.create({
   mainview: {
-    margin: '5%',
-    borderWidth: 2,
+    marginLeft: '5%',
+    marginTop: '5%',
+    marginRight: '5%',
+    marginBottom: '5%',
+    backgroundColor: 'navajowhite',
+    borderRadius: 5,
+    borderWidth: 0.5,
   },
   button: {
     borderWidth: 2,
@@ -45,17 +50,36 @@ export default class PatientRegister extends Component {
             marginBottom: '5%',
             marginRight: '5%',
           }}>
-          <Text>Accept of Reject Patient: </Text>
-          <View style={{flexDirection: 'row-reverse'}}>
+          <View
+            style={{
+              marginTop: '3%',
+              flexDirection: 'row-reverse',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             <TouchableOpacity
-              style={{marginLeft: '3%'}}
+              style={{
+                marginLeft: '5%',
+                paddingLeft: '1%',
+                paddingRight: '1%',
+                borderWidth: 2,
+                borderColor: 'red',
+                backgroundColor: 'white',
+              }}
               onPress={() => handleRequest(0, id, index)}>
-              <Icon name="cross" color="red" size={25} />
+              <Text>Reject</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={{marginRight: '3%'}}
+              style={{
+                marginRight: '5%',
+                borderWidth: 2,
+                paddingLeft: '1%',
+                paddingRight: '1%',
+                borderColor: 'green',
+                backgroundColor: 'white',
+              }}
               onPress={() => handleRequest(2, id, index)}>
-              <Icon name="check" color="green" size={25} />
+              <Text>Accept</Text>
             </TouchableOpacity>
           </View>
         </View>

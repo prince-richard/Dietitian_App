@@ -6,17 +6,15 @@ import DietHeaderD from '../Components/DietHeaderD';
 import RecipeInRecipeList from '../Components/RecipeInRecipeList';
 import PatientRegister from '../Components/PatientRegister';
 import * as GroupServices from '../Services/GroupServices';
+import {NavigationEvents} from 'react-navigation';
 
 const styles = StyleSheet.create({
   flatlist: {
-    height: '90%',
-    marginBottom: '5%',
-    borderBottomWidth: 2,
-    borderTopWidth: 2,
+    marginTop: '5%',
+    height: '85%',
   },
   mainview: {
     margin: '5%',
-    borderWidth: 2,
   },
   text: {marginBottom: '5%'},
 });
@@ -28,21 +26,25 @@ export default class RegisterListD extends Component {
     };
   }
   originalPatients = [];
-  async componentDidMount() {
+  fetchData = async () => {
     const patients = await GroupServices.getRequests(
       this.props.navigation.getParam('groupId', ''),
     );
     this.setState({Patients: patients});
     this.originalPatients = patients;
     console.log(patients);
-  }
+  };
+
   render() {
     console.log(this.state.Patients);
     return (
-      <View>
+      <View style={{backgroundColor: 'burlywood'}}>
+        <NavigationEvents onWillFocus={this.fetchData} />
         <DietHeaderD profileInfo={this.props.navigation.state.params} />
         <View style={styles.mainview}>
-          <Text style={styles.text}>Registration List:</Text>
+          <View style={{marginLeft: '5%'}}>
+            <Text style={styles.text}>Registration List:</Text>
+          </View>
           <FlatList
             style={styles.flatlist}
             data={this.state.Patients}
@@ -80,5 +82,17 @@ export default class RegisterListD extends Component {
   handleNavigation = (routeName, params) => () => {
     const {navigation} = this.props;
     NavigationService.navigation(routeName, params);
+  };
+  FlatListItemSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          marginLeft: '10%',
+          marginRight: '10%',
+          backgroundColor: 'black',
+        }}
+      />
+    );
   };
 }

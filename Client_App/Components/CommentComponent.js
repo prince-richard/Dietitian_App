@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
 import StarRating from 'react-native-star-rating';
+import moment from 'moment';
 
 export default class CommentComponent extends Component {
   constructor(props) {
@@ -10,10 +11,11 @@ export default class CommentComponent extends Component {
 
   render() {
     const {name, date, rating, comment} = this.props;
+    console.log(date);
     return (
       <View style={{marginBottom: '4%', marginTop: '5%', marginLeft: '2%'}}>
         <Text>{name}</Text>
-        <Text>{date}</Text>
+        <Text>{moment(date).fromNow()}</Text>
         <View style={{width: '10%'}}>
           <StarRating
             disabled={false}

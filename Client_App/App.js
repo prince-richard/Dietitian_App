@@ -5,9 +5,12 @@
  * @format
  * @flow
  */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import AppContainer from './Components/navigator/mainNavigator';
-import * as NavigationService from './Services/NavigationService'
+import SpinnerLoader from './Components/SpinnerLoader';
+import * as NavigationService from './Services/NavigationService';
+import * as SpinnerService from './Services/SpinnerService';
+import * as SignalHubService from './Services/SignalHubService';
 import {
   SafeAreaView,
   StyleSheet,
@@ -15,9 +18,9 @@ import {
   View,
   Text,
   StatusBar,
-  AsyncStorage
+  AsyncStorage,
 } from 'react-native';
-import {Root} from 'native-base'
+import {Root} from 'native-base';
 import {
   Header,
   LearnMoreLinks,
@@ -26,25 +29,21 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-
-
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
-
-  /*componentDidMount() {
-    const user = await AsyncStorage.getItem("username");
-    if (user) 
-    //skip navigation page and go to homePage
-  }*/
+  componentWillUnmount() {
+    SignalHubService.disconnect();
+  }
 
   render() {
     return (
-      <Root><AppContainer ref={c => NavigationService.setNavigator(c)}/></Root>
+      <Root>
+        <AppContainer ref={c => NavigationService.setNavigator(c)} />
+        <SpinnerLoader ref={c => SpinnerService.setSpinner(c)} />
+      </Root>
     );
   }
 }
-

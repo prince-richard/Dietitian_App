@@ -5,6 +5,7 @@ import DietHeaderP from '../Components/DietHeaderP';
 import StarRating from 'react-native-star-rating';
 import {Container, Content, Spinner} from 'native-base';
 import * as RecipeService from '../Services/RecipeService';
+import {NavigationEvents} from 'react-navigation';
 
 const styles = StyleSheet.create({
   mainview: {
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     marginRight: '1%',
   },
   topView: {
-    marginBottom: '10%',
+    marginBottom: '5%',
   },
   text: {
     marginBottom: '5%',
@@ -47,27 +48,28 @@ export default class HomePageP extends Component {
         Rating: 0,
         Ingredients: [],
         Steps: [],
-        DietFName: '',
-        DietLName: '',
+        DietFName: 'This',
+        DietLName: 'this',
         WeeklyStatement: '',
       },
+      userId: this.props.navigation.getParam('id', ''),
     };
   }
-
-  async componentDidMount() {
+  fetchData = async () => {
     const recipeOfWeek = await RecipeService.getRecipeOfTheWeek(
       this.props.navigation.getParam('groupId', ''),
     );
     this.setState({Recipe: recipeOfWeek});
 
     console.log(recipeOfWeek);
-  }
+  };
 
   render() {
     const {navigation} = this.props;
     const imagePath = this.state.PicFilePath;
     return (
-      <Container>
+      <Container style={{backgroundColor: 'burlywood'}}>
+        <NavigationEvents onWillFocus={this.fetchData} />
         <Content>
           <DietHeaderP profileInfo={this.props.navigation.state.params} />
           <View style={styles.mainview}>
@@ -127,11 +129,13 @@ export default class HomePageP extends Component {
                 </View>
               </View>
             </View>
-            <View style={{marginTop: '15%'}}>
+            <View style={{marginTop: '5%'}}>
               <Text style={styles.text}>Weekly Message:</Text>
-              <Text style={styles.text} style={styles.message}>
-                {this.state.Recipe.WeeklyStatement}
-              </Text>
+              <View style={{backgroundColor: 'navajowhite'}}>
+                <Text style={styles.text} style={styles.message}>
+                  {this.state.Recipe.WeeklyStatement}
+                </Text>
+              </View>
             </View>
           </View>
         </Content>
