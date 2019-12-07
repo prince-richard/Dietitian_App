@@ -10,6 +10,8 @@ import {ActivatedRoute} from '@angular/router';
 export class RecipeeditComponent implements OnInit {
   id: string;
   recipe: any;
+  private fieldArray: Array<any> = [];
+  private newAttribute: any = {};
 
   constructor(private http: HttpClient,
     private route: ActivatedRoute) { 
@@ -40,4 +42,10 @@ export class RecipeeditComponent implements OnInit {
     alert("name");
     //send update from to server
   }
+  
+  addFieldValue() {
+    this.fieldArray.push(this.newAttribute)
+    this.newAttribute = {};
+
+}
 }

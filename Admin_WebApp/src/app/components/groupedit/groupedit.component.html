@@ -1,4 +1,8 @@
-<h4>Group: Schmitt</h4>
+<div class="jumbotron text-center">
+    <h3 style="color: white">{{group.Name}}</h3>
+</div>
+
+<h4>Group: {{group.Name}}</h4>
 <h4>Dietitian</h4>
 
 <button class='btn btn-primary' (click)="saveGroup()">Update Group</button>
@@ -45,8 +49,8 @@ Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let user of group.Users">
-                      <td>{{user.FirstName}}</td>
+                    <tr *ngFor="let user of users">
+                      <td>{{user.FirstName}} {{user.LastName}}</td>
                       <td><input type="checkbox"><br></td>
                   </tbody>
                 </table>
@@ -104,7 +108,7 @@ Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let recipe of group.Recipes">
+                  <tr *ngFor="let recipe of recipes">
                     <td>{{recipe.Name}}</td>
                     <td><input type="checkbox"><br></td>
                   </tr>

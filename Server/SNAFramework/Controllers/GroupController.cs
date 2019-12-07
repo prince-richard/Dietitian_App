@@ -78,7 +78,7 @@ namespace DietitianApp.Controllers
         {
             try
             {
-                var group = _context.Group.Where(q => q.Id == Id).Select(d => new
+                var group = _context.Group.Where(q => q.DieticianId == Id).Select(d => new
                 {
                     d.Id,
                     d.DieticianId,

@@ -1,9 +1,11 @@
-<h4>{{recipe.Name}}</h4>
+<div class="jumbotron text-center">
+    <h3 style="color: white">{{recipe.Name}}</h3>
+</div>
 
-Name:<input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
-Calories:<input class="form-control" type="text" [(ngModel)]="recipe.Calories"/>
-PrepTime:<input class="form-control" type="text" [(ngModel)]="recipe.PrepTime"/>
-Servings:<input class="form-control" type="text" [(ngModel)]="recipe.Servings"/>
+Name: <input class="form-control-small" type="text" [(ngModel)]="recipe.Name"/><br><br>
+Calories: <input class="form-control-small" type="text" [(ngModel)]="recipe.Calories"/><br><br>
+PrepTime: <input class="form-control-small" type="text" [(ngModel)]="recipe.PrepTime"/><br><br>
+Servings: <input class="form-control-small" type="text" [(ngModel)]="recipe.Servings"/><br><br>
 <button class='btn btn-primary' (click)="saveRecipe()">Update recipe</button><br>
 
 
@@ -17,12 +19,16 @@ Servings:<input class="form-control" type="text" [(ngModel)]="recipe.Servings"/>
       </thead>
       <tbody>
         <tr *ngFor="let ing of recipe.ingredients">
+          <td><input class="form-control" type="text" [(ngModel)]="ing.Description"/></td>
+          <!--
           <td>{{ing.Description}}</td>
+          -->
           <td><input type="checkbox"><br></td>
         </tr>
       </tbody>
     </table>
-    <button class="btn btn-primary" (click)="submit()">Submit</button>
+    <button class="btn btn-primary" (click)="submit()">Submit</button> | 
+    <button class="btn btn-primary" type="button" (click)="addFieldValue()">Add</button>
 </div>
 
 <div class="table-responsive">
@@ -35,12 +41,16 @@ Servings:<input class="form-control" type="text" [(ngModel)]="recipe.Servings"/>
       </thead>
       <tbody>
         <tr *ngFor="let step of recipe.steps">
+          <td><input class="form-control" type="text" [(ngModel)]="step.Description"/></td>
+          <!--
           <td>{{step.Description}}</td>
+          -->
           <td><input type="checkbox"><br></td>
         </tr>
       </tbody>
     </table>
-    <button class="btn btn-primary" (click)="submit()">Submit</button>
+    <button class="btn btn-primary" (click)="submit()">Submit</button> | 
+    <button class="btn btn-primary" type="button" (click)="addFieldValue()">Add</button>
 </div>
 <!--
 <div class="table-responsive">

@@ -19,63 +19,20 @@ export class GroupmanagerComponent implements OnInit {
   constructor( private http: HttpClient,  private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.id = this.route.snapshot.queryParamMap.get('id');
     this.http.get("api/group/allgroups")
-      .subscribe(res =>{
-        //if id isnt null, groups.filter(id);
-        this.groups = res as any;
-      })
+    .subscribe(res =>{
+      //if id isnt null, groups.filter(id);
+      this.groups = res as any;
+    });
   }
 
   editGroup(group) {
+    console.log(group);
     if (group == null){
       this.router.navigate(['dashboard/groupedit'],{ queryParams: { id: 0 } });
     }else{
-      this.router.navigate(['dashboard/groupedit'],{ queryParams: { id: group.Id } });
+      this.router.navigate(['dashboard/groupedit'],{ queryParams: { id: group.DieticianId } });
     }
-    
-  }
-
-  //JSON object
-  getData(){
-    /*
-    this.groups=[
-      {
-        id:1,
-        name:"johnson",
-        "location":"Patterson"
-        "users":[
-          {
-            Id:1,
-            name:"cole",
-            groupId:1
-          },
-          {
-            Id:2,
-            name:"zach",
-            groupId:1
-          },
-        ],
-        "recipes":[
-          {
-            Id:1,
-            name:"burger",
-            groupId:1
-          },
-          {
-            Id:2,
-            name:"zach",
-            groupId:1
-          }
-        ],
-      },
-      {id:2,name:"smith","location":"New Yor"},
-      {id:3,name:"Hermann","location":"Patterson"},
-      {id:4,name:"Darlton","location":"Patterson"},
-      {id:6,name:"Will","location":"Patterson"},
-    ];
-    this.group = this.groups[0];
-*/
   }
   
   submit(){
