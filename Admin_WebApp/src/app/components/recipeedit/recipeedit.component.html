@@ -1,48 +1,13 @@
 <h4>{{recipe.Name}}</h4>
 
-Name:<input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
-Calories:<input class="form-control" type="text" [(ngModel)]="recipe.Calories"/>
-PrepTime:<input class="form-control" type="text" [(ngModel)]="recipe.PrepTime"/>
-Servings:<input class="form-control" type="text" [(ngModel)]="recipe.Servings"/>
+<input class="form-control" type="text" [(ngModel)]="recipe.Name"/>
 <button class='btn btn-primary' (click)="saveRecipe()">Update recipe</button><br>
-
-
-<div class="table-responsive">
-    <table class="tablemargin table">
-        <thead class="thead-dark-sna">
-        <tr>
-          <th scope="col">Ingredients</th>
-          <th scope="col">Remove</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let ing of recipe.ingredients">
-          <td>{{ing.Description}}</td>
-          <td><input type="checkbox"><br></td>
-        </tr>
-      </tbody>
-    </table>
-    <button class="btn btn-primary" (click)="submit()">Submit</button>
-</div>
-
-<div class="table-responsive">
-    <table class="tablemargin table">
-        <thead class="thead-dark-sna">
-        <tr>
-          <th scope="col">Steps</th>
-          <th scope="col">Remove</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let step of recipe.steps">
-          <td>{{step.Description}}</td>
-          <td><input type="checkbox"><br></td>
-        </tr>
-      </tbody>
-    </table>
-    <button class="btn btn-primary" (click)="submit()">Submit</button>
-</div>
 <!--
+<div class=row>  
+  <div class="col-md-7">
+    <table class="table table-bordered">
+      <thead>
+        -->
 <div class="table-responsive">
     <table class="tablemargin table">
         <thead class="thead-dark-sna">
@@ -51,7 +16,7 @@ Servings:<input class="form-control" type="text" [(ngModel)]="recipe.Servings"/>
           <th scope="col">Steps</th>
           <th scope="col">Calories</th>
           <th scope="col">Prep Time</th>
-          <th scope="col">Servings</th>
+          <th scope="col">Remove</th>
         </tr>
       </thead>
       <tbody>
@@ -72,15 +37,14 @@ Servings:<input class="form-control" type="text" [(ngModel)]="recipe.Servings"/>
           </td>
           <td>{{recipe.Calories | json}}</td>
           <td>{{recipe.PrepTime}}</td>
-          <td>{{recipe.Servings}}</td>
+          <td><input type="checkbox"><br></td>
         </tr>
       </tbody>
     </table>
     <button class="btn btn-primary" (click)="submit()">Submit</button>
 </div>
--->
     <br><br>
-<!--
+
 <h4>Group List</h4>
   <div class="table-responsive">
     <table class="tablemargin table">
@@ -103,7 +67,7 @@ Servings:<input class="form-control" type="text" [(ngModel)]="recipe.Servings"/>
   <button class="btn btn-primary" (click)="submit()">Submit</button>
   <br><br>
 
-
+<!--
 <div class="col-md-5">
     <h3>Add Recipe</h3>
     <div class="form-group">

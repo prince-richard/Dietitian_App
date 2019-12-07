@@ -1,10 +1,7 @@
-<div class="jumbotron text-center">
-    <h3 style="color: white">Group Manager</h3>
-</div>
-<!--<button (click)="getData()">Get Data</button><br>
+<h2>Group Manager</h2>
+<!--<button (click)="getData()">Get Data</button><br>-->
 Groups: 
 {{groups.length}}<br>
--->
 <button class="btn btn-primary" (click)="editGroup(null)">Add Group</button>
 
 
@@ -23,7 +20,7 @@ Groups:
         <tr *ngFor="let group of groups">
           <td>{{group.Id}}</td>
           <td>{{group.DietitianName}}</td>
-          <td>{{group.Name}}</td>
+          <td (click)="select(group)" style="color:blue;text-decoration:underline ">{{group.Name}}</td>
           <td>
             <ul>
               <li *ngFor="let user of group.Users">

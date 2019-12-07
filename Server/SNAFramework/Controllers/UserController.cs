@@ -38,7 +38,7 @@ namespace DietitianApp.Controllers
         }
 
         [HttpGet("allusers")]
-        public IActionResult allusers()
+        public async Task<IActionResult> allusers()
         {
             try
             {
@@ -64,7 +64,7 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getuser")]
-        public IActionResult getuser([FromQuery]string id)
+        public async Task<IActionResult> getuser([FromQuery]string id)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("lockupdate")]
-        public IActionResult lockupdate([FromQuery]int userid,bool operation)
+        public async Task<IActionResult> lockupdate([FromQuery]int userid,bool operation)
         {
             try
             {
@@ -216,7 +216,7 @@ namespace DietitianApp.Controllers
 
 
         [HttpGet("roles")]
-        public IActionResult allroles()
+        public async Task<IActionResult> allroles()
         {
             try
             {
@@ -316,7 +316,7 @@ namespace DietitianApp.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("getMessages")]
-        public IActionResult getMessages([FromQuery]int patientId, string groupId = null)
+        public async Task<IActionResult> getMessages([FromQuery]int patientId, string groupId = null)
         {
             try
             {
@@ -368,7 +368,7 @@ namespace DietitianApp.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("getFeedback")]
-        public IActionResult getFeedback([FromQuery]string userId, string groupId)
+        public async Task<IActionResult> getFeedback([FromQuery]string userId, string groupId)
         {
             try
             {
