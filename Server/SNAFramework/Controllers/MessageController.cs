@@ -23,51 +23,51 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace DietitianApp.Controllers
 {
-
-    // GET: /<controller>/
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Administrator")]
-    [Route("api/message")]
-    public class MessageController : SnaBaseController
-    {
-        public readonly S3Service _s3Service;
-        private IHubContext<SignalRHub> _signalRHubContext { get; set; }
-
-        public MessageController(
-            ApplicationDbContext context,
-            IConfiguration configuration,
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            RoleManager<IdentityRole> roleManager,
-            IAmazonSimpleEmailService client,
-            IAmazonS3 s3Client,
-            IHubContext<SignalRHub> signalRHub
-            ) : base(context, configuration, roleManager, client, userManager, signInManager)
+   
+        // GET: /<controller>/
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Administrator")]
+        [Route("api/message")]
+        public class MessageController : SnaBaseController
         {
-            _s3Service = new S3Service(s3Client, _configuration);
-            _signalRHubContext = signalRHub;
-        }
+            public readonly S3Service _s3Service;
+            private IHubContext<SignalRHub> _signalRHubContext { get; set; }
 
-
-        [HttpPost("")]
-        public async Task<IActionResult> CreateMessage([FromBody] Message message)
-        {
-            try
+            public MessageController(
+                ApplicationDbContext context,
+                IConfiguration configuration,
+                UserManager<IdentityUser> userManager,
+                SignInManager<IdentityUser> signInManager,
+                RoleManager<IdentityRole> roleManager,
+                IAmazonSimpleEmailService client,
+                IAmazonS3 s3Client,
+                IHubContext<SignalRHub> signalRHub
+                ) : base(context, configuration, roleManager, client, userManager, signInManager)
             {
-                var nMsg = new Message()
-                {
-                    Contents = message.Contents,
-                    GroupId = message.GroupId,
-                    RecieverId = message.RecieverId,
-                    SenderId = message.SenderId,
-                    Timestamp = DateTime.Now
-                };
-                _context.Message.Update(nMsg);
-                await _context.SaveChangesAsync();
+                _s3Service = new S3Service(s3Client, _configuration);
+                _signalRHubContext = signalRHub;
+            }
 
-                var senderConnection = _context.ChatConnection.FirstOrDefault(c => c.ConnectionOwnerId == message.SenderId);
-                var recieverConnection = _context.ChatConnection.FirstOrDefault(c => c.ConnectionOwnerId == message.SenderId);
-                var sender = _context.UserProfile.FirstOrDefault(u => u.Id == message.SenderId);
-                var reciever = _context.UserProfile.FirstOrDefault(u => u.Id == message.RecieverId);
+
+            [HttpPost("")]
+            public async Task<IActionResult> CreateMessage([FromBody] Message message)
+            {
+                try
+                {
+                    var nMsg = new Message()
+                    {
+                        Contents = message.Contents,
+                        GroupId = message.GroupId,
+                        RecieverId = message.RecieverId,
+                        SenderId = message.SenderId,
+                        Timestamp = DateTime.Now
+                    };
+                    _context.Message.Add(nMsg);
+                    await _context.SaveChangesAsync();
+
+                    var senderConnection = _context.ChatConnection.FirstOrDefault(c => c.ConnectionOwnerId == message.SenderId);
+                    var recieverConnection = _context.ChatConnection.FirstOrDefault(c => c.ConnectionOwnerId == message.SenderId);
+                    var sender = _context.UserProfile.FirstOrDefault(u => u.Id == message.SenderId);
+                    var reciever = _context.UserProfile.FirstOrDefault(u => u.Id == message.RecieverId);
 
                 var retObj = new
                 {
@@ -81,30 +81,14 @@ namespace DietitianApp.Controllers
 
                 var groups = _signalRHubContext.Groups;
                 var client = _signalRHubContext.Clients.Group(reciever.Email);
-                if (senderConnection.IsConnected) await _signalRHubContext.Clients.Group(sender.Email).SendAsync("chatlistener", sender.Email, retObj);
-                if (recieverConnection.IsConnected) await _signalRHubContext.Clients.Group(reciever.Email).SendAsync("chatlistener", sender.Email, retObj);
+                    if (senderConnection.IsConnected) await _signalRHubContext.Clients.Group(sender.Email).SendAsync("chatlistener", sender.Email, retObj);
+                    if (recieverConnection.IsConnected) await _signalRHubContext.Clients.Group(reciever.Email).SendAsync("chatlistener", sender.Email, retObj);
 
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
-            }
-        }
-        [HttpGet("GetMessages")]
-        public async Task<IActionResult> GetMessages([FromQuery] int userId, [FromQuery] int take)
-        {
-            try
-            {
-                if (userId == 0)
-                {
-                    var m = _context.Message.OrderByDescending(x => x.Id).Take(take);
-                    return Ok(JsonConvert.SerializeObject(m));
+                    return Ok();
                 }
-                else
+                catch (Exception e)
                 {
-                    var m = _context.Message.Where(s => s.SenderId == userId || s.RecieverId == userId).OrderByDescending(x => x.Id).Take(take).ToList();
-                    return Ok(JsonConvert.SerializeObject(m));
+                    return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
                 }
             }
             catch (Exception e)
@@ -112,5 +96,6 @@ namespace DietitianApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
             }
         }
+
     }
 }

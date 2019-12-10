@@ -12,7 +12,6 @@ import {ActivatedRoute} from '@angular/router';
 export class GroupeditComponent implements OnInit {
   id: string;
   group: any;
-  recipes: any;
 
   constructor(private http: HttpClient,
     private route: ActivatedRoute) {
@@ -28,10 +27,7 @@ export class GroupeditComponent implements OnInit {
       }else{
       this.http.get("/api/group/getgroup?id="+this.id)
       .subscribe(res =>{
-        this.group = res["group"];
-        console.log(this.group)
-        this.recipes = res["recipes"];
-        console.log(this.recipes);
+        this.group = res;
       });
       }
     }
