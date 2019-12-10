@@ -8,13 +8,23 @@ import Icon3 from 'react-native-vector-icons/MaterialIcons';
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: 'white',
-    alignItems: 'center',
+    backgroundColor: 'burlywood',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   button: {
     borderWidth: 2,
-    marginLeft: '10%',
-    marginRight: '10%',
+    margin: 2,
+    // marginLeft: '5%',
+    // marginRight: '5%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '16%',
+  },
+  text: {
+    fontSize: 9,
+    textAlign: 'center',
   },
 });
 
@@ -31,21 +41,25 @@ export default class DietHeaderP extends Component {
           style={styles.button}
           onPress={this.handleNavigation('HomePageP', profileInfo)}>
           <Icon name="home" size={30} />
+          <Text style={styles.text}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={this.handleNavigation('RecipeListP', profileInfo)}>
           <Icon2 name="food" size={30} />
+          <Text style={styles.text}>Recipes</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={this.handleNavigation('MessagePageP', profileInfo)}>
           <Icon2 name="message-text" size={30} />
+          <Text style={styles.text}>Messages</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={this.handleNavigation('AccountP', profileInfo)}>
           <Icon3 name="person" size={30} />
+          <Text style={styles.text}>Profile</Text>
         </TouchableOpacity>
       </Header>
     );

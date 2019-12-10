@@ -16,24 +16,37 @@ const instance = axios.create({
 });
 
 instance.interceptors.response.use(null, err => {
-  Alert.alert('interceptor', JSON.stringify(err));
+  console.log(err.response.status);
+
   if (err && !err.response) {
+    console.log(err);
     Alert.alert(
       'No connection.',
       'Please make sure you connect to the internet.',
     );
     return;
   }
-
-  if (err && (err.statusCode == 401 || err.statusCode == 403)) {
+  if (err && err.response.status == 401) {
+    Alert.alert('Login Failed', 'Username or Password is wrong');
+    return;
+  }
+  if (err && err.response.status == 403) {
     NavigationService.navigate('LoginStack');
     return;
   }
 
-  if (err && err.statusCode >= 500) {
+  if (err && err.response.status >= 500) {
     let message = 'Interal error.';
-    if (err.message) message = err.message;
-    Alert.alert('500', message);
+    if (err.response.data) {
+      const dynamicMsg = JSON.parse(err.response.data).message;
+      if (dynamicMsg) message = dynamicMsg;
+    }
+    let messageHeader = '500';
+    if (err.response.data) {
+      const dynamicMsgH = JSON.parse(err.response.data).messageHeader;
+      if (dynamicMsgH) messageHeader = dynamicMsgH;
+    }
+    Alert.alert(messageHeader, message);
     return;
   }
 

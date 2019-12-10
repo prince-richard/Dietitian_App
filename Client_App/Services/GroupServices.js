@@ -7,7 +7,6 @@ import {
 } from './BaseService';
 export async function getGroupPatients(groupid) {
   try {
-    console.log(authHeader);
     console.log('groupId', groupid);
     const result = await instance.get(
       `${baseURL}/api/group/getGroupPatients?groupId=${groupid}`,
@@ -23,7 +22,6 @@ export async function getGroupPatients(groupid) {
 }
 export async function getDietHomePage(groupid) {
   try {
-    console.log(authHeader);
     console.log('groupId', groupid);
     const result = await instance.get(
       `${baseURL}/api/group/getDietHomePage?groupId=${groupid}`,
@@ -37,24 +35,20 @@ export async function getDietHomePage(groupid) {
     handleError(err);
   }
 }
-export async function updateWeeklyStatement(groupid, weeklyStatement) {
+export async function updateWeeklyStatement(groupid, message) {
   try {
-    console.log(authHeader);
-    const result = await instance.put(
-      `${baseURL}/api/group/updateWeeklyStatement?groupId=${groupid}&message=${weeklyStatement}`,
+    await instance.put(
+      `${baseURL}/api/group/updateWeeklyStatement/${groupid}/${message}`,
+      {},
       authHeader,
     );
-    if (result) {
-      console.log(typeof result.data);
-      return JSON.parse(result.data);
-    }
+    return true;
   } catch (err) {
     handleError(err);
   }
 }
 export async function getRequests(groupid) {
   try {
-    console.log(authHeader);
     console.log('groupId', groupid);
     const result = await instance.get(
       `${baseURL}/api/group/getRequests?groupId=${groupid}`,
@@ -71,13 +65,78 @@ export async function getRequests(groupid) {
 
 export async function updateRequestStatus(statusId, id) {
   try {
-    console.log(authHeader);
     await instance.put(
       `${baseURL}/api/group/updateRequestStatus/${id}/${statusId}`,
       {},
       authHeader,
     );
     return true;
+  } catch (err) {
+    handleError(err);
+  }
+}
+export async function leaveGroup(id) {
+  try {
+    await instance.put(`${baseURL}/api/group/leaveGroup/${id}`, {}, authHeader);
+    return true;
+  } catch (err) {
+    handleError(err);
+  }
+}
+export async function getDieticians() {
+  try {
+    const result = await instance.get(
+      `${baseURL}/api/group/getDieticians`,
+      authHeader,
+    );
+    if (result) {
+      console.log(typeof result.data);
+      return JSON.parse(result.data);
+    }
+  } catch (err) {
+    handleError(err);
+  }
+}
+export async function getDietician(groupId) {
+  try {
+    const result = await instance.get(
+      `${baseURL}/api/group/getDietitian/${groupId}`,
+      authHeader,
+    );
+    if (result) {
+      console.log(typeof result.data);
+      return JSON.parse(result.data);
+    }
+  } catch (err) {
+    handleError(err);
+  }
+}
+export async function getDieticianId(groupId) {
+  try {
+    const result = await instance.get(
+      `${baseURL}/api/group/getDietitianId/${groupId}`,
+      authHeader,
+    );
+    if (result) {
+      console.log(typeof result.data);
+      return JSON.parse(result.data);
+    }
+  } catch (err) {
+    handleError(err);
+  }
+}
+
+export async function requestGroup(id, groupId) {
+  try {
+    await instance.put(
+      `${baseURL}/api/group/requestGroup/${id}/${groupId}`,
+      {},
+      authHeader,
+    );
+    if (result) {
+      console.log(typeof result.data);
+      return JSON.parse(result.data);
+    }
   } catch (err) {
     handleError(err);
   }

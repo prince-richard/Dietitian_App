@@ -8,13 +8,23 @@ import Icon3 from 'react-native-vector-icons/MaterialIcons';
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: 'white',
-    alignItems: 'center',
+    backgroundColor: 'burlywood',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   button: {
     borderWidth: 2,
-    marginLeft: '5%',
-    marginRight: '5%',
+    margin: 2,
+    // marginLeft: '5%',
+    // marginRight: '5%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '16%',
+  },
+  text: {
+    fontSize: 9,
+    textAlign: 'center',
   },
 });
 
@@ -32,26 +42,31 @@ export default class DietHeaderD extends Component {
           style={styles.button}
           onPress={this.handleNavigation('HomePageD', profileInfo)}>
           <Icon name="home" size={30} />
+          <Text style={styles.text}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={this.handleNavigation('RegisterListD', profileInfo)}>
-          <Icon name="group" size={30} />
+          <Icon3 name="group-add" size={30} />
+          <Text style={styles.text}>Registration</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={this.handleNavigation('CommentListD', profileInfo)}>
           <Icon2 name="message-text" size={30} />
+          <Text style={styles.text}>Comments</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={this.handleNavigation('PatientList', profileInfo)}>
-          <Icon3 name="group-add" size={30} />
+          <Icon name="group" size={30} />
+          <Text style={styles.text}>Patients</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={this.handleNavigation('RecipeListD', profileInfo)}>
           <Icon2 name="food" size={30} />
+          <Text style={styles.text}>Recipes</Text>
         </TouchableOpacity>
       </Header>
     );

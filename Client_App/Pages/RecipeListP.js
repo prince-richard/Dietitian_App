@@ -6,42 +6,16 @@ import * as NavigationService from '../Services/NavigationService';
 import DietHeaderP from '../Components/DietHeaderP';
 import RecipeInRecipeList from '../Components/RecipeInRecipeList';
 import * as RecipeService from '../Services/RecipeService';
-
+import * as SpinnerService from '../Services/SpinnerService';
 const styles = StyleSheet.create({
   flatlistView: {
-    borderWidth: 1,
-    height: '84%',
-    marginBottom: '5%',
+    marginBottom: '7%',
     marginTop: '10%',
   },
   mainview: {
     margin: '5%',
   },
 });
-
-function Item({
-  name,
-  prepTime,
-  calories,
-  servings,
-  rating,
-  ingredients,
-  picFilePath,
-  steps,
-}) {
-  return (
-    <RecipeInRecipeList
-      Name={name}
-      Servings={servings}
-      Calories={calories}
-      Rating={rating}
-      PrepTime={prepTime}
-      Ingredients={ingredients}
-      PicFilePath={picFilePath}
-      Steps={steps}
-    />
-  );
-}
 
 export default class RecipeListP extends Component {
   constructor(props) {
@@ -51,39 +25,46 @@ export default class RecipeListP extends Component {
     };
   }
   async componentDidMount() {
+    SpinnerService.showSpinner();
     const recipes = await RecipeService.getGroupRecipes(
       this.props.navigation.getParam('groupId', ''),
     );
     this.setState({Recipes: recipes});
     console.log(recipes);
+    SpinnerService.hideSpinner();
   }
-  // fetchData = async () => {
-  //   const recipes = await RecipeService.getGroupRecipes(
-  //     this.props.navigation.getParam('groupId', ''),
-  //   );
-  //   this.setState({Recipes: recipeOfWeek});
-  // };
+  // //  fetchData = async () => {
+  // //    const recipes = await RecipeService.getGroupRecipes(
+  // //      this.props.navigation.getParam('groupId', ''),
+  // //    );
+  // //    this.setState({Recipes: recipeOfWeek});
+  // //  };
   render() {
     const {navigation} = this.props;
     return (
-      <View>
+      <View style={{backgroundColor: 'burlywood', flex: 1}}>
         {/* <NavigationEvents onDidFocus={this.fetchData}/> */}
         <DietHeaderP profileInfo={this.props.navigation.state.params} />
         <View style={styles.mainview}>
-          <Text>Recipe List: </Text>
+          <View style={{marginLeft: '5%'}}>
+            <Text>Recipes: </Text>
+          </View>
           <View style={styles.flatlistView}>
             <FlatList
               data={this.state.Recipes}
+              ItemSeparatorComponent={this.FlatListItemSeparator}
               renderItem={({item}) => (
-                <Item
-                  name={item.Name}
-                  prepTime={item.PrepTime}
-                  calories={item.Calories}
-                  rating={item.Rating}
-                  servings={item.Servings}
-                  picFilePath={item.Url}
-                  steps={item.Steps}
-                  ingredients={item.Ingredients}
+                <RecipeInRecipeList
+                  Name={item.Name}
+                  PrepTime={item.PrepTime}
+                  Calories={item.Calories}
+                  Rating={item.Rating}
+                  Servings={item.Servings}
+                  PicFilePath={item.Url}
+                  Steps={item.Steps}
+                  Ingredients={item.Ingredients}
+                  Comments={item.Comments}
+                  Id={item.Id}
                 />
               )}
               keyExtractor={(item, index) => index.toString()}
@@ -97,5 +78,18 @@ export default class RecipeListP extends Component {
   handleNavigation = (routeName, params) => () => {
     const {navigation} = this.props;
     NavigationService.navigation(routeName, params);
+  };
+  FlatListItemSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: '95%',
+          marginLeft: '2.5%',
+          marginRight: '2.5%',
+          backgroundColor: 'black',
+        }}
+      />
+    );
   };
 }

@@ -10,7 +10,7 @@ export function email(input, augs) {
 }
 
 export function required(input, augs) {
-  let message = 'This input field is requried.';
+  let message = 'This input field is required.';
   if (augs && augs.message) message = augs.message;
   if (`${input}`.trim() === '') {
     return message;
@@ -92,7 +92,7 @@ export function refEqual(input, args) {
 
 export function imageSize(image, augs) {
   let message =
-    'The size of the image is too large. Please corp the image or select another one.';
+    'The size of the image is too large. Please crop the image or select another one.';
   let max = 2000000;
   if (augs && augs.params && augs.params.min) min = augs.params.min;
   if (augs && augs.params && augs.params.max) max = augs.params.max;
@@ -106,6 +106,16 @@ export function password(input, args) {
   let message =
     'Password must have 8 chars including at least 1 num, 1 special char, 1 uppercase char and 1 lowercase char.';
   let reg = /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[\d]){1,})(?=(.*[!@#\$%\^&]){1,})(?!.*[^a-zA-Z0-9!@#\$%\^&]).{8,}$/;
+  if (!reg.test(input)) {
+    return message;
+  }
+  return null;
+}
+export function phone(input, args) {
+  if (input == '') return null;
+  let message =
+    'Invalid phone number, must follow a valid format such as "+31636363634" or "1234567890"';
+  let reg = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
   if (!reg.test(input)) {
     return message;
   }

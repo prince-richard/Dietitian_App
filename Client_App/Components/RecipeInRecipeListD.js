@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import StarRating from 'react-native-star-rating';
 import * as NavigationService from '../Services/NavigationService';
+import Icon from 'react-native-vector-icons/Entypo';
 
 const styles = StyleSheet.create({
   mainview: {
@@ -38,7 +39,10 @@ export default class RecipeInRecipeListD extends Component {
       rating,
       steps,
       ingredients,
-      id
+      id,
+      groupId,
+      groupFlag,
+      specialFlag,
     } = this.props;
     return (
       <View style={styles.mainview}>
@@ -61,7 +65,7 @@ export default class RecipeInRecipeListD extends Component {
             <Text style={styles.text}>{this.props.name}</Text>
             <Text style={styles.text}>Calories: {this.props.calories}</Text>
             <Text style={styles.text}>
-              Time to Cook: {this.props.prepTime} minutes
+              Time to Cook: {this.props.prepTime} mins
             </Text>
             <Text style={styles.text}>Servings: {this.state.servings}</Text>
             <View style={{width: '10%'}}>
@@ -78,6 +82,26 @@ export default class RecipeInRecipeListD extends Component {
               />
             </View>
           </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            flex: 1,
+            alignItems: 'center',
+            marginBottom: '5%',
+          }}>
+          <Text style={{}}>In Group:</Text>
+          {groupFlag ? (
+            <Icon name="check" size={25} />
+          ) : (
+            <Icon name="cross" size={25} />
+          )}
+          <Text style={{}}>Recipe of the Week:</Text>
+          {specialFlag ? (
+            <Icon name="check" size={25} />
+          ) : (
+            <Icon name="cross" size={25} />
+          )}
         </View>
       </View>
     );

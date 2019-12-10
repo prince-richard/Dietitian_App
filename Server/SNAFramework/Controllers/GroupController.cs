@@ -74,7 +74,7 @@ namespace DietitianApp.Controllers
         }
 
         [HttpGet("getgroup")]
-        public IActionResult getgroup([FromQuery]int Id)
+        public async Task<IActionResult> getgroup([FromQuery]int Id)
         {
             try
             {
@@ -84,53 +84,37 @@ namespace DietitianApp.Controllers
                     d.DieticianId,
                     DietitianName = d.Dietician.FirstName + " " + d.Dietician.LastName,
                     d.Name,
-                    Users = d.UserProfile.Where(u => u.GroupId == d.Id && u.StatusId == 2).Select(x => new
+                    Users = d.UserProfile.Where(u => u.GroupId == d.Id && d.Id != d.DieticianId && u.StatusId == 2).Select(x => new
                     {
                         x.Id,
                         x.FirstName
-                    }).ToList(),
-                    Recipes = d.RecipeGroupRef.Select(r => new
-                    {
-                        r.RecipeId,
-                        r.Recipe.Name
-                    })
+                    }).ToList()
                 }).SingleOrDefault();
-                var recipes = _context.Recipe.Select(r => new
-                {
-                    r.Id,
-                    r.Name
-                });
-                var users = _context.UserProfile.Select(u => new
-                {
-                    u.Id,
-                    u.FirstName,
-                    u.LastName,
-                    u.Email
-                });
-                return Ok(JsonConvert.SerializeObject(new { group, recipes, users }));
+
+                return Content(Newtonsoft.Json.JsonConvert.SerializeObject(group));
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
             }
-        }
 
+        }
         [HttpGet]
         [Route("getGroupPatients")]
-        public IActionResult getGroupPatients([FromQuery] int groupId)
+        public async Task<IActionResult> getGroupPatients([FromQuery] int groupId)
         {
             try
             {
-                var patients = _context.UserProfile.Where(q => q.GroupId == groupId && q.StatusId == 2).Select(d => new
+                var patients = _context.UserProfile.Where(q => q.GroupId == groupId && q.StatusId==2).Select(d => new
                 {
                     d.Id,
                     d.FirstName,
                     d.LastName,
                     d.Email,
-                    TimeSinceLastPost = d.UserFeedback.Count != 0 ? d.UserFeedback.Max(x => x.Timestamp).ToString() : "No comments yet"
-
+                    TimeSinceLastPost = d.UserFeedback.Count != 0 ? d.UserFeedback.Max(x=>x.Timestamp).ToString(): "No comments yet"
+                    
                 }).ToList();
-
+                
                 return Ok(JsonConvert.SerializeObject(patients));
             }
             catch (Exception e)
@@ -143,7 +127,7 @@ namespace DietitianApp.Controllers
         //update group
         [HttpPut]
         [Route("updategroup")]
-        public IActionResult updategroup([FromBody] Group grp)
+        public async Task<IActionResult> updategroup([FromBody] Group grp)
         {
             try
             {
@@ -246,7 +230,7 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getRequests")]
-        public IActionResult getRequests([FromQuery] int groupId)
+        public async Task<IActionResult> getRequests([FromQuery] int groupId)
         {
             try
             {
@@ -324,7 +308,7 @@ namespace DietitianApp.Controllers
         }
         [HttpGet]
         [Route("getDieticians")]
-        public IActionResult getDieticians()
+        public async Task<IActionResult> getDieticians()
         {
             try
             {

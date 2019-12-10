@@ -6,10 +6,13 @@ import DietHeaderD from '../Components/DietHeaderD';
 import CommentComponent from '../Components/CommentComponent';
 import * as RecipeService from '../Services/RecipeService';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {NavigationEvents} from 'react-navigation';
 
 const styles = StyleSheet.create({
   mainview: {
-    margin: '5%',
+    marginLeft: '5%',
+    marginRight: '5%',
+    marginTop: '5%',
   },
 });
 
@@ -19,41 +22,48 @@ export default class CommentListD extends Component {
     this.state = {
       data: [],
       isOpen: false,
+      currentItemIndex: null,
     };
   }
-  async componentDidMount() {
+  fetchData = async () => {
     const recipes = await RecipeService.getComments(
       this.props.navigation.getParam('groupId', ''),
     );
     this.setState({data: recipes});
     console.log(recipes);
-  }
+  };
   render() {
     return (
-      <View>
-        <DietHeaderD profileInfo={this.props.navigation.state.params} />
-        <View style={styles.mainView}>
-          <Text>Comments for each Recipe: </Text>
-          <Accordion
-            style={{
-              margin: '5%',
-              marginTop: '3%',
-              borderWidth: 1,
-              padding: '5%',
-            }}
-            dataArray={this.state.data}
-            renderContent={item => this.renderItem(item.Comments)}
-            renderHeader={item =>
-              this.renderHeader({
-                name: item.Name,
-                numOfComments: item.NumberOfComments,
-              })
-            }
-            onAccordionOpen={() => this.setState({isOpen: true})}
-            onAccordionClose={() => this.setState({isOpen: false})}
-          />
-        </View>
-      </View>
+      <Container>
+        <Content style={{backgroundColor: 'burlywood', flex: 1}}>
+          <NavigationEvents onWillFocus={this.fetchData} />
+          <DietHeaderD profileInfo={this.props.navigation.state.params} />
+          <View style={styles.mainView}>
+            <View style={{marginLeft: '10%', marginTop: '5%'}}>
+              <Text>Comments per Recipe: </Text>
+            </View>
+            <Accordion
+              style={{
+                marginLeft: '5%',
+                marginRight: '5%',
+                padding: '5%',
+              }}
+              icon={() => <Icon name="down" size={30} />}
+              dataArray={this.state.data}
+              renderContent={item => this.renderItem(item.Comments)}
+              renderHeader={(item, isOpen) =>
+                this.renderHeader({
+                  name: item.Name,
+                  numOfComments: item.NumberOfComments,
+                  isOpen: isOpen,
+                })
+              }
+              onAccordionOpen={(item, index) => this.openItem(index)}
+              onAccordionClose={(item, index) => this.openItem(index)}
+            />
+          </View>
+        </Content>
+      </Container>
     );
   }
 
@@ -63,7 +73,7 @@ export default class CommentListD extends Component {
 
   renderItem = item => {
     return (
-      <View style={{marginBottom: '1%', backgroundColor: 'tan'}}>
+      <View style={{marginBottom: '1%', backgroundColor: 'navajowhite'}}>
         <FlatList
           data={item}
           ItemSeparatorComponent={this.FlatListItemSeparator}
@@ -81,19 +91,24 @@ export default class CommentListD extends Component {
     );
   };
   renderHeader = item => {
+    console.log(this.state.currentItemIndex, item.isOpen);
     return (
       <View
         style={{
           flexDirection: 'row',
           marginBottom: '1%',
-          backgroundColor: 'grey',
+          backgroundColor: 'tomato',
           alignItems: 'flex-end',
         }}>
-        <Text style={{marginLeft: '2%', paddingBottom: '2%'}}>{item.name}</Text>
-        <Text style={{marginLeft: '2%', paddingBottom: '2%'}}>
-          {item.numOfComments}
-        </Text>
-        {this.state.isOpen == false ? (
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <Text style={{marginLeft: '2%', paddingBottom: '2%'}}>
+            {item.name}
+          </Text>
+          <Text style={{marginLeft: '2%', paddingBottom: '2%'}}>
+            {item.numOfComments}
+          </Text>
+        </View>
+        {!item.isOpen ? (
           <Icon name="down" size={30} />
         ) : (
           <Icon name="up" size={30} />
@@ -111,5 +126,12 @@ export default class CommentListD extends Component {
         }}
       />
     );
+  };
+  openItem = id => {
+    if (id != this.state.currentItemIndex) {
+      this.setState({currentItemIndex: id});
+    } else {
+      this.setState({currentItemIndex: null});
+    }
   };
 }

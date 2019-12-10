@@ -37,7 +37,6 @@ import { UsermanagerService } from './components/usermanager/usermanager.service
 //directive, module
 import { snaAccess, SnaAccessService } from './directives/sna-access.directive';
 import { RecipemanagerService } from './components/recipemanager/recipemanager.service';
-import { MessageMonitorComponent } from './components/message-monitor/message-monitor.component';
 
 
 
@@ -69,7 +68,6 @@ export function getToken(){
     RecipeeditComponent,
     RmtestComponent,
     TestComponent,
-    MessageMonitorComponent,
     
   ],
   entryComponents: [],

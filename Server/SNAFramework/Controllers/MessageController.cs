@@ -23,7 +23,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace DietitianApp.Controllers
 {
-
+   
     // GET: /<controller>/
     [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Administrator")]
     [Route("api/message")]
@@ -61,7 +61,7 @@ namespace DietitianApp.Controllers
                     SenderId = message.SenderId,
                     Timestamp = DateTime.Now
                 };
-                _context.Message.Update(nMsg);
+                _context.Message.Add(nMsg);
                 await _context.SaveChangesAsync();
 
                 var senderConnection = _context.ChatConnection.FirstOrDefault(c => c.ConnectionOwnerId == message.SenderId);
@@ -85,27 +85,6 @@ namespace DietitianApp.Controllers
                 if (recieverConnection.IsConnected) await _signalRHubContext.Clients.Group(reciever.Email).SendAsync("chatlistener", sender.Email, retObj);
 
                 return Ok();
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(new returnMsg { message = e.Message }));
-            }
-        }
-        [HttpGet("GetMessages")]
-        public async Task<IActionResult> GetMessages([FromQuery] int userId, [FromQuery] int take)
-        {
-            try
-            {
-                if (userId == 0)
-                {
-                    var m = _context.Message.OrderByDescending(x => x.Id).Take(take);
-                    return Ok(JsonConvert.SerializeObject(m));
-                }
-                else
-                {
-                    var m = _context.Message.Where(s => s.SenderId == userId || s.RecieverId == userId).OrderByDescending(x => x.Id).Take(take).ToList();
-                    return Ok(JsonConvert.SerializeObject(m));
-                }
             }
             catch (Exception e)
             {

@@ -43,7 +43,7 @@ namespace DietitianApp.Controllers
         }
 
         [HttpGet("tests3")]
-        public IActionResult tests3()
+        public async Task<IActionResult> tests3()
         {
             try
             {
@@ -77,7 +77,7 @@ namespace DietitianApp.Controllers
             }
         }
         [HttpGet("allrecipes")]
-        public IActionResult allrecipes()
+        public async Task<IActionResult> allrecipes()
         {
             try
             {
@@ -102,7 +102,7 @@ namespace DietitianApp.Controllers
 
         [HttpPut]
         [Route("updaterecipe")]
-        public IActionResult updaterecipe([FromBody] Recipe rec)
+        public async Task<IActionResult> updaterecipe([FromBody] Recipe rec)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getrecipe")]
-        public IActionResult getrecipe([FromQuery]int Id)
+        public async Task<IActionResult> getrecipe([FromQuery]int Id)
         {
             try
             {
@@ -189,7 +189,7 @@ namespace DietitianApp.Controllers
         
         [HttpGet]
         [Route("getGroupRecipes")]
-        public IActionResult getGroupRecipes([FromQuery]int groupId)
+        public async Task<IActionResult> getGroupRecipes([FromQuery]int groupId)
         {
             try
             {
@@ -224,7 +224,7 @@ namespace DietitianApp.Controllers
 
         [HttpGet]
         [Route("getComments")]
-        public IActionResult getComments([FromQuery]int groupId)
+        public async Task<IActionResult> getComments([FromQuery]int groupId)
         {
             try
             {
@@ -256,7 +256,7 @@ namespace DietitianApp.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("getAllRecipes")]
-        public IActionResult getAllRecipes([FromQuery]int groupId)
+        public async Task<IActionResult> getAllRecipes([FromQuery]int groupId)
         {
             try
             {
@@ -284,7 +284,7 @@ namespace DietitianApp.Controllers
         }
         [HttpPut]
         [Route("specialRecipeChangeNoGroupChange/{groupId}/{recipeId}")]
-        public IActionResult specialRecipeChangeNoGroupChange([FromRoute] int groupId, [FromRoute] int recipeId)
+        public async Task<IActionResult> specialRecipeChangeNoGroupChange([FromRoute] int groupId, [FromRoute] int recipeId)
         {
             try
             {

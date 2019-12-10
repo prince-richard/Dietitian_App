@@ -13,7 +13,8 @@ import {
 import * as NavigationService from '../Services/NavigationService';
 import StarRating from 'react-native-star-rating';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-
+import * as RecipeServices from '../Services/RecipeService';
+import * as AccountManagementService from '../Services/AccountManagementService';
 YellowBox.ignoreWarnings([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
 ]);
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     marginBottom: '5%',
+    backgroundColor: 'navajowhite',
   },
 });
 function Item({title}) {
@@ -68,7 +70,11 @@ export default class RecipeP extends Component {
     const {goBack} = this.props.navigation;
     const {navigation} = this.props;
     return (
-      <KeyboardAwareScrollView persistentScrollbar={true}>
+      <KeyboardAwareScrollView
+        persistentScrollbar={true}
+        style={{
+          backgroundColor: 'burlywood',
+        }}>
         <View
           style={styles.mainview}
           onMoveShouldSetResponderCapture={event => true}>
@@ -130,13 +136,23 @@ export default class RecipeP extends Component {
               maxHeight="20%"
               onChangeText={Feedback => this.setState({Feedback})}
               value={this.state.Feedback}
-              style={{borderWidth: 1, paddingLeft: 5, textAlignVertical: 'top'}}
+              style={{
+                borderWidth: 1,
+                paddingLeft: 5,
+                textAlignVertical: 'top',
+                backgroundColor: 'white',
+              }}
             />
           </View>
           <View style={{alignItems: 'center', marginTop: '5%'}}>
             <TouchableOpacity
-              style={{borderWidth: 2, width: '20%', alignItems: 'center'}}
-              onPress={() => goBack()}>
+              style={{
+                borderWidth: 2,
+                width: '20%',
+                alignItems: 'center',
+                backgroundColor: 'tomato',
+              }}
+              onPress={() => this.submitReview()}>
               <Text>Submit</Text>
             </TouchableOpacity>
           </View>
@@ -144,4 +160,16 @@ export default class RecipeP extends Component {
       </KeyboardAwareScrollView>
     );
   }
+  submitReview = async () => {
+    if (this.state.Feedback == '') {
+      this.setState({Feedback: 'No comment given'});
+    }
+    await RecipeServices.addRating(
+      AccountManagementService.user.id,
+      this.props.navigation.getParam('Id', ''),
+      this.state.Feedback,
+      this.state.Rating,
+    );
+    this.props.navigation.goBack();
+  };
 }

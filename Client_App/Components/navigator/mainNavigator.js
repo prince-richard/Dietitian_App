@@ -13,9 +13,10 @@ import RecipeListP from '../../Pages/RecipeListP';
 import AccountP from '../../Pages/AccountP';
 import RegisterListD from '../../Pages/RegisterListD';
 import CommentListD from '../../Pages/CommentListD';
-import AddRecipe from '../../Pages/AddRecipeD';
 import RecipeDiet from '../../Pages/RecipeDiet';
 import RecipeListD from '../../Pages/RecipeListD';
+import NoGroup from '../../Pages/NoGroup';
+import CommentsPerRecipe from '../../Pages/CommentsPerRecipe';
 
 const appNavigator = createStackNavigator(
   {
@@ -25,11 +26,13 @@ const appNavigator = createStackNavigator(
         header: null,
       },
     },
-    AddRecipe: {
-      screen: AddRecipe,
-    },
     RecipeDiet: {
       screen: RecipeDiet,
+      navigationOptions: {
+        headerStyle: {
+          backgroundColor: 'burlywood',
+        },
+      },
     },
     CommentListD: {
       screen: CommentListD,
@@ -81,7 +84,17 @@ const patientStack = createStackNavigator({
   RecipeP: {
     screen: RecipeP,
     navigationOptions: {
-      header: null,
+      headerStyle: {
+        backgroundColor: 'burlywood',
+      },
+    },
+  },
+  CommentsPerRecipe: {
+    screen: CommentsPerRecipe,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: 'burlywood',
+      },
     },
   },
   RecipeListP: {
@@ -112,8 +125,21 @@ const loginStack = createStackNavigator(
         header: null,
       },
     },
+    NoGroup: {
+      screen: NoGroup,
+      navigationOptions: {
+        headerStyle: {
+          backgroundColor: 'burlywood',
+        },
+      },
+    },
     RegistrationPageForPatients: {
       screen: RegistrationPageForPatients,
+      navigationOptions: {
+        headerStyle: {
+          backgroundColor: 'burlywood',
+        },
+      },
     },
   },
   {

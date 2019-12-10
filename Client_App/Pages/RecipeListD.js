@@ -5,13 +5,13 @@ import DietHeaderD from '../Components/DietHeaderD';
 import RecipeInRecipeListD from '../Components/RecipeInRecipeListD';
 import * as RecipeService from '../Services/RecipeService';
 import * as NavigationService from '../Services/NavigationService';
+import {NavigationEvents} from 'react-navigation';
+import * as SpinnerService from '../Services/SpinnerService';
 
 const styles = StyleSheet.create({
   flatlistView: {
-    borderWidth: 1,
-    height: '84%',
     marginBottom: '5%',
-    marginTop: '10%',
+    marginTop: '5%',
   },
   mainview: {
     margin: '5%',
@@ -23,31 +23,37 @@ export default class RecipeListD extends Component {
     super(props);
     this.state = {
       Recipes: [],
-      recipeOfWeekId: null
+      recipeOfWeekId: null,
     };
   }
-  async componentDidMount() {
+  fetchData = async () => {
+    SpinnerService.showSpinner();
     const groupId = this.props.navigation.getParam('groupId', '');
     const [recipes, {Id: recipeOfWeekId}] = await Promise.all([
-      RecipeService.getGroupRecipes(groupId),
-      RecipeService.getRecipeOfTheWeek(groupId)
+      RecipeService.getAllRecipes(groupId),
+      RecipeService.getRecipeOfTheWeek(groupId),
     ]);
+    console.log(('Im here', recipes));
     this.setState({Recipes: recipes, recipeOfWeekId: recipeOfWeekId});
-    
+
     console.log(recipeOfWeekId);
-  }
+    SpinnerService.hideSpinner();
+  };
+
   render() {
     const {navigation} = this.props;
     console.log(this.props.Recipes);
     return (
-      <View>
+      <View style={{backgroundColor: 'burlywood', flex: 1}}>
+        <NavigationEvents onWillFocus={this.fetchData} />
         <DietHeaderD profileInfo={this.props.navigation.state.params} />
         <View style={styles.mainview}>
           <View style={{flexDirection: 'row'}}>
-            <Text>Recipe List: </Text>
+            <Text>Recipes: </Text>
           </View>
           <View style={styles.flatlistView}>
             <FlatList
+              ItemSeparatorComponent={this.FlatListItemSeparator}
               data={this.state.Recipes}
               renderItem={({item}) => (
                 <RecipeInRecipeListD
@@ -61,6 +67,9 @@ export default class RecipeListD extends Component {
                   picFilePath={item.Url}
                   steps={item.Steps}
                   id={item.Id}
+                  groupFlag={item.IsGroup}
+                  specialFlag={item.IsSpecial}
+                  groupId={this.props.navigation.getParam('groupId', '')}
                 />
               )}
               keyExtractor={(item, index) => index.toString()}
@@ -73,31 +82,19 @@ export default class RecipeListD extends Component {
   }
 
   handleNavigation = (routeName, params) => {
-    console.log('headerD');
     NavigationService.navigate(routeName, params);
   };
-
-  // // Item = ({
-  // //   name,
-  // //   prepTime,
-  // //   calories,
-  // //   servings,
-  // //   rating,
-  // //   ingredients,
-  // //   picFilePath,
-  // //   steps,
-  // // }) => {
-  // //   return (
-  // //     <RecipeInRecipeListD
-  // //       Name={name}
-  // //       Servings={servings}
-  // //       Calories={calories}
-  // //       Rating={rating}
-  // //       PrepTime={prepTime}
-  // //       Ingredients={ingredients}
-  // //       PicFilePath={picFilePath}
-  // //       Steps={steps}
-  // //     />
-  // //   );
-  // // };
+  FlatListItemSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: '95%',
+          marginLeft: '2.5%',
+          marginRight: '2.5%',
+          backgroundColor: 'black',
+        }}
+      />
+    );
+  };
 }

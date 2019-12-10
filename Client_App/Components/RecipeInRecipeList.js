@@ -37,7 +37,8 @@ export default class RecipeInRecipeList extends Component {
       PicFilePath,
       Rating,
       Steps,
-      Ingredients,
+      Id,
+      Comments,
     } = this.props;
     return (
       <View style={styles.mainview}>
@@ -60,7 +61,7 @@ export default class RecipeInRecipeList extends Component {
             <Text style={styles.text}>{this.props.Name}</Text>
             <Text style={styles.text}>Calories: {this.props.Calories}</Text>
             <Text style={styles.text}>
-              Time to Cook: {this.props.PrepTime} minutes
+              Time to Cook: {this.props.PrepTime} mins
             </Text>
             <Text style={styles.text}>Servings: {this.state.Servings}</Text>
             <View style={{width: '10%'}}>
@@ -76,6 +77,9 @@ export default class RecipeInRecipeList extends Component {
                 fullStarColor={'black'}
               />
             </View>
+            <TouchableOpacity onPress={() => this.goToComments(Comments)}>
+              <Text>Comments</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -83,5 +87,9 @@ export default class RecipeInRecipeList extends Component {
   }
   handleNavigation = (routeName, params) => () => {
     NavigationService.navigate(routeName, params);
+  };
+  goToComments = comments => {
+    console.log(comments);
+    this.handleNavigation('CommentsPerRecipe', {comments})();
   };
 }
