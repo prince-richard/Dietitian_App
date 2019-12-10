@@ -18,6 +18,10 @@ export class MessageMonitorComponent implements OnInit {
     .subscribe(res =>{
       this.users = res;
     })
+    this.http.get("api/message/GetMessages?userId="+this.userid+"&take=100")
+    .subscribe(res =>{
+      this.messages = res;
+    })
   }
   getData(){
     this.http.get("api/message/GetMessages?userId="+this.userid+"&take=100")

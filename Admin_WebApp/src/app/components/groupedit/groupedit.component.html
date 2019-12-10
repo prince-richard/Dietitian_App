@@ -5,8 +5,9 @@
 <h4>Group: {{group.Name}}</h4>
 <h4>Dietitian</h4>
 
+Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/><br>
 <button class='btn btn-primary' (click)="saveGroup()">Update Group</button>
-Name: <input class="form-control" type="text" [(ngModel)]="group.Name"/>
+
 
 <h3>List of Users</h3>
 <div class="table-responsive">

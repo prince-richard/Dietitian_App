@@ -121,20 +121,16 @@ namespace DietitianApp.Controllers
         {
             try
             {
-                var dieticians = _context.Group.Select(o => o.DieticianId);
-                var patients = _context.UserProfile.Where(q => q.GroupId == groupId && q.StatusId==2)
+                var patients = _context.UserProfile.Where(q => q.GroupId == groupId && q.StatusId == 2).Select(d => new
+                {
+                    d.Id,
+                    d.FirstName,
+                    d.LastName,
+                    d.Email,
+                    TimeSinceLastPost = d.UserFeedback.Count != 0 ? d.UserFeedback.Max(x => x.Timestamp).ToString() : "No comments yet"
 
-                    .Select(d => new
-                    {
-                        d.Id,
-                        d.FirstName,
-                        d.LastName,
-                        d.Email,
-                        TimeSinceLastPost = d.UserFeedback.Select(x => DateTime.Now.Subtract(x.Timestamp).ToString()).DefaultIfEmpty("No comment yet")
-                        .FirstOrDefault()
+                }).ToList();
 
-                    }).Where(f => !dieticians.Contains(f.Id));
-                
                 return Ok(JsonConvert.SerializeObject(patients));
             }
             catch (Exception e)

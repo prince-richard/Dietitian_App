@@ -46,6 +46,6 @@ export class RecipeeditComponent implements OnInit {
   addFieldValue() {
     this.fieldArray.push(this.newAttribute)
     this.newAttribute = {};
-
-}
+    alert("test");
+  }
 }

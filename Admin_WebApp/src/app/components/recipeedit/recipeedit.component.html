@@ -1,5 +1,8 @@
 <div class="jumbotron text-center">
     <h3 style="color: white">{{recipe.Name}}</h3>
+    <p style="color: white">Calories : {{recipe.Calories}} | PrepTime: {{recipe.PrepTime}} | 
+    Servings: {{recipe.Servings}}
+    </p>
 </div>
 
 Name: <input class="form-control-small" type="text" [(ngModel)]="recipe.Name"/><br><br>
@@ -43,7 +46,7 @@ Servings: <input class="form-control-small" type="text" [(ngModel)]="recipe.Serv
         <tr *ngFor="let step of recipe.steps">
           <td><input class="form-control" type="text" [(ngModel)]="step.Description"/></td>
           <!--
-          <td>{{step.Description}}</td>
+          <td>{{step.Description}}</td>\
           -->
           <td><input type="checkbox"><br></td>
         </tr>
